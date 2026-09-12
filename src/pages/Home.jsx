@@ -1,180 +1,309 @@
-import { useMemo, useState } from 'react';
-import Card from '../Cards/Cards';
-import SearchBar from '../components/SearchBar';
-import { CATEGORIES, LISTINGS } from '../data/listings';
-import { useBooking } from '../context/bookingStore';
-import { nightsBetween } from '../lib/dates';
-import { currency, plural } from '../lib/format';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import {
+  ArrowRight, BadgeCheck, CalendarCheck, CreditCard, Globe2, ShieldCheck, Sparkles, Star,
+} from 'lucide-react';
+import { SearchPanel } from '../components/search/SearchPanel';
+import { HotelCard } from '../components/hotels/HotelCard';
+import { Button } from '../components/ui/Button';
+import { Panel, Reveal, SectionHeading } from '../components/ui/Surface';
+import { HotelCardSkeleton } from '../components/ui/Feedback';
+import { useApi } from '../hooks/useApi';
+import { hotels as hotelApi } from '../api/endpoints';
+import { CONTINENT_ICON } from '../lib/constants';
+import { currency, nightsBetween } from '../lib/format';
 
-const SORTS = [
-  { id: 'recommended', label: 'Recommended' },
-  { id: 'price-asc', label: 'Price: low to high' },
-  { id: 'price-desc', label: 'Price: high to low' },
-  { id: 'rating', label: 'Top rated' },
+const STEPS = [
+  {
+    icon: Globe2,
+    title: 'Find the place',
+    body: 'Filter 44 hotels by region, style, rate and amenities — or just type a city and see what comes back.',
+  },
+  {
+    icon: CalendarCheck,
+    title: 'Pick real dates',
+    body: 'The calendar knows what is already booked. Sold-out nights are struck out before you get attached to them.',
+  },
+  {
+    icon: CreditCard,
+    title: 'Confirm in a minute',
+    body: 'Your total is priced on the server, your confirmation code is issued instantly, and the trip lands in your account.',
+  },
 ];
 
-const EMPTY_SEARCH = { destination: '', checkIn: null, checkOut: null, guests: 2 };
+const HeroCollage = () => {
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 600], [0, -60]);
+  const y2 = useTransform(scrollY, [0, 600], [0, -110]);
 
-const Home = () => {
-  const { isRangeAvailable } = useBooking();
-  const [draft, setDraft] = useState(EMPTY_SEARCH);
-  const [applied, setApplied] = useState(EMPTY_SEARCH);
-  const [category, setCategory] = useState('all');
-  const [sort, setSort] = useState('recommended');
-  const [maxPrice, setMaxPrice] = useState(1000);
-
-  const nights = nightsBetween(applied.checkIn, applied.checkOut);
-  const datesChosen = Boolean(applied.checkIn && applied.checkOut);
-
-  const results = useMemo(() => {
-    const needle = applied.destination.trim().toLowerCase();
-
-    const filtered = LISTINGS.filter((listing) => {
-      if (category !== 'all' && listing.category !== category) return false;
-      if (listing.price > maxPrice) return false;
-      if (listing.guests < applied.guests) return false;
-      if (needle) {
-        const haystack = `${listing.title} ${listing.location} ${listing.country} ${listing.category}`.toLowerCase();
-        if (!haystack.includes(needle)) return false;
-      }
-      if (datesChosen && !isRangeAvailable(listing.id, applied.checkIn, applied.checkOut)) {
-        return false;
-      }
-      return true;
-    });
-
-    const ordered = [...filtered];
-    if (sort === 'price-asc') ordered.sort((a, b) => a.price - b.price);
-    if (sort === 'price-desc') ordered.sort((a, b) => b.price - a.price);
-    if (sort === 'rating') ordered.sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
-    return ordered;
-  }, [applied, category, sort, maxPrice, datesChosen, isRangeAvailable]);
-
-  const resetAll = () => {
-    setDraft(EMPTY_SEARCH);
-    setApplied(EMPTY_SEARCH);
-    setCategory('all');
-    setMaxPrice(1000);
-    setSort('recommended');
-  };
-
-  // Dates and guests travel with the link so the stay page opens pre-filled.
-  const cardQuery = datesChosen
-    ? { checkIn: applied.checkIn, checkOut: applied.checkOut, guests: String(applied.guests) }
-    : undefined;
-
-  const filtersActive =
-    category !== 'all' || maxPrice < 1000 || applied.destination || datesChosen || applied.guests !== 2;
+  const shots = [
+    { src: 'https://picsum.photos/seed/ritz-paris-a/600/800', cls: 'top-0 right-[8%] w-40 sm:w-52', y: y1 },
+    { src: 'https://picsum.photos/seed/soneva-fushi-maldives-a/600/800', cls: 'top-32 right-[32%] w-32 sm:w-40', y: y2 },
+    { src: 'https://picsum.photos/seed/aman-tokyo-a/600/800', cls: 'top-16 left-[6%] w-36 sm:w-48', y: y2 },
+  ];
 
   return (
-    <div className="relative z-10 container mx-auto px-6 pt-10 pb-24 flex flex-col items-center">
-      <div className="text-center mb-10 max-w-3xl">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-indigo-300 text-sm font-medium mb-6 backdrop-blur-sm">
-          <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-          Premium Collection
-        </div>
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-br from-white via-indigo-100 to-slate-500">
-          Extraordinary Stays
-        </h1>
-        <p className="text-lg md:text-xl text-slate-400 font-light leading-relaxed">
-          Handpicked luxury destinations around the globe. Pick your dates, check real
-          availability, and book in under a minute.
-        </p>
-      </div>
+    <div aria-hidden className="pointer-events-none absolute inset-0 hidden overflow-hidden xl:block">
+      {shots.map((shot) => (
+        <motion.div
+          key={shot.src}
+          style={{ y: shot.y }}
+          className={`absolute ${shot.cls} overflow-hidden rounded-2xl opacity-30 ring-1 ring-white/10`}
+        >
+          <img src={shot.src} alt="" className="aspect-[3/4] w-full object-cover" />
+        </motion.div>
+      ))}
+    </div>
+  );
+};
 
-      <div className="w-full flex justify-center mb-10">
-        <SearchBar value={draft} onChange={setDraft} onSearch={() => setApplied(draft)} />
-      </div>
+const Home = () => {
+  const navigate = useNavigate();
+  const [search, setSearch] = useState({
+    destination: '', checkIn: null, checkOut: null, guests: 2,
+  });
 
-      <div className="w-full max-w-[1400px] flex flex-wrap items-center justify-center gap-2 mb-8">
-        {CATEGORIES.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => setCategory(item.id)}
-            className={`px-4 py-2.5 rounded-full text-sm font-medium ring-1 transition-all ${
-              category === item.id
-                ? 'bg-white text-slate-900 ring-white'
-                : 'bg-white/5 text-slate-300 ring-white/10 hover:bg-white/10 hover:text-white'
-            }`}
+  const { data: facets } = useApi(() => hotelApi.facets(), []);
+  const { data: featured, loading: loadingFeatured } = useApi(
+    () => hotelApi.list({ featured: true, limit: 6 }),
+    []
+  );
+  const { data: topRated } = useApi(() => hotelApi.list({ sort: 'rating', limit: 4 }), []);
+
+  const runSearch = (value) => {
+    const params = new URLSearchParams();
+    if (value.destination) params.set('q', value.destination);
+    if (value.checkIn && value.checkOut) {
+      params.set('checkIn', value.checkIn);
+      params.set('checkOut', value.checkOut);
+    }
+    if (value.guests !== 1) params.set('guests', String(value.guests));
+    navigate(`/hotels?${params.toString()}`);
+  };
+
+  const nights = nightsBetween(search.checkIn, search.checkOut);
+
+  return (
+    <>
+      {/* ------------------------------------------------------------- hero */}
+      <section className="relative overflow-hidden px-5 pt-14 pb-20 sm:px-8 lg:pt-24">
+        <HeroCollage />
+
+        <div className="relative mx-auto max-w-4xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-7 inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-[13px] text-brand-200 ring-1 ring-white/10 backdrop-blur"
           >
-            <span className="mr-1.5">{item.icon}</span>
-            {item.label}
-          </button>
-        ))}
-      </div>
+            <Sparkles className="size-3.5" />
+            {facets?.total ?? 44} hotels · {facets?.continents?.length ?? 7} regions · live availability
+          </motion.div>
 
-      <div className="w-full max-w-[1400px] flex flex-wrap items-center justify-between gap-4 mb-10 px-1">
-        <p className="text-sm text-slate-400">
-          <span className="text-white font-semibold">{results.length}</span>{' '}
-          {results.length === 1 ? 'stay' : 'stays'}
-          {datesChosen && ` available for ${plural(nights, 'night')}`}
-          {applied.destination && ` in “${applied.destination}”`}
-        </p>
-
-        <div className="flex flex-wrap items-center gap-5">
-          <label className="flex items-center gap-3 text-sm text-slate-400">
-            Max {currency(maxPrice)}
-            <input
-              type="range"
-              min="100"
-              max="1000"
-              step="25"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(Number(e.target.value))}
-              aria-label="Maximum nightly price"
-              className="w-36 accent-indigo-500"
-            />
-          </label>
-
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-            aria-label="Sort results"
-            className="px-4 py-2.5 rounded-full bg-white/5 ring-1 ring-white/10 text-sm text-slate-200 outline-none focus:ring-indigo-500 transition"
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="display mb-6 text-[clamp(2.75rem,7vw,5.25rem)] leading-[0.95] text-balance text-white"
           >
-            {SORTS.map((option) => (
-              <option key={option.id} value={option.id} className="bg-slate-900">
-                {option.label}
-              </option>
-            ))}
-          </select>
+            The world’s best hotels,
+            <span className="text-gradient block">booked in a minute.</span>
+          </motion.h1>
 
-          {filtersActive && (
-            <button
-              type="button"
-              onClick={resetAll}
-              className="text-sm text-slate-300 underline underline-offset-4 hover:text-white"
-            >
-              Clear all
-            </button>
-          )}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.16 }}
+            className="mx-auto mb-10 max-w-2xl text-[17px] leading-relaxed text-balance text-slate-400"
+          >
+            From a palace on the Bosphorus to a glass igloo under the aurora — search real
+            availability, hold your dates, and get your confirmation instantly.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.24 }}
+            className="mx-auto max-w-3xl"
+          >
+            <SearchPanel value={search} onChange={setSearch} onSubmit={runSearch} />
+            {nights > 0 && (
+              <p className="mt-4 text-sm text-slate-500">
+                Searching {nights} night{nights === 1 ? '' : 's'} for {search.guests} guest
+                {search.guests === 1 ? '' : 's'}
+              </p>
+            )}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[13px] text-slate-500"
+          >
+            <span className="flex items-center gap-2">
+              <ShieldCheck className="size-4 text-emerald-400" /> Free cancellation up to 48h
+            </span>
+            <span className="flex items-center gap-2">
+              <BadgeCheck className="size-4 text-brand-400" /> Instant confirmation
+            </span>
+            <span className="flex items-center gap-2">
+              <Star className="size-4 fill-gold-400 text-gold-400" /> 4.8 average guest rating
+            </span>
+          </motion.div>
         </div>
-      </div>
+      </section>
 
-      {results.length > 0 ? (
-        <div className="flex flex-wrap gap-12 justify-center max-w-[1400px]">
-          {results.map((listing) => (
-            <Card key={listing.id} listing={listing} nights={nights} query={cardQuery} />
+      {/* -------------------------------------------------------- featured */}
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Editor’s picks"
+            title="Places worth rearranging a year for"
+            subtitle="A short list from the collection — the ones guests write home about."
+            action={
+              <Button to="/hotels" variant="subtle" size="sm" iconRight={ArrowRight}>
+                See all {facets?.total ?? 44}
+              </Button>
+            }
+          />
+        </Reveal>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {loadingFeatured
+            ? Array.from({ length: 6 }).map((_, i) => <HotelCardSkeleton key={i} />)
+            : featured?.hotels.map((hotel, i) => (
+                <HotelCard key={hotel.id} hotel={hotel} index={i} search={search} nights={nights} />
+              ))}
+        </div>
+      </section>
+
+      {/* --------------------------------------------------------- regions */}
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <Reveal>
+          <SectionHeading
+            eyebrow="By region"
+            title="Seven regions, one checkout"
+            subtitle="Every property is bookable with the same flow, the same fee structure and the same cancellation policy."
+          />
+        </Reveal>
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {(facets?.continents || []).map(({ value, total }, i) => (
+            <Reveal key={value} delay={i * 0.04}>
+              <Link
+                to={`/hotels?continent=${encodeURIComponent(value)}`}
+                className="surface group flex items-center justify-between gap-4 rounded-2xl p-5 transition-all hover:-translate-y-0.5 hover:bg-white/8"
+              >
+                <span className="flex items-center gap-3">
+                  <span className="text-2xl">{CONTINENT_ICON[value] || '📍'}</span>
+                  <span>
+                    <span className="block font-medium text-white">{value}</span>
+                    <span className="block text-xs text-slate-500">{total} hotels</span>
+                  </span>
+                </span>
+                <ArrowRight className="size-4 text-slate-600 transition-all group-hover:translate-x-1 group-hover:text-brand-300" />
+              </Link>
+            </Reveal>
           ))}
         </div>
-      ) : (
-        <div className="w-full max-w-md text-center py-20">
-          <div className="text-5xl mb-5">🧭</div>
-          <h2 className="text-2xl font-semibold text-white mb-3">No stays match that search</h2>
-          <p className="text-slate-400 mb-8 leading-relaxed">
-            Try widening your dates, raising the price ceiling, or removing the destination filter.
-          </p>
-          <button
-            type="button"
-            onClick={resetAll}
-            className="px-6 py-3 rounded-full bg-white text-slate-900 font-semibold text-sm hover:bg-slate-200 transition-colors"
-          >
-            Reset filters
-          </button>
+      </section>
+
+      {/* ----------------------------------------------------- how it works */}
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <Reveal>
+            <p className="mb-2 text-[11px] font-semibold tracking-[0.2em] text-brand-300 uppercase">
+              How it works
+            </p>
+            <h2 className="display mb-4 text-4xl text-white">
+              Three steps, no surprises at the end
+            </h2>
+            <p className="mb-8 leading-relaxed text-slate-400">
+              The price you see in the summary is the price the server charges — it is recomputed
+              from the room rate on every booking, so a stale tab can never quote you the wrong
+              total.
+            </p>
+            <Button to="/hotels" iconRight={ArrowRight}>Start searching</Button>
+          </Reveal>
+
+          <div className="space-y-3">
+            {STEPS.map((step, i) => (
+              <Reveal key={step.title} delay={i * 0.08}>
+                <Panel className="flex gap-5 p-6">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-400/20">
+                    <step.icon className="size-5" strokeWidth={1.8} />
+                  </span>
+                  <div>
+                    <p className="mb-1.5 font-semibold text-white">
+                      <span className="mr-2 text-slate-600">0{i + 1}</span>
+                      {step.title}
+                    </p>
+                    <p className="text-sm leading-relaxed text-slate-400">{step.body}</p>
+                  </div>
+                </Panel>
+              </Reveal>
+            ))}
+          </div>
         </div>
-      )}
-    </div>
+      </section>
+
+      {/* ------------------------------------------------------- top rated */}
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Highest rated"
+            title="What guests scored best"
+            action={
+              <Button to="/hotels?sort=rating" variant="ghost" size="sm" iconRight={ArrowRight}>
+                All top rated
+              </Button>
+            }
+          />
+        </Reveal>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {topRated?.hotels.map((hotel, i) => (
+            <HotelCard key={hotel.id} hotel={hotel} index={i} search={search} nights={nights} />
+          ))}
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------- cta */}
+      <section className="mx-auto max-w-7xl px-5 pt-8 pb-24 sm:px-8">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-600/30 via-violet-700/20 to-ink-900 p-10 ring-1 ring-white/10 sm:p-16">
+            <div className="absolute -top-24 -right-24 size-72 rounded-full bg-brand-500/25 blur-3xl" />
+            <div className="relative max-w-2xl">
+              <h2 className="display mb-4 text-4xl text-white sm:text-5xl">
+                Create an account and your trips follow you everywhere.
+              </h2>
+              <p className="mb-8 text-[15px] leading-relaxed text-slate-300">
+                Saved hotels, booking history, confirmation codes and cancellations — all in one
+                place. Hotel staff and administrators get their own workspace on the same account
+                system.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button to="/register" size="lg" iconRight={ArrowRight}>Create free account</Button>
+                <Button to="/login" size="lg" variant="outline">
+                  Try a demo login
+                </Button>
+              </div>
+              {facets && (
+                <p className="mt-8 text-sm text-slate-400">
+                  Rates from{' '}
+                  <span className="font-semibold text-white">
+                    {currency(facets.priceRange.min)}
+                  </span>{' '}
+                  to {currency(facets.priceRange.max)} a night.
+                </p>
+              )}
+            </div>
+          </div>
+        </Reveal>
+      </section>
+    </>
   );
 };
 

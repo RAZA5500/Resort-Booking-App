@@ -1,46 +1,73 @@
-import { matchPath, useRouter } from './lib/routing';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Toaster from './components/Toaster';
+import { Route, Routes } from 'react-router-dom';
+import { AppShell } from './components/layout/AppShell';
+import { ProtectedRoute } from './components/routes/ProtectedRoute';
+import { ROLES } from './lib/constants';
+
 import Home from './pages/Home';
-import ListingDetail from './pages/ListingDetail';
+import Hotels from './pages/Hotels';
+import HotelDetail from './pages/HotelDetail';
+import About from './pages/About';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Checkout from './pages/Checkout';
-import Confirmation from './pages/Confirmation';
-import Bookings from './pages/Bookings';
-import Favorites from './pages/Favorites';
-import NotFound from './pages/NotFound';
+import BookingDetail from './pages/BookingDetail';
+import { Forbidden, NotFound } from './pages/Fallbacks';
 
-const ROUTES = [
-  { pattern: '/', render: () => <Home /> },
-  { pattern: '/listing/:id', render: ({ id }) => <ListingDetail id={id} /> },
-  { pattern: '/checkout/:id', render: ({ id }) => <Checkout id={id} /> },
-  { pattern: '/confirmation/:bookingId', render: ({ bookingId }) => <Confirmation bookingId={bookingId} /> },
-  { pattern: '/bookings', render: () => <Bookings /> },
-  { pattern: '/favorites', render: () => <Favorites /> },
-];
+import AccountLayout from './pages/account/AccountLayout';
+import Trips from './pages/account/Trips';
+import Saved from './pages/account/Saved';
+import Profile from './pages/account/Profile';
 
-const App = () => {
-  const { path } = useRouter();
+import Desk from './pages/staff/Desk';
 
-  const page = ROUTES.reduce((found, route) => {
-    if (found) return found;
-    const params = matchPath(route.pattern, path);
-    return params ? route.render(params) : null;
-  }, null);
+import AdminLayout from './pages/admin/AdminLayout';
+import Overview from './pages/admin/Overview';
+import AdminHotels from './pages/admin/AdminHotels';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminBookings from './pages/admin/AdminBookings';
 
-  return (
-    <div className="min-h-screen bg-[#020617] relative overflow-x-hidden font-sans selection:bg-indigo-500/30 flex flex-col">
-      {/* Ambient background glows */}
-      <div className="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/5 rounded-full blur-[100px] pointer-events-none" />
+const App = () => (
+  <Routes>
+    <Route element={<AppShell />}>
+      {/* public */}
+      <Route path="/" element={<Home />} />
+      <Route path="/hotels" element={<Hotels />} />
+      <Route path="/hotels/:id" element={<HotelDetail />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forbidden" element={<Forbidden />} />
 
-      <Navbar />
-      <main className="flex-1 relative z-10">{page || <NotFound />}</main>
-      <Footer />
-      <Toaster />
-    </div>
-  );
-};
+      {/* any signed-in user */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/booking/:id" element={<BookingDetail />} />
+        <Route path="/account" element={<AccountLayout />}>
+          <Route index element={<Trips />} />
+          <Route path="trips" element={<Trips />} />
+          <Route path="saved" element={<Saved />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+      </Route>
+
+      {/* hotel staff */}
+      <Route element={<ProtectedRoute roles={[ROLES.EMPLOYEE, ROLES.ADMIN]} />}>
+        <Route path="/desk" element={<Desk />} />
+      </Route>
+
+      {/* administrators */}
+      <Route element={<ProtectedRoute roles={[ROLES.ADMIN]} />}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Overview />} />
+          <Route path="hotels" element={<AdminHotels />} />
+          <Route path="bookings" element={<AdminBookings />} />
+          <Route path="users" element={<AdminUsers />} />
+        </Route>
+      </Route>
+
+      <Route path="*" element={<NotFound />} />
+    </Route>
+  </Routes>
+);
 
 export default App;
