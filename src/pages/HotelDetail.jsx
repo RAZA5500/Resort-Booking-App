@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   ArrowLeft, BedDouble, Check, Heart, MapPin, Maximize, ShieldCheck, Users,
@@ -74,7 +74,7 @@ const RoomOption = ({ room, selected, onSelect, nights }) => {
   );
 };
 
-const BookingPanel = ({ hotel, unavailableDates }) => {
+const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { isAuthenticated } = useAuth();
@@ -85,9 +85,7 @@ const BookingPanel = ({ hotel, unavailableDates }) => {
     checkOut: params.get('checkOut') || null,
   });
   const [guests, setGuests] = useState(Math.max(Number(params.get('guests')) || 2, 1));
-  const [roomId, setRoomId] = useState(null);
 
-  const nights = nightsBetween(range.checkIn, range.checkOut);
   const complete = Boolean(range.checkIn && range.checkOut);
 
   // Re-check availability against the server whenever the dates or party change.
@@ -100,23 +98,16 @@ const BookingPanel = ({ hotel, unavailableDates }) => {
   const rooms = availability?.rooms || hotel.rooms;
   const bookable = rooms.filter((r) => (complete ? r.available : r.capacity >= guests));
 
-  // Keep the selection valid as filters change; default to the cheapest option.
-  useEffect(() => {
-    if (bookable.length === 0) {
-      setRoomId(null);
-      return;
-    }
-    if (!bookable.some((r) => r.id === roomId)) {
-      setRoomId([...bookable].sort((a, b) => a.price - b.price)[0].id);
-    }
-  }, [bookable, roomId]);
-
-  const room = rooms.find((r) => r.id === roomId) || null;
+  // `roomId` only ever holds an explicit choice. The effective room falls back
+  // to the cheapest bookable one, so changing the dates or party size
+  // re-resolves the selection without an effect.
+  const chosen = bookable.find((r) => r.id === roomId);
+  const room = chosen || [...bookable].sort((a, b) => a.price - b.price)[0] || null;
 
   const { data: quoteData } = useApi(
-    () => bookingApi.quote({ hotelId: hotel.id, roomId, ...range }),
-    [hotel.id, roomId, range.checkIn, range.checkOut],
-    { skip: !complete || !roomId }
+    () => bookingApi.quote({ hotelId: hotel.id, roomId: room.id, ...range }),
+    [hotel.id, room?.id, range.checkIn, range.checkOut],
+    { skip: !complete || !room }
   );
   const quote = quoteData?.quote;
 
@@ -191,9 +182,18 @@ const BookingPanel = ({ hotel, unavailableDates }) => {
       )}
 
       {room && complete && (
-        <div className="mb-4 rounded-xl bg-white/4 px-4 py-3 ring-1 ring-white/8">
-          <p className="text-xs text-slate-500">Selected room</p>
-          <p className="text-sm font-medium text-white">{room.name}</p>
+        <div className="mb-4 flex items-center justify-between gap-3 rounded-xl bg-white/4 px-4 py-3 ring-1 ring-white/8">
+          <div className="min-w-0">
+            <p className="text-xs text-slate-500">
+              {chosen ? 'Selected room' : 'Best available room'}
+            </p>
+            <p className="truncate text-sm font-medium text-white">{room.name}</p>
+          </div>
+          {bookable.length > 1 && (
+            <a href="#rooms" className="shrink-0 text-xs text-brand-300 hover:text-brand-200">
+              Change
+            </a>
+          )}
         </div>
       )}
 
@@ -341,7 +341,7 @@ const HotelDetail = () => {
             </div>
           </section>
 
-          <section className="border-b border-white/8 py-8">
+          <section id="rooms" className="border-b border-white/8 py-8 scroll-mt-24">
             <h2 className="display mb-1 text-2xl text-white">Rooms &amp; suites</h2>
             <p className="mb-5 text-sm text-slate-500">
               {nights > 0
@@ -428,7 +428,11 @@ const HotelDetail = () => {
         </div>
 
         <div className="lg:sticky lg:top-24">
-          <BookingPanel hotel={hotel} unavailableDates={data.unavailableDates || []} />
+          <BookingPanel
+            hotel={hotel}
+            unavailableDates={data.unavailableDates || []}
+            roomId={selectedRoom}
+          />
         </div>
       </div>
     </div>

@@ -24,6 +24,6 @@ dist-ssr
 *.sw?
 
 # API database (generated)
-server/db/data.json
-server/db/*.tmp
+api/db/data.json
+api/db/*.tmp
 .env

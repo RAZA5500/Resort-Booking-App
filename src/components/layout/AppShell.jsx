@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
+import { PageLoader } from '../ui/Feedback';
 
 /** Ambient gradient field that sits behind every page. */
 const Backdrop = () => (
@@ -40,7 +41,9 @@ export const AppShell = () => {
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className="relative z-10 flex-1"
       >
-        <Outlet />
+        <Suspense fallback={<PageLoader label="Loading" />}>
+          <Outlet />
+        </Suspense>
       </motion.main>
       <Footer />
     </div>

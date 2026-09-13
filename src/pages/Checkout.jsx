@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, CreditCard, Lock, ShieldCheck } from 'lucide-react';
 import { Button } from '../components/ui/Button';
@@ -53,22 +53,19 @@ const Checkout = () => {
   const checkOut = params.get('checkOut');
   const guests = Number(params.get('guests')) || 1;
 
-  const [form, setForm] = useState({
-    guestName: '', guestEmail: '', guestPhone: '', card: '', expiry: '', cvc: '', note: '',
-  });
+  // Guest fields start undefined and fall back to the signed-in account, so the
+  // form is prefilled without an effect and an explicit '' still wins.
+  const [edits, setEdits] = useState({ card: '', expiry: '', cvc: '', note: '' });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
-  // Prefill from the signed-in account once it is available.
-  useEffect(() => {
-    if (!user) return;
-    setForm((f) => ({
-      ...f,
-      guestName: f.guestName || user.name || '',
-      guestEmail: f.guestEmail || user.email || '',
-      guestPhone: f.guestPhone || user.phone || '',
-    }));
-  }, [user]);
+  const form = {
+    ...edits,
+    guestName: edits.guestName ?? user?.name ?? '',
+    guestEmail: edits.guestEmail ?? user?.email ?? '',
+    guestPhone: edits.guestPhone ?? user?.phone ?? '',
+  };
+  const setForm = (next) => setEdits({ ...edits, ...next });
 
   const valid = Boolean(hotelId && roomId && checkIn && checkOut && checkIn < checkOut);
 

@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AppShell } from './components/layout/AppShell';
 import { ProtectedRoute } from './components/routes/ProtectedRoute';
@@ -18,13 +19,14 @@ import Trips from './pages/account/Trips';
 import Saved from './pages/account/Saved';
 import Profile from './pages/account/Profile';
 
-import Desk from './pages/staff/Desk';
-
-import AdminLayout from './pages/admin/AdminLayout';
-import Overview from './pages/admin/Overview';
-import AdminHotels from './pages/admin/AdminHotels';
-import AdminUsers from './pages/admin/AdminUsers';
-import AdminBookings from './pages/admin/AdminBookings';
+// Staff and admin screens pull in the charting library and are only reachable
+// by a minority of visitors, so they are split out of the main bundle.
+const Desk = lazy(() => import('./pages/staff/Desk'));
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
+const Overview = lazy(() => import('./pages/admin/Overview'));
+const AdminHotels = lazy(() => import('./pages/admin/AdminHotels'));
+const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
+const AdminBookings = lazy(() => import('./pages/admin/AdminBookings'));
 
 const App = () => (
   <Routes>

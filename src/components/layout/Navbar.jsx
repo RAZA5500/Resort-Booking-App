@@ -120,17 +120,22 @@ export const Navbar = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const location = useLocation();
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 12);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => setMobileOpen(false), [location.pathname]);
+  // Collapse the mobile menu whenever the route changes. Tracking the path we
+  // last rendered for keeps this out of an effect.
+  const [menuPath, setMenuPath] = useState(location.pathname);
+  if (menuPath !== location.pathname) {
+    setMenuPath(location.pathname);
+    if (mobileOpen) setMobileOpen(false);
+  }
 
   const onLogout = async () => {
     await logout();

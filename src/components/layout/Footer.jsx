@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Github, Globe2 } from 'lucide-react';
+import { Code2, Globe2 } from 'lucide-react';
 
 const COLUMNS = [
   {
@@ -52,7 +52,7 @@ export const Footer = () => (
               <Globe2 className="size-4" />
             </span>
             <span className="grid size-9 place-items-center rounded-full bg-white/5 text-slate-400 ring-1 ring-white/8">
-              <Github className="size-4" />
+              <Code2 className="size-4" />
             </span>
           </div>
         </div>
