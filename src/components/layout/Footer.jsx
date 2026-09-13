@@ -8,7 +8,7 @@ const COLUMNS = [
     links: [
       { label: 'All hotels', to: '/hotels' },
       { label: 'Top rated', to: '/hotels?sort=rating' },
-      { label: 'Editor's picks', to: '/hotels?featured=true' },
+      { label: "Editor's picks", to: '/hotels?featured=true' },
       { label: 'Europe', to: '/hotels?continent=Europe' },
     ],
   },

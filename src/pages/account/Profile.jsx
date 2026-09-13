@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { KeyRound, Mail, Phone, User } from 'lucide-react';
+import { KeyRound, Mail, Phone, ShieldCheck, User } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { Field } from '../../components/ui/Field';
 import { Panel } from '../../components/ui/Surface';
@@ -27,7 +27,7 @@ const Profile = () => {
     setSavingDetails(true);
     try {
       await updateProfile({ name: details.name.trim(), phone: details.phone.trim() });
-      toast.success('Profile updated.');
+      toast.success('Profile updated successfully.');
     } catch (err) {
       setDetailErrors(err.details || {});
       toast.error(err.message || 'Could not save your details.');
@@ -61,26 +61,34 @@ const Profile = () => {
 
   return (
     <div className="max-w-2xl space-y-6">
-      <Panel className="flex flex-wrap items-center gap-5 p-6">
-        <span className="grid size-16 place-items-center rounded-2xl bg-gradient-to-br from-brand-500 to-violet-600 text-xl font-semibold text-white">
-          {initials(user.name)}
-        </span>
+      <Panel className="surface-elevated flex flex-wrap items-center gap-5 p-6 sm:p-8">
+        <div className="relative">
+          <span className="grid size-16 place-items-center rounded-2xl bg-gradient-to-br from-brand-500 via-indigo-600 to-violet-600 text-xl font-bold text-white shadow-lg shadow-brand-500/25 ring-2 ring-white/20">
+            {initials(user.name)}
+          </span>
+          <span className="absolute -bottom-1 -right-1 grid size-5 place-items-center rounded-full bg-emerald-500 ring-2 ring-ink-950">
+            <ShieldCheck className="size-3 text-white" />
+          </span>
+        </div>
         <div className="min-w-0 flex-1">
-          <p className="text-lg font-semibold text-white">{user.name}</p>
+          <p className="text-xl font-semibold text-white">{user.name}</p>
           <p className="truncate text-sm text-slate-400">{user.email}</p>
-          <div className="mt-2 flex flex-wrap items-center gap-2">
+          <div className="mt-2.5 flex flex-wrap items-center gap-2">
             <Badge tone="indigo">{ROLE_LABEL[user.role]}</Badge>
             {user.lastLoginAt && (
-              <span className="text-xs text-slate-600">
-                Last sign-in {formatDateTime(user.lastLoginAt)}
+              <span className="text-xs text-slate-500">
+                Last active {formatDateTime(user.lastLoginAt)}
               </span>
             )}
           </div>
         </div>
       </Panel>
 
-      <Panel className="p-6">
-        <h2 className="display mb-5 text-2xl text-white">Your details</h2>
+      <Panel className="surface-elevated p-6 sm:p-8">
+        <h2 className="display mb-2 text-2xl text-white">Your details</h2>
+        <p className="mb-6 text-xs text-slate-400">
+          Personalize your contact profile used for reservations and communications.
+        </p>
         <form onSubmit={saveDetails} className="space-y-5">
           <Field
             label="Full name"
@@ -102,18 +110,20 @@ const Profile = () => {
             icon={Mail}
             value={user.email}
             disabled
-            hint="Email changes are handled by an administrator."
+            hint="Account email changes are handled securely by an administrator."
           />
-          <Button type="submit" loading={savingDetails}>Save changes</Button>
+          <Button type="submit" loading={savingDetails}>
+            Save changes
+          </Button>
         </form>
       </Panel>
 
-      <Panel className="p-6">
+      <Panel className="surface-elevated p-6 sm:p-8">
         <h2 className="display mb-1 flex items-center gap-2 text-2xl text-white">
-          <KeyRound className="size-5 text-brand-300" /> Password
+          <KeyRound className="size-5 text-brand-300" /> Security & Password
         </h2>
-        <p className="mb-5 text-sm text-slate-500">
-          Changing your password signs out every other device.
+        <p className="mb-6 text-xs text-slate-400">
+          Updating your security credentials will invalidate sessions on other devices.
         </p>
         <form onSubmit={savePassword} className="space-y-5">
           <Field
@@ -131,7 +141,7 @@ const Profile = () => {
             value={passwords.newPassword}
             onChange={(e) => setPasswords({ ...passwords, newPassword: e.target.value })}
             error={passwordErrors.newPassword}
-            hint="At least 8 characters, with upper and lower case and a number."
+            hint="At least 8 characters, with uppercase, lowercase, and numeric digits."
           />
           <Field
             label="Confirm new password"

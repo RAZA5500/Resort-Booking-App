@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  BedDouble, CalendarCheck, DoorOpen, LogIn, LogOut, Search, TrendingUp, Users,
+  BedDouble, CalendarCheck, DoorOpen, LogIn, LogOut, Search, TrendingUp, Users, ArrowUpRight,
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { Button } from '../../components/ui/Button';
@@ -36,22 +36,24 @@ const GuestRow = ({ booking, onAction, busyId }) => {
   }
 
   return (
-    <Panel className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center">
+    <Panel className="surface-elevated flex flex-col gap-4 p-4.5 transition-all duration-300 lg:flex-row lg:items-center">
       <div className="min-w-0 flex-1">
         <div className="mb-1 flex flex-wrap items-center gap-2">
           <p className="font-semibold text-white">{booking.guest.name}</p>
           <StatusBadge status={booking.status} />
-          <span className="font-mono text-[11px] text-slate-600">{booking.code}</span>
+          <span className="font-mono text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded-md ring-1 ring-white/10">
+            {booking.code}
+          </span>
         </div>
-        <p className="truncate text-sm text-slate-400">
-          {booking.roomName} · {plural(booking.guests, 'guest')} · {formatRange(booking.checkIn, booking.checkOut)}
+        <p className="truncate text-sm text-slate-300">
+          <span className="font-medium text-brand-300">{booking.roomName}</span> · {plural(booking.guests, 'guest')} · {formatRange(booking.checkIn, booking.checkOut)}
         </p>
-        <p className="truncate text-xs text-slate-600">{booking.guest.email}</p>
+        <p className="truncate text-xs text-slate-500">{booking.guest.email}</p>
       </div>
 
-      <div className="flex shrink-0 items-center gap-4">
-        <span className="text-sm font-medium text-white">{currency(booking.pricing.total)}</span>
-        <div className="flex gap-2">
+      <div className="flex shrink-0 items-center justify-between gap-4 border-t border-white/5 pt-3 lg:border-0 lg:pt-0">
+        <span className="text-sm font-semibold text-white">{currency(booking.pricing.total)}</span>
+        <div className="flex items-center gap-2">
           {actions.map((action) => (
             <Button
               key={action.status}
@@ -63,7 +65,9 @@ const GuestRow = ({ booking, onAction, busyId }) => {
               {action.label}
             </Button>
           ))}
-          <Button to={`/booking/${booking.id}`} size="sm" variant="ghost">View</Button>
+          <Button to={`/booking/${booking.id}`} size="sm" variant="ghost">
+            View <ArrowUpRight className="ml-1 size-3" />
+          </Button>
         </div>
       </div>
     </Panel>
@@ -135,24 +139,24 @@ const Desk = () => {
             <StatCard label="Revenue today" value={desk ? currency(desk.counts.revenueToday) : '—'} icon={TrendingUp} hint={`${desk?.counts.upcoming ?? 0} upcoming`} />
           </div>
 
-          <div className="mb-5 flex flex-wrap items-center gap-2">
+          <div className="mb-6 flex flex-wrap items-center gap-2">
             {TABS.map((t) => (
               <button
                 key={t.id}
                 type="button"
                 onClick={() => setTab(t.id)}
-                className={`flex items-center gap-2 rounded-full px-4 py-2.5 text-[13px] font-medium ring-1 transition-all ${
+                className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-all ${
                   tab === t.id
-                    ? 'bg-white text-ink-950 ring-white'
-                    : 'bg-white/5 text-slate-300 ring-white/10 hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-brand-500 to-indigo-600 text-white shadow-md shadow-brand-500/25 ring-1 ring-brand-400/40'
+                    : 'bg-white/5 text-slate-300 ring-1 ring-white/10 hover:bg-white/10 hover:text-white'
                 }`}
               >
                 <t.icon className="size-3.5" />
                 {t.label}
                 {lists[t.id]?.length > 0 && (
                   <span
-                    className={`rounded-full px-1.5 text-[10px] ${
-                      tab === t.id ? 'bg-ink-950/10 text-ink-950' : 'bg-white/10 text-white'
+                    className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
+                      tab === t.id ? 'bg-white/20 text-white' : 'bg-white/10 text-slate-300'
                     }`}
                   >
                     {lists[t.id].length}
@@ -175,7 +179,7 @@ const Desk = () => {
           {loading ? (
             <RowSkeleton rows={4} />
           ) : rows.length === 0 ? (
-            <Panel>
+            <Panel className="surface-elevated">
               <EmptyState
                 icon={Users}
                 title={tab === 'all' ? 'No reservations match' : 'Nothing here right now'}
@@ -199,9 +203,9 @@ const Desk = () => {
           )}
 
           {user?.hotelId && (
-            <p className="mt-8 text-xs text-slate-600">
+            <p className="mt-8 text-xs text-slate-500">
               You are scoped to{' '}
-              <Link to={`/hotels/${user.hotelId}`} className="text-slate-400 underline underline-offset-4">
+              <Link to={`/hotels/${user.hotelId}`} className="text-slate-400 underline underline-offset-4 hover:text-white">
                 one property
               </Link>
               . The server rejects any action on a booking outside it.

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CalendarDays, Globe2, Luggage, Moon, Wallet } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, CalendarDays, Globe2, Luggage, Moon, Sparkles, Wallet } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { Panel, StatCard } from '../../components/ui/Surface';
 import { StatusBadge } from '../../components/ui/Badge';
@@ -19,45 +20,54 @@ const TripRow = ({ booking, onCancel }) => {
     booking.checkIn >= todayISO();
 
   return (
-    <Panel className="flex flex-col gap-5 p-4 sm:flex-row sm:items-center">
-      <Link to={`/hotels/${booking.hotelId}`} className="shrink-0">
+    <Panel className="surface-elevated group flex flex-col gap-5 p-4.5 transition-all duration-300 sm:flex-row sm:items-center">
+      <Link to={`/hotels/${booking.hotelId}`} className="relative shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/10 sm:w-40 sm:h-28">
         <img
           src={hotel?.images?.[0]}
           alt={booking.hotelName}
           loading="lazy"
-          className="h-36 w-full rounded-2xl object-cover ring-1 ring-white/10 sm:h-24 sm:w-36"
+          className="h-40 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-full"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-950/60 via-transparent to-transparent sm:hidden" />
       </Link>
 
       <div className="min-w-0 flex-1">
         <div className="mb-1.5 flex flex-wrap items-center gap-2">
           <Link
             to={`/booking/${booking.id}`}
-            className="font-semibold text-white transition-colors hover:text-brand-300"
+            className="font-semibold text-white transition-colors group-hover:text-brand-300 sm:text-lg"
           >
             {booking.hotelName}
           </Link>
           <StatusBadge status={booking.status} />
         </div>
         <p className="mb-2 text-sm text-slate-400">
-          {hotel?.city}, {hotel?.country} · {booking.roomName}
+          {hotel?.city}, {hotel?.country} · <span className="text-slate-300">{booking.roomName}</span>
         </p>
-        <div className="flex flex-wrap gap-x-5 gap-y-1 text-[13px] text-slate-400">
-          <span className="flex items-center gap-1.5">
-            <CalendarDays className="size-3.5" />
+        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-slate-400">
+          <span className="flex items-center gap-1.5 font-medium text-slate-300">
+            <CalendarDays className="size-3.5 text-brand-400" />
             {formatRange(booking.checkIn, booking.checkOut)}
           </span>
           <span>{plural(booking.guests, 'guest')}</span>
           <span>{plural(booking.nights, 'night')}</span>
-          <span className="font-medium text-white">{currency(booking.pricing.total)}</span>
+          <span className="font-semibold text-white">{currency(booking.pricing.total)}</span>
         </div>
-        <p className="mt-2 font-mono text-[11px] text-slate-600">{booking.code}</p>
+        <div className="mt-2.5 flex items-center gap-2">
+          <span className="font-label rounded-md bg-white/5 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-400 ring-1 ring-white/10">
+            {booking.code}
+          </span>
+        </div>
       </div>
 
-      <div className="flex shrink-0 gap-2">
-        <Button to={`/booking/${booking.id}`} variant="subtle" size="sm">Details</Button>
+      <div className="flex shrink-0 items-center gap-2 sm:flex-col sm:items-end">
+        <Button to={`/booking/${booking.id}`} variant="subtle" size="sm" className="w-full sm:w-auto">
+          View details <ArrowUpRight className="ml-1 size-3.5" />
+        </Button>
         {cancellable && (
-          <Button variant="ghost" size="sm" onClick={() => onCancel(booking)}>Cancel</Button>
+          <Button variant="ghost" size="sm" onClick={() => onCancel(booking)} className="w-full text-slate-400 hover:text-rose-300 sm:w-auto">
+            Cancel
+          </Button>
         )}
       </div>
     </Panel>
@@ -126,7 +136,7 @@ const Trips = () => {
       {loading ? (
         <RowSkeleton rows={3} />
       ) : rows.length === 0 ? (
-        <Panel>
+        <Panel className="surface-elevated">
           <EmptyState
             icon={Globe2}
             title="No trips yet"
@@ -137,9 +147,14 @@ const Trips = () => {
       ) : (
         groups.map((group) => (
           <section key={group.key} className="mb-10">
-            <h2 className="mb-4 text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase">
-              {group.title} ({group.items.length})
-            </h2>
+            <div className="mb-4 flex items-center gap-2">
+              <h2 className="font-label text-xs font-semibold tracking-[0.16em] text-slate-400 uppercase">
+                {group.title}
+              </h2>
+              <span className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] font-semibold text-slate-400 ring-1 ring-white/10">
+                {group.items.length}
+              </span>
+            </div>
             <div className="space-y-3">
               {group.items.map((booking) => (
                 <TripRow key={booking.id} booking={booking} onCancel={setTarget} />

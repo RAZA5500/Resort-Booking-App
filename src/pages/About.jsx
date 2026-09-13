@@ -20,12 +20,12 @@ const ROLE_ROWS = [
     icon: User,
     role: 'Guest',
     can: ['Search and filter 44 hotels', 'Book, cancel and review stays', 'Save hotels to an account-synced list'],
-    cannot: ['See anyone else's booking', 'Change a booking status'],
+    cannot: ["See anyone else's booking", 'Change a booking status'],
   },
   {
     icon: Gauge,
     role: 'Front desk',
-    can: ['Work today's arrivals, in-house and departures', 'Check guests in and out', 'Search every reservation at their hotel'],
+    can: ["Work today's arrivals, in-house and departures", 'Check guests in and out', 'Search every reservation at their hotel'],
     cannot: ['Touch bookings at another property', 'Create or edit hotels or accounts'],
   },
   {
