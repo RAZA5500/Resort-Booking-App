@@ -20,12 +20,12 @@ const ROLE_ROWS = [
     icon: User,
     role: 'Guest',
     can: ['Search and filter 44 hotels', 'Book, cancel and review stays', 'Save hotels to an account-synced list'],
-    cannot: ['See anyone else’s booking', 'Change a booking status'],
+    cannot: ['See anyone else's booking', 'Change a booking status'],
   },
   {
     icon: Gauge,
     role: 'Front desk',
-    can: ['Work today’s arrivals, in-house and departures', 'Check guests in and out', 'Search every reservation at their hotel'],
+    can: ['Work today's arrivals, in-house and departures', 'Check guests in and out', 'Search every reservation at their hotel'],
     cannot: ['Touch bookings at another property', 'Create or edit hotels or accounts'],
   },
   {
@@ -85,7 +85,7 @@ const About = () => (
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {STACK.map((item, i) => (
           <Reveal key={item.label} delay={i * 0.05}>
-            <Panel className="h-full p-5">
+            <Panel className="h-full p-5 transition-all duration-300 hover:bg-white/[0.06] hover:-translate-y-0.5">
               <p className="mb-2 font-medium text-white">{item.label}</p>
               <p className="text-sm leading-relaxed text-slate-400">{item.detail}</p>
             </Panel>
@@ -106,8 +106,10 @@ const About = () => (
       <div className="grid gap-4 lg:grid-cols-3">
         {ROLE_ROWS.map((row, i) => (
           <Reveal key={row.role} delay={i * 0.06}>
-            <Panel className="flex h-full flex-col p-6">
-              <span className="mb-4 grid size-11 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-400/20">
+            <Panel className="flex h-full flex-col p-6 transition-all duration-300 hover:bg-white/[0.06]">
+              {/* Gradient top accent per card */}
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/30 to-transparent rounded-t-3xl" />
+              <span className="relative mb-4 grid size-11 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-400/20">
                 <row.icon className="size-5" strokeWidth={1.8} />
               </span>
               <h3 className="display mb-4 text-2xl text-white">{row.role}</h3>
@@ -115,7 +117,7 @@ const About = () => (
               <ul className="mb-5 space-y-2">
                 {row.can.map((item) => (
                   <li key={item} className="flex gap-2.5 text-sm text-slate-300">
-                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" />
+                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/30" />
                     {item}
                   </li>
                 ))}
@@ -143,9 +145,11 @@ const About = () => (
       <div className="grid gap-4 sm:grid-cols-2">
         {SECURITY.map((item, i) => (
           <Reveal key={item.title} delay={i * 0.05}>
-            <Panel className="flex h-full gap-4 p-6">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white/5 text-brand-300 ring-1 ring-white/8">
+            <Panel className="flex h-full gap-4 p-6 transition-all duration-300 hover:bg-white/[0.06]">
+              <span className="relative grid size-10 shrink-0 place-items-center rounded-xl bg-white/5 text-brand-300 ring-1 ring-white/8">
                 <item.icon className="size-5" strokeWidth={1.8} />
+                {/* Colored accent glow */}
+                <span className="absolute inset-0 rounded-xl bg-brand-500/10 blur-lg" />
               </span>
               <div>
                 <p className="mb-2 font-medium text-white">{item.title}</p>
@@ -168,8 +172,9 @@ const About = () => (
 
       <Reveal>
         <Panel className="flex flex-col gap-6 p-8 sm:flex-row">
-          <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-amber-500/15 text-amber-300 ring-1 ring-amber-400/20">
+          <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-amber-500/15 text-amber-300 ring-1 ring-amber-400/20">
             <Database className="size-6" strokeWidth={1.8} />
+            <span className="absolute inset-0 rounded-2xl bg-amber-500/10 blur-xl" />
           </span>
           <div className="space-y-4 text-sm leading-relaxed text-slate-400">
             <p>
@@ -194,10 +199,13 @@ const About = () => (
 
     <section>
       <Reveal>
-        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-600/30 via-violet-700/20 to-ink-900 p-10 ring-1 ring-white/10 sm:p-14">
-          <div className="absolute -top-24 -right-20 size-72 rounded-full bg-brand-500/25 blur-3xl" />
+        <div className="relative overflow-hidden rounded-[2rem] p-10 ring-1 ring-white/10 sm:p-14" style={{
+          background: 'linear-gradient(135deg, rgba(79,70,229,0.25) 0%, rgba(109,40,217,0.15) 40%, rgba(12,17,31,1) 100%)',
+        }}>
+          <div className="absolute -top-24 -right-20 size-72 rounded-full bg-brand-500/25 blur-3xl animate-pulse-glow" />
+          <div className="absolute -bottom-16 -left-16 size-48 rounded-full bg-violet-500/15 blur-3xl animate-float-slow" />
           <div className="relative">
-            <Building2 className="mb-5 size-8 text-brand-300" strokeWidth={1.6} />
+            <Building2 className="mb-5 size-8 text-brand-300 drop-shadow-[0_0_8px_rgba(165,180,252,0.3)]" strokeWidth={1.6} />
             <h2 className="display mb-4 text-4xl text-white">Try all three roles</h2>
             <p className="mb-8 max-w-xl leading-relaxed text-slate-300">
               Each demo account is pre-seeded with data, so every dashboard has something real on
@@ -206,7 +214,7 @@ const About = () => (
 
             <div className="mb-8 grid gap-3 sm:grid-cols-3">
               {DEMO_ACCOUNTS.map((account) => (
-                <div key={account.role} className="rounded-2xl bg-ink-950/40 p-4 ring-1 ring-white/10">
+                <div key={account.role} className="rounded-2xl bg-ink-950/40 p-4 ring-1 ring-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-ink-950/50 hover:ring-white/15">
                   <p className="mb-1 text-sm font-semibold text-white capitalize">{account.role}</p>
                   <p className="mb-2 text-xs text-slate-400">{account.blurb}</p>
                   <p className="font-mono text-[11px] break-all text-slate-500">{account.email}</p>

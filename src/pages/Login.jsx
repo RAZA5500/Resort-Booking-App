@@ -24,8 +24,10 @@ export const AuthAside = () => (
       className="absolute inset-0 size-full object-cover"
     />
     <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/70 to-ink-950/30" />
+    {/* Luminous gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-transparent to-violet-500/10" />
     <div className="relative flex h-full flex-col justify-end p-12">
-      <p className="mb-3 text-[11px] font-semibold tracking-[0.2em] text-brand-300 uppercase">
+      <p className="font-label mb-3 text-[11px] font-semibold tracking-[0.2em] text-brand-300 uppercase">
         Stayscape
       </p>
       <p className="display max-w-sm text-4xl leading-tight text-white">
@@ -71,8 +73,8 @@ const Login = () => {
     <div className="grid min-h-[calc(100vh-4.5rem)] lg:grid-cols-2">
       <div className="flex items-center justify-center px-5 py-14 sm:px-10">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 16, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 0.5 }}
           className="w-full max-w-md"
         >
@@ -109,18 +111,18 @@ const Login = () => {
 
           <p className="mt-6 text-center text-sm text-slate-400">
             New here?{' '}
-            <Link to="/register" className="font-medium text-brand-300 hover:text-brand-200">
+            <Link to="/register" className="font-medium text-brand-300 hover:text-brand-200 transition-colors">
               Create an account
             </Link>
           </p>
 
           <div className="mt-10">
             <div className="mb-4 flex items-center gap-3">
-              <span className="h-px flex-1 bg-white/8" />
-              <span className="text-[11px] tracking-[0.16em] text-slate-500 uppercase">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-white/8" />
+              <span className="font-label text-[11px] tracking-[0.16em] text-slate-500 uppercase">
                 Or try a demo role
               </span>
-              <span className="h-px flex-1 bg-white/8" />
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-white/8" />
             </div>
 
             <div className="space-y-2">
@@ -131,9 +133,9 @@ const Login = () => {
                     key={account.role}
                     type="button"
                     onClick={() => setForm({ email: account.email, password: account.password })}
-                    className="surface group flex w-full items-center gap-3 rounded-2xl p-3.5 text-left transition-all hover:bg-white/8"
+                    className="surface group flex w-full items-center gap-3 rounded-2xl p-3.5 text-left transition-all duration-300 hover:bg-white/8 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-950/20"
                   >
-                    <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-brand-300">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-400/20">
                       <Icon className="size-4" />
                     </span>
                     <span className="min-w-0 flex-1">
@@ -142,7 +144,7 @@ const Login = () => {
                       </span>
                       <span className="block truncate text-xs text-slate-500">{account.blurb}</span>
                     </span>
-                    <ArrowRight className="size-4 shrink-0 text-slate-600 transition-all group-hover:translate-x-0.5 group-hover:text-brand-300" />
+                    <ArrowRight className="size-4 shrink-0 text-slate-600 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brand-300" />
                   </button>
                 );
               })}

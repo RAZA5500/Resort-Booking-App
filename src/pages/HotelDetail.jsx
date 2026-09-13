@@ -26,10 +26,10 @@ const RoomOption = ({ room, selected, onSelect, nights }) => {
       type="button"
       onClick={() => onSelect(room.id)}
       disabled={disabled}
-      className={`w-full rounded-2xl p-5 text-left ring-1 transition-all ${
+      className={`w-full rounded-2xl p-5 text-left ring-1 transition-all duration-300 ${
         selected
-          ? 'bg-brand-500/12 ring-brand-400/40'
-          : 'bg-white/4 ring-white/8 hover:bg-white/8'
+          ? 'bg-brand-500/12 ring-brand-400/40 shadow-lg shadow-brand-500/5'
+          : 'bg-white/4 ring-white/8 hover:bg-white/8 hover:ring-white/15'
       } ${disabled ? 'cursor-not-allowed opacity-40' : ''}`}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -131,7 +131,10 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
   };
 
   return (
-    <Panel className="p-6">
+    <Panel className="relative overflow-hidden p-6">
+      {/* Gradient top accent bar */}
+      <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-brand-500 via-violet-500 to-brand-400" />
+
       <div className="mb-5 flex items-baseline justify-between gap-3">
         <p className="text-2xl font-semibold text-white">
           {currency(room?.price || hotel.basePrice)}
@@ -158,7 +161,7 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
             aria-label="Fewer guests"
             disabled={guests <= 1}
             onClick={() => setGuests(guests - 1)}
-            className="grid size-8 place-items-center rounded-full text-slate-200 ring-1 ring-white/15 transition-colors hover:ring-white disabled:opacity-25"
+            className="grid size-8 place-items-center rounded-full text-slate-200 ring-1 ring-white/15 transition-all hover:ring-white hover:bg-white/5 disabled:opacity-25"
           >
             −
           </button>
@@ -168,7 +171,7 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
             aria-label="More guests"
             disabled={guests >= 8}
             onClick={() => setGuests(guests + 1)}
-            className="grid size-8 place-items-center rounded-full text-slate-200 ring-1 ring-white/15 transition-colors hover:ring-white disabled:opacity-25"
+            className="grid size-8 place-items-center rounded-full text-slate-200 ring-1 ring-white/15 transition-all hover:ring-white hover:bg-white/5 disabled:opacity-25"
           >
             +
           </button>
@@ -233,7 +236,7 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
       </Button>
 
       <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-slate-500">
-        <ShieldCheck className="size-3.5" />
+        <ShieldCheck className="size-3.5 text-emerald-400" />
         Free cancellation up to 48 hours before check-in
       </p>
     </Panel>
@@ -284,7 +287,7 @@ const HotelDetail = () => {
     <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
       <Link
         to="/hotels"
-        className="mb-6 inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-white"
+        className="mb-6 inline-flex items-center gap-2 text-sm text-slate-400 transition-all hover:text-white hover:gap-3"
       >
         <ArrowLeft className="size-4" /> All hotels
       </Link>
@@ -296,7 +299,7 @@ const HotelDetail = () => {
               {CATEGORY_META[hotel.category]?.label || hotel.category}
             </Badge>
             <Badge tone="gold">{hotel.starRating}-star</Badge>
-            {hotel.featured && <Badge tone="emerald">Editor’s pick</Badge>}
+            {hotel.featured && <Badge tone="emerald">Editor's pick</Badge>}
           </div>
 
           <h1 className="display mb-3 text-4xl leading-tight text-white sm:text-5xl">
@@ -332,9 +335,9 @@ const HotelDetail = () => {
               {hotel.highlights.map((item) => (
                 <span
                   key={item}
-                  className="flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-slate-200 ring-1 ring-white/8"
+                  className="flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-slate-200 ring-1 ring-white/8 backdrop-blur-sm"
                 >
-                  <Check className="size-3.5 text-emerald-400" strokeWidth={2.5} />
+                  <Check className="size-3.5 text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.3)]" strokeWidth={2.5} />
                   {item}
                 </span>
               ))}
@@ -367,7 +370,7 @@ const HotelDetail = () => {
             <div className="grid gap-y-3 sm:grid-cols-2">
               {hotel.amenities.map((item) => (
                 <div key={item} className="flex items-center gap-3 text-[15px] text-slate-300">
-                  <Check className="size-4 shrink-0 text-brand-400" strokeWidth={2.4} />
+                  <Check className="size-4 shrink-0 text-brand-400 drop-shadow-[0_0_3px_rgba(129,140,248,0.2)]" strokeWidth={2.4} />
                   {item}
                 </div>
               ))}
@@ -390,7 +393,7 @@ const HotelDetail = () => {
                 {reviews.slice(0, 6).map((review) => (
                   <article key={review.id}>
                     <div className="mb-2 flex items-center gap-3">
-                      <span className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-violet-600 text-[11px] font-semibold text-white">
+                      <span className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-brand-500 via-violet-500 to-fuchsia-500 text-[11px] font-semibold text-white shadow-md shadow-brand-500/15">
                         {review.userName.split(' ').map((n) => n[0]).join('')}
                       </span>
                       <div>
@@ -418,7 +421,7 @@ const HotelDetail = () => {
                 ['Cancellation', hotel.policies.cancellation],
                 ['Children', hotel.policies.children],
               ].map(([label, value]) => (
-                <div key={label} className="surface rounded-2xl p-4">
+                <div key={label} className="surface rounded-2xl p-4 backdrop-blur-sm">
                   <dt className="mb-1 text-xs tracking-wider text-slate-500 uppercase">{label}</dt>
                   <dd className="text-sm text-slate-200">{value}</dd>
                 </div>

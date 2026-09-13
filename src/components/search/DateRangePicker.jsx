@@ -28,10 +28,11 @@ const Month = ({ monthDate, checkIn, checkOut, hover, blocked, minDate, onPick, 
           const isStart = iso === checkIn;
           const isEnd = iso === checkOut;
           const inRange = rangeEnd && iso > checkIn && iso < rangeEnd;
+          const isToday = iso === minDate;
 
           let tone = 'text-slate-200 hover:bg-white/10';
           if (disabled) tone = 'text-slate-700 line-through cursor-not-allowed';
-          else if (isStart || isEnd) tone = 'bg-brand-500 text-white font-semibold';
+          else if (isStart || isEnd) tone = 'bg-gradient-to-br from-brand-500 to-violet-500 text-white font-semibold shadow-md shadow-brand-500/20';
           else if (inRange) tone = 'bg-brand-500/20 text-brand-100';
 
           return (
@@ -42,11 +43,15 @@ const Month = ({ monthDate, checkIn, checkOut, hover, blocked, minDate, onPick, 
               onClick={() => onPick(iso)}
               onMouseEnter={() => onHover(iso)}
               aria-label={iso}
-              className={`h-9 rounded-lg text-[13px] transition-colors ${tone} ${
+              className={`relative h-9 rounded-lg text-[13px] transition-all duration-200 ${tone} ${
                 isStart && rangeEnd ? 'rounded-r-none' : ''
               } ${isEnd ? 'rounded-l-none' : ''} ${inRange ? 'rounded-none' : ''}`}
             >
               {Number(iso.slice(8))}
+              {/* Today indicator dot */}
+              {isToday && !isStart && !isEnd && (
+                <span className="absolute bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-brand-400" />
+              )}
             </button>
           );
         })}
@@ -106,7 +111,7 @@ export const DateRangePicker = ({
             aria-label="Previous month"
             disabled={atStart}
             onClick={() => setCursor(addMonths(cursor, -1))}
-            className="grid size-9 place-items-center rounded-full text-slate-400 ring-1 ring-white/10 transition-colors hover:bg-white/8 hover:text-white disabled:opacity-25 disabled:hover:bg-transparent"
+            className="grid size-9 place-items-center rounded-full text-slate-400 ring-1 ring-white/10 transition-all duration-200 hover:bg-white/8 hover:text-white hover:ring-white/20 disabled:opacity-25 disabled:hover:bg-transparent"
           >
             <ChevronLeft className="size-4" />
           </button>
@@ -114,7 +119,7 @@ export const DateRangePicker = ({
             type="button"
             aria-label="Next month"
             onClick={() => setCursor(addMonths(cursor, 1))}
-            className="grid size-9 place-items-center rounded-full text-slate-400 ring-1 ring-white/10 transition-colors hover:bg-white/8 hover:text-white"
+            className="grid size-9 place-items-center rounded-full text-slate-400 ring-1 ring-white/10 transition-all duration-200 hover:bg-white/8 hover:text-white hover:ring-white/20"
           >
             <ChevronRight className="size-4" />
           </button>

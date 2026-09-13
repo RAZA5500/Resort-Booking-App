@@ -14,7 +14,7 @@ export const Pagination = ({ page, pages, onChange, className = '' }) => {
         onClick={() => onChange(page - 1)}
         disabled={page <= 1}
         aria-label="Previous page"
-        className="grid size-10 place-items-center rounded-full text-slate-400 transition-colors hover:bg-white/8 hover:text-white disabled:pointer-events-none disabled:opacity-30"
+        className="grid size-10 place-items-center rounded-full text-slate-400 transition-all duration-300 hover:bg-white/8 hover:text-white hover:scale-105 disabled:pointer-events-none disabled:opacity-30"
       >
         <ChevronLeft className="size-4" />
       </button>
@@ -26,10 +26,10 @@ export const Pagination = ({ page, pages, onChange, className = '' }) => {
             type="button"
             onClick={() => onChange(n)}
             aria-current={n === page ? 'page' : undefined}
-            className={`grid size-10 place-items-center rounded-full text-sm font-medium transition-all ${
+            className={`grid size-10 place-items-center rounded-full text-sm font-medium transition-all duration-300 ${
               n === page
-                ? 'bg-white text-ink-950'
-                : 'text-slate-400 hover:bg-white/8 hover:text-white'
+                ? 'bg-gradient-to-br from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/25'
+                : 'text-slate-400 hover:bg-white/8 hover:text-white hover:scale-105'
             }`}
           >
             {n}
@@ -42,7 +42,7 @@ export const Pagination = ({ page, pages, onChange, className = '' }) => {
         onClick={() => onChange(page + 1)}
         disabled={page >= pages}
         aria-label="Next page"
-        className="grid size-10 place-items-center rounded-full text-slate-400 transition-colors hover:bg-white/8 hover:text-white disabled:pointer-events-none disabled:opacity-30"
+        className="grid size-10 place-items-center rounded-full text-slate-400 transition-all duration-300 hover:bg-white/8 hover:text-white hover:scale-105 disabled:pointer-events-none disabled:opacity-30"
       >
         <ChevronRight className="size-4" />
       </button>

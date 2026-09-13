@@ -54,12 +54,14 @@ const Register = () => {
     }
   };
 
+  const barColors = ['bg-rose-400', 'bg-amber-400', 'bg-emerald-400'];
+
   return (
     <div className="grid min-h-[calc(100vh-4.5rem)] lg:grid-cols-2">
       <div className="flex items-center justify-center px-5 py-14 sm:px-10">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 16, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 0.5 }}
           className="w-full max-w-md"
         >
@@ -114,9 +116,9 @@ const Register = () => {
                   {RULES.map((_, i) => (
                     <span
                       key={i}
-                      className={`h-1 flex-1 rounded-full transition-colors ${
+                      className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
                         i < strength
-                          ? strength === 3 ? 'bg-emerald-400' : 'bg-amber-400'
+                          ? `${barColors[strength - 1]} shadow-sm ${strength === 3 ? 'shadow-emerald-400/20' : 'shadow-amber-400/20'}`
                           : 'bg-white/10'
                       }`}
                     />
@@ -128,9 +130,9 @@ const Register = () => {
                     return (
                       <li
                         key={rule.label}
-                        className={`flex items-center gap-2 text-xs ${ok ? 'text-emerald-400' : 'text-slate-500'}`}
+                        className={`flex items-center gap-2 text-xs transition-colors ${ok ? 'text-emerald-400' : 'text-slate-500'}`}
                       >
-                        <Check className={`size-3 ${ok ? '' : 'opacity-30'}`} strokeWidth={3} />
+                        <Check className={`size-3 transition-opacity ${ok ? '' : 'opacity-30'}`} strokeWidth={3} />
                         {rule.label}
                       </li>
                     );
@@ -157,7 +159,7 @@ const Register = () => {
 
           <p className="mt-6 text-center text-sm text-slate-400">
             Already have an account?{' '}
-            <Link to="/login" className="font-medium text-brand-300 hover:text-brand-200">
+            <Link to="/login" className="font-medium text-brand-300 hover:text-brand-200 transition-colors">
               Sign in
             </Link>
           </p>

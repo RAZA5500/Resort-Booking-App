@@ -5,7 +5,7 @@ import { currency } from '../../lib/format';
 
 const Group = ({ title, children }) => (
   <div className="border-b border-white/8 py-5 first:pt-0 last:border-0">
-    <p className="mb-3 text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase">
+    <p className="font-label mb-3 text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase">
       {title}
     </p>
     {children}
@@ -16,10 +16,10 @@ const Chip = ({ active, onClick, children }) => (
   <button
     type="button"
     onClick={onClick}
-    className={`rounded-full px-3.5 py-2 text-[13px] font-medium ring-1 transition-all ${
+    className={`rounded-full px-3.5 py-2 text-[13px] font-medium ring-1 backdrop-blur-sm transition-all duration-300 ${
       active
-        ? 'bg-white text-ink-950 ring-white'
-        : 'bg-white/5 text-slate-300 ring-white/10 hover:bg-white/10 hover:text-white'
+        ? 'bg-white text-ink-950 ring-white shadow-md shadow-white/10 scale-[1.02]'
+        : 'bg-white/5 text-slate-300 ring-white/10 hover:bg-white/10 hover:text-white hover:scale-[1.02]'
     }`}
   >
     {children}
@@ -45,7 +45,7 @@ export const HotelFilters = ({ filters, facets, onChange, onReset, activeCount }
           <SlidersHorizontal className="size-4 text-brand-300" />
           Filters
           {activeCount > 0 && (
-            <span className="grid size-5 place-items-center rounded-full bg-brand-500 text-[10px] text-white">
+            <span className="grid size-5 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-violet-500 text-[10px] text-white shadow-sm shadow-brand-500/20">
               {activeCount}
             </span>
           )}
@@ -108,7 +108,7 @@ export const HotelFilters = ({ filters, facets, onChange, onReset, activeCount }
               value={filters.maxPrice}
               onChange={(e) => set({ maxPrice: Number(e.target.value) })}
               aria-label="Maximum nightly rate"
-              className="w-full accent-brand-500"
+              className="w-full"
             />
             <div className="mt-1.5 flex justify-between text-[11px] text-slate-600">
               <span>{currency(facets?.priceRange?.min || 0)}</span>
@@ -156,16 +156,19 @@ export const FilterDrawer = ({ open, onClose, children, onApply }) => (
   >
     <div
       onClick={onClose}
-      className={`absolute inset-0 bg-ink-950/80 backdrop-blur-sm transition-opacity ${
+      className={`absolute inset-0 backdrop-blur-sm transition-opacity duration-300 ${
         open ? 'opacity-100' : 'opacity-0'
       }`}
+      style={{
+        background: open ? 'radial-gradient(ellipse at 50% 100%, rgba(5,7,15,0.75), rgba(5,7,15,0.9))' : undefined,
+      }}
     />
     <div
       className={`glass absolute inset-x-0 bottom-0 flex max-h-[86vh] flex-col rounded-t-3xl p-6 transition-transform duration-300 ${
         open ? 'translate-y-0' : 'translate-y-full'
       }`}
     >
-      <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/15" />
+      <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-gradient-to-r from-white/10 via-white/25 to-white/10" />
       <div className="min-h-0 flex-1 overflow-hidden">{children}</div>
       <Button className="mt-5 w-full" onClick={onApply}>Show results</Button>
     </div>

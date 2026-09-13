@@ -7,7 +7,11 @@ export const Spinner = ({ className = 'size-5' }) => (
 
 export const PageLoader = ({ label = 'Loading' }) => (
   <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4">
-    <Spinner className="size-7" />
+    <div className="relative">
+      <Spinner className="size-8" />
+      {/* Ambient glow behind spinner */}
+      <div className="absolute inset-0 size-8 rounded-full bg-brand-500/30 blur-xl animate-pulse-glow" />
+    </div>
     <p className="text-sm text-slate-500">{label}…</p>
   </div>
 );
@@ -20,9 +24,10 @@ export const HotelCardSkeleton = () => (
   <div className="surface overflow-hidden rounded-3xl">
     <Skeleton className="aspect-[4/3] rounded-none" />
     <div className="space-y-3 p-5">
-      <Skeleton className="h-4 w-2/3" />
+      <Skeleton className="h-5 w-2/3" />
       <Skeleton className="h-3 w-1/2" />
-      <Skeleton className="h-9 w-full" />
+      <Skeleton className="h-3 w-3/4" />
+      <Skeleton className="h-10 w-full" />
     </div>
   </div>
 );
@@ -39,8 +44,12 @@ export const EmptyState = ({
   icon: Icon = SearchX, title, message, action, className = '',
 }) => (
   <div className={`flex flex-col items-center justify-center px-6 py-20 text-center ${className}`}>
-    <div className="mb-5 grid size-16 place-items-center rounded-2xl bg-white/5 ring-1 ring-white/10">
-      <Icon className="size-7 text-slate-400" strokeWidth={1.6} />
+    <div className="relative mb-5">
+      <div className="grid size-16 place-items-center rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur-sm">
+        <Icon className="size-7 text-slate-400" strokeWidth={1.6} />
+      </div>
+      {/* Ambient glow behind icon */}
+      <div className="absolute inset-0 rounded-2xl bg-brand-500/10 blur-2xl" />
     </div>
     <h3 className="display mb-2 text-2xl text-white">{title}</h3>
     {message && <p className="mb-7 max-w-md text-sm leading-relaxed text-slate-400">{message}</p>}

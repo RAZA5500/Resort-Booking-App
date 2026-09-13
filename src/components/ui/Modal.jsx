@@ -24,24 +24,31 @@ export const Modal = ({ open, onClose, title, description, size = 'md', children
     <AnimatePresence>
       {open && (
         <div className="fixed inset-0 z-[90] flex items-end justify-center p-0 sm:items-center sm:p-6">
+          {/* Spotlight backdrop — radial gradient pulls focus to center. */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-ink-950/80 backdrop-blur-sm"
+            className="absolute inset-0 backdrop-blur-sm"
+            style={{
+              background: 'radial-gradient(ellipse at 50% 50%, rgba(5,7,15,0.75), rgba(5,7,15,0.92))',
+            }}
           />
 
           <motion.div
             role="dialog"
             aria-modal="true"
             aria-label={title}
-            initial={{ opacity: 0, y: 32, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.98 }}
+            initial={{ opacity: 0, y: 32, scale: 0.92, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: 24, scale: 0.95, filter: 'blur(4px)' }}
             transition={{ type: 'spring', stiffness: 340, damping: 32 }}
             className={`glass relative flex max-h-[92vh] w-full ${widths[size]} flex-col overflow-hidden rounded-t-3xl shadow-2xl shadow-black/70 sm:rounded-3xl`}
           >
+            {/* Luminous top border accent */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/50 to-transparent" />
+
             <div className="flex items-start justify-between gap-4 border-b border-white/8 px-6 py-5">
               <div>
                 <h2 className="display text-2xl text-white">{title}</h2>
@@ -51,7 +58,7 @@ export const Modal = ({ open, onClose, title, description, size = 'md', children
                 type="button"
                 onClick={onClose}
                 aria-label="Close dialog"
-                className="-mt-1 rounded-full p-2 text-slate-500 transition-colors hover:bg-white/8 hover:text-white"
+                className="-mt-1 rounded-full p-2 text-slate-500 transition-all hover:bg-white/8 hover:text-white hover:rotate-90"
               >
                 <X className="size-5" />
               </button>

@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SlidersHorizontal } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { SearchPanel } from '../components/search/SearchPanel';
 import { HotelCard } from '../components/hotels/HotelCard';
 import { FilterDrawer, HotelFilters } from '../components/hotels/HotelFilters';
@@ -106,7 +107,12 @@ const Hotels = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
-      <header className="mb-8">
+      <motion.header
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mb-8"
+      >
         <h1 className="display mb-3 text-4xl text-white sm:text-5xl">
           {filters.continent || 'Every stay in the collection'}
         </h1>
@@ -119,7 +125,7 @@ const Hotels = () => {
           {datesChosen && ` available ${formatRange(filters.checkIn, filters.checkOut)}`}
           {datesChosen && ` · ${plural(nights, 'night')}`}
         </p>
-      </header>
+      </motion.header>
 
       <div className="mb-8">
         <SearchPanel
@@ -144,7 +150,9 @@ const Hotels = () => {
 
       <div className="grid gap-8 lg:grid-cols-[268px_1fr]">
         <aside className="hidden lg:block">
-          <div className="surface sticky top-24 max-h-[calc(100vh-8rem)] rounded-3xl p-5">
+          <div className="surface sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-3xl p-5 backdrop-blur-sm">
+            {/* Gradient top accent */}
+            <div className="absolute inset-x-0 top-0 h-px rounded-t-3xl bg-gradient-to-r from-transparent via-brand-400/30 to-transparent" />
             {filterPanel}
           </div>
         </aside>

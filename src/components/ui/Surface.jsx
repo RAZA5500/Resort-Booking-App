@@ -2,7 +2,10 @@ import { motion } from 'framer-motion';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 
 export const Panel = ({ className = '', children, ...rest }) => (
-  <div className={`surface rounded-3xl ${className}`} {...rest}>
+  <div
+    className={`surface rounded-3xl backdrop-blur-sm ${className}`}
+    {...rest}
+  >
     {children}
   </div>
 );
@@ -11,7 +14,8 @@ export const SectionHeading = ({ eyebrow, title, subtitle, action, className = '
   <div className={`mb-8 flex flex-wrap items-end justify-between gap-4 ${className}`}>
     <div className="max-w-2xl">
       {eyebrow && (
-        <p className="mb-2 text-[11px] font-semibold tracking-[0.2em] text-brand-300 uppercase">
+        <p className="font-label mb-2 flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-brand-300 uppercase">
+          <span className="inline-block h-px w-5 bg-gradient-to-r from-brand-400 to-transparent" />
           {eyebrow}
         </p>
       )}
@@ -32,10 +36,10 @@ export const StatCard = ({ label, value, hint, delta, icon: Icon, tone = 'brand'
 
   return (
     <Panel className="relative overflow-hidden p-5">
-      <div className={`absolute -top-8 -right-8 size-28 rounded-full bg-gradient-to-br blur-2xl ${tones[tone]}`} />
+      <div className={`absolute -top-8 -right-8 size-32 rounded-full bg-gradient-to-br blur-3xl opacity-60 ${tones[tone]}`} />
       <div className="relative">
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-[11px] font-semibold tracking-[0.14em] text-slate-500 uppercase">
+          <p className="font-label text-[11px] font-semibold tracking-[0.14em] text-slate-500 uppercase">
             {label}
           </p>
           {Icon && <Icon className={`size-4 ${tones[tone].split(' ').pop()}`} strokeWidth={2} />}
@@ -59,11 +63,11 @@ export const StatCard = ({ label, value, hint, delta, icon: Icon, tone = 'brand'
   );
 };
 
-/** Fades content in as it scrolls into view — used to give long pages rhythm. */
+/** Fades content in as it scrolls into view — with blur-clear for extra polish. */
 export const Reveal = ({ children, delay = 0, y = 24, className = '' }) => (
   <motion.div
-    initial={{ opacity: 0, y }}
-    whileInView={{ opacity: 1, y: 0 }}
+    initial={{ opacity: 0, y, filter: 'blur(4px)' }}
+    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
     viewport={{ once: true, margin: '-80px' }}
     transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
     className={className}
