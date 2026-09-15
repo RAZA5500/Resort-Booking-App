@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Gauge, LayoutDashboard, Lock, Mail, User } from 'lucide-react';
+import { ArrowRight, Gauge, LayoutDashboard, Lock, Mail, TriangleAlert, User } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Field } from '../components/ui/Field';
 import { useAuth } from '../context/auth-context';
@@ -42,7 +42,7 @@ export const AuthAside = () => (
 );
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, ready, isAuthenticated, user } = useAuth();
   const toast = useToast();
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,27 +50,50 @@ const Login = () => {
 
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
+  // A rejected sign-in comes back as a message with no per-field details, so
+  // the toast was the only feedback — and it disappears after a few seconds.
+  // This keeps the reason on the form until the guest changes something.
+  const [formError, setFormError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Clear the errors as soon as a field is edited — otherwise the red message
+  // from the last failed attempt sits there while the guest fixes the typo.
+  const update = (field) => (event) => {
+    const { value } = event.target;
+    setForm((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
+    setFormError('');
+  };
 
   const submit = async (event) => {
     event.preventDefault();
+    if (loading) return;
     setErrors({});
+    setFormError('');
     setLoading(true);
     try {
-      const user = await login(form);
-      toast.success(`Welcome back, ${user.name.split(' ')[0]}.`);
+      const signedIn = await login(form);
+      toast.success(`Welcome back, ${signedIn.name.split(' ')[0]}.`);
       const next = params.get('next') || location.state?.from?.pathname;
-      navigate(next || landingFor(user), { replace: true });
+      navigate(next || landingFor(signedIn), { replace: true });
     } catch (err) {
+      const message = err.message || 'Could not sign you in.';
       setErrors(err.details || {});
-      toast.error(err.message || 'Could not sign you in.');
+      if (!err.details) setFormError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
   };
 
+  // Signing in again while already signed in just re-issues the same session,
+  // so send an authenticated visitor straight to their workspace.
+  if (ready && isAuthenticated) {
+    return <Navigate to={params.get('next') || landingFor(user)} replace />;
+  }
+
   return (
-    <div className="grid min-h-[calc(100vh-4.5rem)] lg:grid-cols-2">
+    <div className="grid min-h-[calc(100svh-5rem)] lg:grid-cols-2">
       <div className="flex items-center justify-center px-5 py-14 sm:px-10">
         <motion.div
           initial={{ opacity: 0, y: 16, filter: 'blur(6px)' }}
@@ -84,6 +107,15 @@ const Login = () => {
           </p>
 
           <form onSubmit={submit} noValidate className="space-y-5">
+            {formError && (
+              <p
+                role="alert"
+                className="flex items-start gap-2.5 rounded-xl bg-rose-500/10 px-4 py-3 text-sm text-rose-200 ring-1 ring-rose-400/30"
+              >
+                <TriangleAlert className="mt-0.5 size-4 shrink-0 text-rose-300" strokeWidth={2.2} />
+                {formError}
+              </p>
+            )}
             <Field
               label="Email"
               type="email"
@@ -91,7 +123,7 @@ const Login = () => {
               autoComplete="email"
               placeholder="you@example.com"
               value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              onChange={update('email')}
               error={errors.email}
             />
             <Field
@@ -101,7 +133,7 @@ const Login = () => {
               autoComplete="current-password"
               placeholder="••••••••"
               value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              onChange={update('password')}
               error={errors.password}
             />
             <Button type="submit" size="lg" loading={loading} className="w-full">
@@ -132,7 +164,11 @@ const Login = () => {
                   <button
                     key={account.role}
                     type="button"
-                    onClick={() => setForm({ email: account.email, password: account.password })}
+                    onClick={() => {
+                      setForm({ email: account.email, password: account.password });
+                      setErrors({});
+                      setFormError('');
+                    }}
                     className="surface group flex w-full items-center gap-3 rounded-2xl p-3.5 text-left transition-all duration-300 hover:bg-white/8 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-950/20"
                   >
                     <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-400/20">
@@ -149,7 +185,7 @@ const Login = () => {
                 );
               })}
             </div>
-            <p className="mt-3 text-center text-xs text-slate-600">
+            <p className="mt-3 text-center text-xs text-slate-500">
               Click a role to fill the form, then press Sign in.
             </p>
           </div>

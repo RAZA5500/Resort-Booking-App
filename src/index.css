@@ -6,29 +6,58 @@
   --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
   --font-label: 'Outfit', 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink-950: #030509;
-  --color-ink-900: #070b15;
-  --color-ink-850: #0c111f;
-  --color-ink-800: #111828;
-  --color-ink-700: #19223a;
-  --color-ink-600: #253050;
+  /* Paper — page ground and card fills. */
+  --color-paper-50: #ffffff;
+  --color-paper-100: #faf8f5;
+  --color-paper-200: #f4f0ea;
+  --color-paper-300: #ece6dd;
+  --color-paper-400: #ded6ca;
 
-  --color-brand-100: #e0e7ff;
-  --color-brand-200: #c7d2fe;
-  --color-brand-300: #a5b4fc;
-  --color-brand-400: #818cf8;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-950: #1e1b4b;
+  /* Ink — type and hairlines. Contrast on paper-100:
+     900 ≈ 15.8:1 · 700 ≈ 8.6:1 · 600 ≈ 7.0:1 · 500 ≈ 5.2:1 (all pass AA),
+     400 ≈ 3.5:1 and lighter are decorative only. */
+  --color-ink-950: #12100e;
+  --color-ink-900: #1a1714;
+  --color-ink-800: #2e2926;
+  --color-ink-700: #4a433d;
+  --color-ink-600: #5c554e;
+  --color-ink-500: #6e655d;
+  --color-ink-400: #8c837a;
+  --color-ink-300: #b5ada4;
+  --color-ink-200: #d6cfc6;
+  --color-ink-100: #e7e1d8;
 
-  --color-gold-200: #fde68a;
-  --color-gold-300: #f6d59a;
-  --color-gold-400: #eabc6b;
-  --color-gold-500: #d4a04a;
+  /* Brand — terracotta. */
+  --color-brand-50: #fdf4f1;
+  --color-brand-100: #f8e4dd;
+  --color-brand-200: #efc6b7;
+  --color-brand-300: #e0a189;
+  --color-brand-400: #d07c5e;
+  --color-brand-500: #c05b3f;
+  --color-brand-600: #a44730;
+  --color-brand-700: #843727;
+  --color-brand-800: #652a1e;
+  --color-brand-950: #3a1710;
 
-  --color-rose-glow: #fb7185;
-  --color-warm-100: #fef3e2;
-  --color-warm-200: #fde5c8;
+  /* Pine — deep teal secondary. Named to avoid colliding with Tailwind's
+     built-in `teal-*`, which would otherwise be half-overridden. */
+  --color-pine-100: #d9e7e4;
+  --color-pine-200: #b0cdc7;
+  --color-pine-300: #7faca4;
+  --color-pine-400: #4d8880;
+  --color-pine-500: #2f6f67;
+  --color-pine-600: #1f4f4a;
+  --color-pine-700: #163a36;
+
+  /* Gold — star ratings, darkened to hold up on a light ground. */
+  --color-gold-200: #f0d9a8;
+  --color-gold-300: #dfb463;
+  --color-gold-400: #c8901f;
+  --color-gold-500: #a8760f;
+
+  --color-warm-100: #fdf6ec;
+  --color-warm-200: #f8e8d2;
+  --color-rose-glow: #e11d48;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -37,69 +66,53 @@
 /* --------------------------------------------------------------- base html */
 html {
   scroll-behavior: smooth;
-  background-color: var(--color-ink-950);
+  color-scheme: light;
+  background-color: var(--color-paper-100);
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background-color: var(--color-ink-950);
-  color: #e2e8f0;
+  background-color: var(--color-paper-100);
+  color: var(--color-ink-900);
   font-family: var(--font-sans);
   overflow-x: hidden;
 }
 
-/* Film-grain noise texture — ultra-subtle editorial layer. */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-  animation: grain 8s steps(10) infinite;
-}
-
 ::selection {
-  background: color-mix(in oklab, var(--color-brand-400) 45%, transparent);
-  color: #fff;
+  background: color-mix(in oklab, var(--color-brand-300) 55%, transparent);
+  color: var(--color-ink-950);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-brand-400);
+  outline: 2px solid var(--color-brand-600);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* Scrollbar — gradient thumb that dissolves into the track. */
+/* Scrollbar — quiet on paper. */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-ink-950);
+  background: var(--color-paper-200);
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--color-ink-600), var(--color-ink-700));
+  background: var(--color-ink-200);
   border-radius: 999px;
-  border: 2px solid var(--color-ink-950);
+  border: 2px solid var(--color-paper-200);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #3b4a7a, #2b3760);
+  background: var(--color-ink-300);
 }
 
-/* Native controls inherit the dark surface. */
+/* Native controls inherit the paper surface. */
 select option {
-  background-color: var(--color-ink-850);
-  color: #e2e8f0;
-}
-input[type='date']::-webkit-calendar-picker-indicator {
-  filter: invert(0.7);
+  background-color: var(--color-paper-50);
+  color: var(--color-ink-900);
 }
 
-/* Custom range slider — gradient track with glowing thumb. */
+/* Custom range slider — terracotta track with a solid thumb. */
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
@@ -115,96 +128,81 @@ input[type='range']::-webkit-slider-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-brand-600);
   box-shadow:
-    0 0 0 3px var(--color-ink-950),
-    0 0 12px 2px color-mix(in oklab, var(--color-brand-400) 50%, transparent);
+    0 0 0 3px var(--color-paper-100),
+    0 1px 6px rgb(26 23 20 / 0.25);
   cursor: pointer;
   transition: box-shadow 0.2s;
 }
 input[type='range']::-webkit-slider-thumb:hover {
   box-shadow:
-    0 0 0 3px var(--color-ink-950),
-    0 0 20px 4px color-mix(in oklab, var(--color-brand-400) 70%, transparent);
+    0 0 0 3px var(--color-paper-100),
+    0 2px 10px rgb(192 91 63 / 0.45);
 }
 input[type='range']::-moz-range-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #fff;
-  border: 3px solid var(--color-ink-950);
-  box-shadow: 0 0 12px 2px color-mix(in oklab, var(--color-brand-400) 50%, transparent);
+  background: var(--color-brand-600);
+  border: 3px solid var(--color-paper-100);
+  box-shadow: 0 1px 6px rgb(26 23 20 / 0.25);
   cursor: pointer;
 }
 
 /* ------------------------------------------------------------- components */
 @layer components {
-  /* Premium frosted glass — deeper blur with colored tint and lit border. */
+  /* Frosted paper — used for popovers and the mobile drawer. */
   .glass {
-    background: color-mix(in oklab, var(--color-ink-850) 68%, transparent);
-    backdrop-filter: blur(24px) saturate(1.3);
-    border: 1px solid rgb(255 255 255 / 0.1);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.06),
-      0 8px 32px rgb(0 0 0 / 0.3);
+    background: color-mix(in oklab, var(--color-paper-50) 86%, transparent);
+    backdrop-filter: blur(20px) saturate(1.1);
+    border: 1px solid var(--color-ink-100);
+    box-shadow: 0 8px 32px rgb(26 23 20 / 0.1);
   }
 
-  /* Standard surface with luminous gradient border. */
+  /* Standard card. */
   .surface {
-    background: linear-gradient(
-      180deg,
-      rgb(255 255 255 / 0.055) 0%,
-      rgb(255 255 255 / 0.02) 100%
-    );
-    border: 1px solid rgb(255 255 255 / 0.08);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+    background: var(--color-paper-50);
+    border: 1px solid var(--color-ink-100);
+    box-shadow: 0 1px 2px rgb(26 23 20 / 0.04);
   }
 
-  /* Elevated surface with luminous gradient border on hover. */
+  /* Card that lifts on hover. */
   .surface-elevated {
-    background: linear-gradient(
-      180deg,
-      rgb(255 255 255 / 0.06) 0%,
-      rgb(255 255 255 / 0.015) 100%
-    );
-    border: 1px solid rgb(255 255 255 / 0.08);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.05),
-      0 4px 24px -8px rgb(0 0 0 / 0.4);
-    transition: border-color 0.4s, box-shadow 0.4s;
+    background: var(--color-paper-50);
+    border: 1px solid var(--color-ink-100);
+    box-shadow: 0 1px 3px rgb(26 23 20 / 0.05);
+    transition:
+      border-color 0.4s,
+      box-shadow 0.4s;
   }
   .surface-elevated:hover {
-    border-color: color-mix(in oklab, var(--color-brand-400) 40%, transparent);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.08),
-      0 8px 40px -12px rgb(99 102 241 / 0.15),
-      0 0 0 1px color-mix(in oklab, var(--color-brand-400) 20%, transparent);
+    border-color: color-mix(in oklab, var(--color-brand-400) 55%, transparent);
+    box-shadow: 0 10px 32px -12px rgb(26 23 20 / 0.18);
   }
 
-  /* Gradient hairline that reads as a lit edge on hover. */
-  .ring-glow {
-    box-shadow:
-      0 0 0 1px rgb(255 255 255 / 0.08),
-      0 24px 60px -20px rgb(0 0 0 / 0.8);
-  }
-
-  /* Gradient text — static sweep. */
+  /* Gradient text — terracotta into pine. */
   .text-gradient {
-    background: linear-gradient(135deg, #fff 10%, var(--color-brand-300) 50%, var(--color-gold-400) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-brand-600) 0%,
+      var(--color-brand-500) 45%,
+      var(--color-pine-600) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  /* Animated shimmer text — light sweeps across like polished metal. */
+  /* Animated shimmer text. */
   .text-shimmer {
     background: linear-gradient(
       110deg,
-      #e2e8f0 20%,
-      var(--color-brand-200) 40%,
-      var(--color-gold-300) 50%,
-      var(--color-brand-200) 60%,
-      #e2e8f0 80%
+      var(--color-ink-900) 20%,
+      var(--color-brand-500) 45%,
+      var(--color-pine-500) 55%,
+      var(--color-brand-500) 65%,
+      var(--color-ink-900) 80%
     );
     background-size: 250% 100%;
     -webkit-background-clip: text;
@@ -224,7 +222,7 @@ input[type='range']::-moz-range-thumb {
     font-family: var(--font-label);
   }
 
-  /* Luminous gradient border effect — used for premium cards. */
+  /* Gradient hairline that lights up on hover. */
   .luminous-border {
     position: relative;
   }
@@ -236,9 +234,9 @@ input[type='range']::-moz-range-thumb {
     padding: 1px;
     background: linear-gradient(
       135deg,
-      color-mix(in oklab, var(--color-brand-400) 60%, transparent),
+      color-mix(in oklab, var(--color-brand-400) 75%, transparent),
       transparent 50%,
-      color-mix(in oklab, var(--color-brand-400) 20%, transparent)
+      color-mix(in oklab, var(--color-pine-400) 40%, transparent)
     );
     mask:
       linear-gradient(#000 0 0) content-box,
@@ -254,91 +252,54 @@ input[type='range']::-moz-range-thumb {
 }
 
 /* ------------------------------------------------------------- animations */
-@keyframes float-slow {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(0, -24px, 0) scale(1.04); }
-}
-
-@keyframes float-slow-alt {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  33% { transform: translate3d(12px, -18px, 0) scale(1.02); }
-  66% { transform: translate3d(-8px, -10px, 0) scale(1.05); }
-}
-
 @keyframes shimmer {
-  100% { transform: translateX(100%); }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes text-shimmer {
-  0% { background-position: 100% 50%; }
-  100% { background-position: -50% 50%; }
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: -50% 50%;
+  }
 }
 
-@keyframes aurora {
-  0%, 100% { opacity: 0.15; transform: translate(0, 0) scale(1); }
-  25% { opacity: 0.2; transform: translate(30px, -20px) scale(1.1); }
-  50% { opacity: 0.12; transform: translate(-20px, 15px) scale(0.95); }
-  75% { opacity: 0.22; transform: translate(15px, 10px) scale(1.05); }
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -24px, 0) scale(1.04);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-@keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-5%, -10%); }
-  20% { transform: translate(-15%, 5%); }
-  30% { transform: translate(7%, -25%); }
-  40% { transform: translate(-5%, 25%); }
-  50% { transform: translate(-15%, 10%); }
-  60% { transform: translate(15%, 0%); }
-  70% { transform: translate(0%, 15%); }
-  80% { transform: translate(3%, 35%); }
-  90% { transform: translate(-10%, 10%); }
-}
-
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slide-in {
-  from { opacity: 0; transform: translateX(-12px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes spin-slow {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes border-glow {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .animate-float-slow {
   animation: float-slow 14s var(--ease-out-soft) infinite;
 }
 
-.animate-float-slow-alt {
-  animation: float-slow-alt 18s var(--ease-out-soft) infinite;
-}
-
-.animate-aurora {
-  animation: aurora 20s ease-in-out infinite;
-}
-
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
-/* Skeleton sweep — richer tinted shimmer. */
+/* Skeleton sweep. */
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: rgb(255 255 255 / 0.04);
+  background: var(--color-paper-200);
   border-radius: 12px;
 }
 .skeleton::after {
@@ -349,7 +310,7 @@ input[type='range']::-moz-range-thumb {
   background: linear-gradient(
     90deg,
     transparent,
-    color-mix(in oklab, var(--color-brand-400) 10%, transparent),
+    color-mix(in oklab, var(--color-paper-50) 85%, transparent),
     transparent
   );
   animation: shimmer 1.8s infinite;
@@ -363,9 +324,5 @@ input[type='range']::-moz-range-thumb {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
-  }
-  body::before {
-    animation: none !important;
-    opacity: 0 !important;
   }
 }

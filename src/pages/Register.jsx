@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, Lock, Mail, Phone, User } from 'lucide-react';
 import { Button } from '../components/ui/Button';
@@ -15,7 +15,7 @@ const RULES = [
 ];
 
 const Register = () => {
-  const { register } = useAuth();
+  const { register, ready, isAuthenticated } = useAuth();
   const toast = useToast();
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -28,6 +28,7 @@ const Register = () => {
 
   const submit = async (event) => {
     event.preventDefault();
+    if (loading) return;
 
     const local = {};
     if (form.name.trim().length < 2) local.name = 'Please enter your name.';
@@ -56,8 +57,13 @@ const Register = () => {
 
   const barColors = ['bg-rose-400', 'bg-amber-400', 'bg-emerald-400'];
 
+  // Someone already signed in has no account to create here.
+  if (ready && isAuthenticated) {
+    return <Navigate to={params.get('next') || '/hotels'} replace />;
+  }
+
   return (
-    <div className="grid min-h-[calc(100vh-4.5rem)] lg:grid-cols-2">
+    <div className="grid min-h-[calc(100svh-5rem)] lg:grid-cols-2">
       <div className="flex items-center justify-center px-5 py-14 sm:px-10">
         <motion.div
           initial={{ opacity: 0, y: 16, filter: 'blur(6px)' }}
