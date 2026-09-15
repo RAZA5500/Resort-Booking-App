@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const shell = (error) =>
   `w-full rounded-xl bg-white/5 px-4 text-[15px] text-white ring-1 transition-all duration-300 outline-none placeholder:text-slate-600 ${
@@ -65,14 +66,17 @@ export const Select = ({ label, error, hint, className, options = [], children, 
   const id = rest.id || generated;
   return (
     <Wrapper id={id} label={label} error={error} hint={hint} className={className}>
-      <select id={id} className={`${shell(error)} h-12 appearance-none pr-10`} {...rest}>
-        {children ||
-          options.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-      </select>
+      <div className="relative">
+        <select id={id} className={`${shell(error)} h-12 appearance-none pr-10 cursor-pointer`} {...rest}>
+          {children ||
+            options.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+        </select>
+        <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+      </div>
     </Wrapper>
   );
 };

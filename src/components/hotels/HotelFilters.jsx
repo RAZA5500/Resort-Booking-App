@@ -100,19 +100,29 @@ export const HotelFilters = ({ filters, facets, onChange, onReset, activeCount }
               <span className="text-slate-400">Up to</span>
               <span className="font-semibold text-white">{currency(filters.maxPrice)}</span>
             </div>
-            <input
-              type="range"
-              min={facets?.priceRange?.min || 100}
-              max={facets?.priceRange?.max || 2500}
-              step={25}
-              value={filters.maxPrice}
-              onChange={(e) => set({ maxPrice: Number(e.target.value) })}
-              aria-label="Maximum nightly rate"
-              className="w-full"
-            />
-            <div className="mt-1.5 flex justify-between text-[11px] text-slate-600">
-              <span>{currency(facets?.priceRange?.min || 0)}</span>
-              <span>{currency(facets?.priceRange?.max || 0)}</span>
+            {(() => {
+              const minP = facets?.priceRange?.min || 100;
+              const maxP = facets?.priceRange?.max || 2500;
+              const pct = Math.min(Math.max(((filters.maxPrice - minP) / (maxP - minP)) * 100, 0), 100);
+              return (
+                <input
+                  type="range"
+                  min={minP}
+                  max={maxP}
+                  step={25}
+                  value={filters.maxPrice}
+                  onChange={(e) => set({ maxPrice: Number(e.target.value) })}
+                  aria-label="Maximum nightly rate"
+                  className="w-full"
+                  style={{
+                    background: `linear-gradient(90deg, #6366f1 0%, #818cf8 ${pct}%, rgba(255,255,255,0.12) ${pct}%, rgba(255,255,255,0.12) 100%)`,
+                  }}
+                />
+              );
+            })()}
+            <div className="mt-1.5 flex justify-between text-[11px] text-slate-500">
+              <span>{currency(facets?.priceRange?.min || 100)}</span>
+              <span>{currency(facets?.priceRange?.max || 2500)}</span>
             </div>
           </div>
         </Group>

@@ -70,17 +70,24 @@ const Checkout = () => {
 
   const valid = Boolean(hotelId && roomId && checkIn && checkOut && checkIn < checkOut);
 
-  const { data: hotelData, loading, error, refetch } = useApi(
+  const { data: hotelData, loading: hotelLoading, error: hotelError, refetch: refetchHotel } = useApi(
     () => hotelApi.get(hotelId),
     [hotelId],
     { skip: !valid }
   );
 
-  const { data: quoteData } = useApi(
+  const { data: quoteData, loading: quoteLoading, error: quoteError, refetch: refetchQuote } = useApi(
     () => bookingApi.quote({ hotelId, roomId, checkIn, checkOut }),
     [hotelId, roomId, checkIn, checkOut],
     { skip: !valid }
   );
+
+  const loading = hotelLoading || quoteLoading;
+  const error = hotelError || quoteError;
+  const refetch = () => {
+    refetchHotel();
+    refetchQuote();
+  };
 
   if (!valid) {
     return (
@@ -110,7 +117,10 @@ const Checkout = () => {
     );
   }
 
-  const set = (field) => (event) => setForm({ ...form, [field]: event.target.value });
+  const set = (field) => (event) => {
+    const value = event.target.value;
+    setEdits((prev) => ({ ...prev, [field]: value }));
+  };
 
   const submit = async (event) => {
     event.preventDefault();
@@ -210,12 +220,12 @@ const Checkout = () => {
                 {
                   label: 'Check-in',
                   value: formatDate(checkIn, { weekday: 'short', month: 'short', day: 'numeric' }),
-                  hint: hotel.policies.checkIn,
+                  hint: hotel.policies?.checkIn || 'From 3:00 PM',
                 },
                 {
                   label: 'Check-out',
                   value: formatDate(checkOut, { weekday: 'short', month: 'short', day: 'numeric' }),
-                  hint: hotel.policies.checkOut,
+                  hint: hotel.policies?.checkOut || 'By 11:00 AM',
                 },
                 {
                   label: 'Guests',
@@ -330,10 +340,14 @@ const Checkout = () => {
                   type="submit"
                   size="lg"
                   loading={submitting}
-                  disabled={available === false}
+                  disabled={available === false || !quote}
                   className="w-full sm:w-auto"
                 >
-                  {submitting ? 'Confirming…' : `Confirm and pay ${currency(quote?.total || 0)}`}
+                  {submitting
+                    ? 'Confirming…'
+                    : quote
+                      ? `Confirm and pay ${currency(quote.total)}`
+                      : 'Confirm and pay'}
                 </Button>
                 <span className="flex items-center gap-1.5 text-xs text-slate-400">
                   <Sparkles className="size-3.5 text-gold-400" /> Free cancellation up to 48 hours prior
@@ -406,7 +420,7 @@ const Checkout = () => {
             <div className="flex items-start gap-2.5 border-t border-white/8 bg-white/[0.01] px-5 py-4 text-xs leading-relaxed text-slate-400">
               <ShieldCheck className="mt-0.5 size-4 shrink-0 text-emerald-400" />
               <span>
-                {hotel.policies.cancellation} Total is verified by secure server calculation.
+                {hotel.policies?.cancellation || 'Free cancellation up to 48 hours prior.'} Total is verified by secure server calculation.
               </span>
             </div>
           </Panel>

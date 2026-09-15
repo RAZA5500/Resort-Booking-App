@@ -170,9 +170,10 @@ export const Navbar = () => {
             <NavLink
               key={link.label}
               to={link.to}
+              end={link.to === '/hotels'}
               className={({ isActive }) =>
                 `relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                  isActive && link.to === '/hotels'
+                  isActive
                     ? 'bg-white/10 text-white shadow-sm shadow-white/5'
                     : 'text-slate-400 hover:text-white hover:bg-white/5'
                 }`
