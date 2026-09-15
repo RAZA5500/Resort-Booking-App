@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, CalendarDays, Globe2, Luggage, Moon, Sparkles, Wallet } from 'lucide-react';
+import { ArrowUpRight, CalendarDays, Globe2, Luggage, Moon, Wallet } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { Panel, StatCard } from '../../components/ui/Surface';
 import { StatusBadge } from '../../components/ui/Badge';

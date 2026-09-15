@@ -16,7 +16,13 @@ export const Gallery = ({ images = [], name }) => {
       if (e.key === 'ArrowLeft') step(-1);
     };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    // Hold the page still behind the full-screen lightbox.
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previous;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- step is stable enough here
   }, [lightbox, images.length]);
 
@@ -29,7 +35,10 @@ export const Gallery = ({ images = [], name }) => {
       <div className="grid gap-2 overflow-hidden rounded-3xl sm:grid-cols-4 sm:grid-rows-2">
         <button
           type="button"
-          onClick={() => setLightbox(true)}
+          onClick={() => {
+            setActive(0);
+            setLightbox(true);
+          }}
           className="group relative aspect-[4/3] overflow-hidden sm:col-span-2 sm:row-span-2 sm:aspect-auto"
         >
           <img
@@ -127,22 +136,27 @@ export const Gallery = ({ images = [], name }) => {
               </button>
             </div>
 
-            <div className="flex justify-center gap-2 overflow-x-auto px-6 pb-6">
-              {images.map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setActive(i)}
-                  aria-label={`Photo ${i + 1}`}
-                  className={`size-16 shrink-0 overflow-hidden rounded-lg ring-1 transition-all duration-300 ${
-                    i === active
-                      ? 'ring-brand-400 opacity-100 shadow-lg shadow-brand-500/20 scale-105'
-                      : 'ring-white/10 opacity-50 hover:opacity-100 hover:ring-white/25'
-                  }`}
-                >
-                  <img src={src} alt="" className="size-full object-cover" />
-                </button>
-              ))}
+            {/* The centred row is nested inside the scroller: centring the
+                scroll container itself makes its overflowing left edge
+                unreachable. */}
+            <div className="overflow-x-auto px-6 pb-6">
+              <div className="mx-auto flex w-max gap-2">
+                {images.map((src, i) => (
+                  <button
+                    key={`${src}-${i}`}
+                    type="button"
+                    onClick={() => setActive(i)}
+                    aria-label={`Photo ${i + 1}`}
+                    className={`size-16 shrink-0 overflow-hidden rounded-lg ring-1 transition-all duration-300 ${
+                      i === active
+                        ? 'ring-brand-400 opacity-100 shadow-lg shadow-brand-500/20 scale-105'
+                        : 'ring-white/10 opacity-50 hover:opacity-100 hover:ring-white/25'
+                    }`}
+                  >
+                    <img src={src} alt="" className="size-full object-cover" />
+                  </button>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}

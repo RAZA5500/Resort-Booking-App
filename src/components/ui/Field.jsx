@@ -17,12 +17,15 @@ const Wrapper = ({ id, label, error, hint, children, className = '' }) => (
     )}
     {children}
     {error ? (
-      <p className="mt-1.5 text-xs text-rose-300">{error}</p>
+      <p id={`${id}-msg`} role="alert" className="mt-1.5 text-xs text-rose-300">{error}</p>
     ) : (
-      hint && <p className="mt-1.5 text-xs text-slate-500">{hint}</p>
+      hint && <p id={`${id}-msg`} className="mt-1.5 text-xs text-slate-500">{hint}</p>
     )}
   </div>
 );
+
+// Ties the error/hint line to the control so screen readers announce it.
+const describedBy = (id, error, hint) => (error || hint ? `${id}-msg` : undefined);
 
 export const Field = ({ label, error, hint, icon: Icon, className, ...rest }) => {
   const generated = useId();
@@ -30,16 +33,19 @@ export const Field = ({ label, error, hint, icon: Icon, className, ...rest }) =>
 
   return (
     <Wrapper id={id} label={label} error={error} hint={hint} className={className}>
+      {/* The input is rendered first so `peer-focus` on the icon actually
+          matches — Tailwind's peer variants use a following-sibling selector. */}
       <div className="relative">
-        {Icon && (
-          <Icon className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-slate-500 transition-colors peer-focus:text-brand-400" />
-        )}
         <input
           id={id}
           aria-invalid={Boolean(error)}
+          aria-describedby={describedBy(id, error, hint)}
           className={`peer ${shell(error)} h-12 ${Icon ? 'pl-11' : ''}`}
           {...rest}
         />
+        {Icon && (
+          <Icon className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-slate-500 transition-colors peer-focus:text-brand-400" />
+        )}
       </div>
     </Wrapper>
   );
@@ -54,6 +60,7 @@ export const TextArea = ({ label, error, hint, className, rows = 4, ...rest }) =
         id={id}
         rows={rows}
         aria-invalid={Boolean(error)}
+        aria-describedby={describedBy(id, error, hint)}
         className={`${shell(error)} resize-y py-3 leading-relaxed`}
         {...rest}
       />
@@ -67,7 +74,13 @@ export const Select = ({ label, error, hint, className, options = [], children, 
   return (
     <Wrapper id={id} label={label} error={error} hint={hint} className={className}>
       <div className="relative">
-        <select id={id} className={`${shell(error)} h-12 appearance-none pr-10 cursor-pointer`} {...rest}>
+        <select
+          id={id}
+          aria-invalid={Boolean(error)}
+          aria-describedby={describedBy(id, error, hint)}
+          className={`${shell(error)} h-12 appearance-none pr-10 cursor-pointer`}
+          {...rest}
+        >
           {children ||
             options.map((opt) => (
               <option key={opt.value} value={opt.value}>

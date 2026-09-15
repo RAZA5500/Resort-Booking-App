@@ -8,7 +8,6 @@ import {
   Clock,
   Copy,
   ExternalLink,
-  HeartHandshake,
   MapPin,
   Sparkles,
   Users,

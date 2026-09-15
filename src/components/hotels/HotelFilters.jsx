@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { CATEGORY_META, CONTINENT_ICON } from '../../lib/constants';
@@ -159,30 +160,48 @@ export const HotelFilters = ({ filters, facets, onChange, onReset, activeCount }
   );
 };
 
-export const FilterDrawer = ({ open, onClose, children, onApply }) => (
-  <div
-    className={`fixed inset-0 z-[80] lg:hidden ${open ? '' : 'pointer-events-none'}`}
-    aria-hidden={!open}
-  >
+export const FilterDrawer = ({ open, onClose, children, onApply }) => {
+  // The drawer stays mounted so it can slide, so while it is closed it must be
+  // taken out of the tab order too — `pointer-events-none` only stops the
+  // mouse, and tabbing into an aria-hidden, off-screen panel strands focus.
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => e.key === 'Escape' && onClose?.();
+    document.addEventListener('keydown', onKey);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previous;
+    };
+  }, [open, onClose]);
+
+  return (
     <div
-      onClick={onClose}
-      className={`absolute inset-0 backdrop-blur-sm transition-opacity duration-300 ${
-        open ? 'opacity-100' : 'opacity-0'
-      }`}
-      style={{
-        background: open ? 'radial-gradient(ellipse at 50% 100%, rgba(5,7,15,0.75), rgba(5,7,15,0.9))' : undefined,
-      }}
-    />
-    <div
-      className={`glass absolute inset-x-0 bottom-0 flex max-h-[86vh] flex-col rounded-t-3xl p-6 transition-transform duration-300 ${
-        open ? 'translate-y-0' : 'translate-y-full'
-      }`}
+      className={`fixed inset-0 z-[80] lg:hidden ${open ? '' : 'pointer-events-none'}`}
+      aria-hidden={!open}
+      inert={!open}
     >
-      <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-gradient-to-r from-white/10 via-white/25 to-white/10" />
-      <div className="min-h-0 flex-1 overflow-hidden">{children}</div>
-      <Button className="mt-5 w-full" onClick={onApply}>Show results</Button>
+      <div
+        onClick={onClose}
+        className={`absolute inset-0 backdrop-blur-sm transition-opacity duration-300 ${
+          open ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          background: open ? 'radial-gradient(ellipse at 50% 100%, rgba(5,7,15,0.75), rgba(5,7,15,0.9))' : undefined,
+        }}
+      />
+      <div
+        className={`glass absolute inset-x-0 bottom-0 flex max-h-[86vh] flex-col rounded-t-3xl p-6 transition-transform duration-300 ${
+          open ? 'translate-y-0' : 'translate-y-full'
+        }`}
+      >
+        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-gradient-to-r from-white/10 via-white/25 to-white/10" />
+        <div className="min-h-0 flex-1 overflow-hidden">{children}</div>
+        <Button className="mt-5 w-full" onClick={onApply}>Show results</Button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default HotelFilters;

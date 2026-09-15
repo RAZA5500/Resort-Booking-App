@@ -1,22 +1,60 @@
-import { useEffect } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Button } from './Button';
 
 export const Modal = ({ open, onClose, title, description, size = 'md', children, footer }) => {
-  // Lock the page behind the dialog while it is open.
+  const titleId = useId();
+  const panelRef = useRef(null);
+
+  // Callers pass a fresh `onClose` closure every render; holding it in a ref
+  // keeps the effect below keyed to `open` alone, so a re-render while the
+  // dialog is open cannot yank focus back out of the field being typed in.
+  const closeRef = useRef(onClose);
+  useEffect(() => {
+    closeRef.current = onClose;
+  });
+
+  // Lock the page behind the dialog while it is open, and keep focus inside it.
   useEffect(() => {
     if (!open) return undefined;
-    const onKey = (e) => e.key === 'Escape' && onClose?.();
+
+    const opener = document.activeElement;
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        closeRef.current?.();
+        return;
+      }
+      if (e.key !== 'Tab' || !panelRef.current) return;
+
+      // Wrap Tab at the edges so focus cannot escape to the page behind.
+      const focusable = panelRef.current.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
     document.addEventListener('keydown', onKey);
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    panelRef.current?.focus();
+
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = previous;
+      if (opener instanceof HTMLElement) opener.focus();
     };
-  }, [open, onClose]);
+  }, [open]);
 
   const widths = { sm: 'max-w-md', md: 'max-w-xl', lg: 'max-w-3xl' };
 
@@ -37,9 +75,11 @@ export const Modal = ({ open, onClose, title, description, size = 'md', children
           />
 
           <motion.div
+            ref={panelRef}
             role="dialog"
             aria-modal="true"
-            aria-label={title}
+            aria-labelledby={titleId}
+            tabIndex={-1}
             initial={{ opacity: 0, y: 32, scale: 0.92, filter: 'blur(8px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 24, scale: 0.95, filter: 'blur(4px)' }}
@@ -51,7 +91,7 @@ export const Modal = ({ open, onClose, title, description, size = 'md', children
 
             <div className="flex items-start justify-between gap-4 border-b border-white/8 px-6 py-5">
               <div>
-                <h2 className="display text-2xl text-white">{title}</h2>
+                <h2 id={titleId} className="display text-2xl text-white">{title}</h2>
                 {description && <p className="mt-1 text-sm text-slate-400">{description}</p>}
               </div>
               <button

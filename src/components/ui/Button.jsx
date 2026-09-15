@@ -38,12 +38,40 @@ export const Button = ({
     </>
   );
 
-  if (to) return <Link to={to} className={`group ${classes}`} {...rest}>{content}</Link>;
-  if (href) return <a href={href} className={`group ${classes}`} {...rest}>{content}</a>;
+  // `disabled` is not a valid attribute on an anchor, so links drop it and lose
+  // pointer events instead.
+  const { disabled, ...restProps } = rest;
+
+  if (to) {
+    return (
+      <Link
+        to={to}
+        className={`group ${classes} ${disabled || loading ? 'pointer-events-none opacity-50' : ''}`}
+        aria-disabled={disabled || loading || undefined}
+        {...restProps}
+      >
+        {content}
+      </Link>
+    );
+  }
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={`group ${classes} ${disabled || loading ? 'pointer-events-none opacity-50' : ''}`}
+        aria-disabled={disabled || loading || undefined}
+        {...restProps}
+      >
+        {content}
+      </a>
+    );
+  }
 
   const Tag = as || 'button';
   return (
-    <Tag className={`group ${classes}`} disabled={loading || rest.disabled} {...rest}>
+    // `rest` is spread first so the computed `disabled` below is not overwritten
+    // by a caller's own `disabled` — a loading button must stay unclickable.
+    <Tag type="button" className={`group ${classes}`} {...restProps} disabled={loading || disabled}>
       {content}
     </Tag>
   );

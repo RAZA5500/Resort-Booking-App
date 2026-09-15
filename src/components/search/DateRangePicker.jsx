@@ -35,6 +35,14 @@ const Month = ({ monthDate, checkIn, checkOut, hover, blocked, minDate, onPick, 
           else if (isStart || isEnd) tone = 'bg-gradient-to-br from-brand-500 to-violet-500 text-white font-semibold shadow-md shadow-brand-500/20';
           else if (inRange) tone = 'bg-brand-500/20 text-brand-100';
 
+          // Pick one radius per cell rather than layering `rounded-none` over
+          // `rounded-lg` — which of two conflicting utilities wins depends on
+          // their order in the generated stylesheet, not on this string.
+          let radius = 'rounded-lg';
+          if (inRange) radius = 'rounded-none';
+          else if (isStart && rangeEnd) radius = 'rounded-l-lg rounded-r-none';
+          else if (isEnd) radius = 'rounded-r-lg rounded-l-none';
+
           return (
             <button
               key={iso}
@@ -43,9 +51,7 @@ const Month = ({ monthDate, checkIn, checkOut, hover, blocked, minDate, onPick, 
               onClick={() => onPick(iso)}
               onMouseEnter={() => onHover(iso)}
               aria-label={iso}
-              className={`relative h-9 rounded-lg text-[13px] transition-all duration-200 ${tone} ${
-                isStart && rangeEnd ? 'rounded-r-none' : ''
-              } ${isEnd ? 'rounded-l-none' : ''} ${inRange ? 'rounded-none' : ''}`}
+              className={`relative h-9 text-[13px] transition-all duration-200 ${radius} ${tone}`}
             >
               {Number(iso.slice(8))}
               {/* Today indicator dot */}

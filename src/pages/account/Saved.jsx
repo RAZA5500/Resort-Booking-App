@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Heart, Sparkles } from 'lucide-react';
 import { HotelCard } from '../../components/hotels/HotelCard';
 import { Button } from '../../components/ui/Button';

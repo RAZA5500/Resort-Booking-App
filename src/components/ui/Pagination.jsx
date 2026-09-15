@@ -4,8 +4,8 @@ export const Pagination = ({ page, pages, onChange, className = '' }) => {
   if (!pages || pages <= 1) return null;
 
   // Always show first, last, current and its neighbours; gaps become ellipses.
-  const window = new Set([1, pages, page, page - 1, page + 1]);
-  const visible = [...window].filter((n) => n >= 1 && n <= pages).sort((a, b) => a - b);
+  const slots = new Set([1, pages, page, page - 1, page + 1]);
+  const visible = [...slots].filter((n) => n >= 1 && n <= pages).sort((a, b) => a - b);
 
   return (
     <nav className={`flex items-center justify-center gap-1.5 ${className}`} aria-label="Pagination">

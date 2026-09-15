@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ChevronDown, Gauge, Heart, LayoutDashboard, LogOut, Luggage, Menu, Search, User, X,
@@ -16,6 +16,30 @@ const PUBLIC_LINKS = [
   { to: '/hotels?sort=rating', label: 'Top rated' },
   { to: '/about', label: 'Why Stayscape' },
 ];
+
+/**
+ * NavLink matches on pathname alone, so `/hotels` and `/hotels?sort=rating`
+ * would both light up on either route. Score each link instead: -1 when it does
+ * not apply, otherwise the number of query params it pins, so the most specific
+ * matching link is the one highlighted.
+ */
+const matchScore = (to, location) => {
+  const [path, search = ''] = to.split('?');
+  if (path !== location.pathname) return -1;
+  const wanted = [...new URLSearchParams(search)];
+  const actual = new URLSearchParams(location.search);
+  if (wanted.some(([key, value]) => actual.get(key) !== value)) return -1;
+  return wanted.length;
+};
+
+const activeLink = (location) =>
+  PUBLIC_LINKS.reduce(
+    (best, link) => {
+      const score = matchScore(link.to, location);
+      return score > best.score ? { label: link.label, score } : best;
+    },
+    { label: null, score: -1 }
+  ).label;
 
 const roleHome = (user) => {
   if (user?.role === ROLES.ADMIN) return { to: '/admin', label: 'Admin', icon: LayoutDashboard };
@@ -129,11 +153,15 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Collapse the mobile menu whenever the route changes. Tracking the path we
-  // last rendered for keeps this out of an effect.
-  const [menuPath, setMenuPath] = useState(location.pathname);
-  if (menuPath !== location.pathname) {
-    setMenuPath(location.pathname);
+  const current = activeLink(location);
+
+  // Collapse the mobile menu whenever the route changes. Tracking the location
+  // we last rendered for keeps this out of an effect. The query string is part
+  // of that key — /hotels and /hotels?sort=rating are different destinations.
+  const here = location.pathname + location.search;
+  const [menuPath, setMenuPath] = useState(here);
+  if (menuPath !== here) {
+    setMenuPath(here);
     if (mobileOpen) setMobileOpen(false);
   }
 
@@ -167,20 +195,18 @@ export const Navbar = () => {
 
         <div className="hidden items-center gap-1 lg:flex">
           {PUBLIC_LINKS.map((link) => (
-            <NavLink
+            <Link
               key={link.label}
               to={link.to}
-              end={link.to === '/hotels'}
-              className={({ isActive }) =>
-                `relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? 'bg-white/10 text-white shadow-sm shadow-white/5'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
-                }`
-              }
+              aria-current={current === link.label ? 'page' : undefined}
+              className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                current === link.label
+                  ? 'bg-white/10 text-white shadow-sm shadow-white/5'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              }`}
             >
               {link.label}
-            </NavLink>
+            </Link>
           ))}
         </div>
 

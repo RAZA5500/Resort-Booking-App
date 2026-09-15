@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, CreditCard, Lock, ShieldCheck, Sparkles, UserCheck, Users } from 'lucide-react';
+import { ArrowLeft, Calendar, CreditCard, Lock, ShieldCheck, Sparkles, UserCheck } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Field, TextArea } from '../components/ui/Field';
 import { Panel } from '../components/ui/Surface';
@@ -66,7 +66,6 @@ const Checkout = () => {
     guestEmail: edits.guestEmail ?? user?.email ?? '',
     guestPhone: edits.guestPhone ?? user?.phone ?? '',
   };
-  const setForm = (next) => setEdits({ ...edits, ...next });
 
   const valid = Boolean(hotelId && roomId && checkIn && checkOut && checkIn < checkOut);
 
@@ -117,8 +116,11 @@ const Checkout = () => {
     );
   }
 
-  const set = (field) => (event) => {
-    const value = event.target.value;
+  // `format` normalises the raw input (card grouping, MM/YY) before it is
+  // stored. Writing only the touched field keeps the guest fields on their
+  // account fallback until the guest actually edits one.
+  const set = (field, format) => (event) => {
+    const value = format ? format(event.target.value) : event.target.value;
     setEdits((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -314,7 +316,7 @@ const Checkout = () => {
                   placeholder="4242 4242 4242 4242"
                   className="sm:col-span-2"
                   value={form.card}
-                  onChange={(e) => setForm({ ...form, card: formatCard(e.target.value) })}
+                  onChange={set('card', formatCard)}
                   error={errors.card}
                 />
                 <Field
@@ -322,7 +324,7 @@ const Checkout = () => {
                   inputMode="numeric"
                   placeholder="MM/YY"
                   value={form.expiry}
-                  onChange={(e) => setForm({ ...form, expiry: formatExpiry(e.target.value) })}
+                  onChange={set('expiry', formatExpiry)}
                   error={errors.expiry}
                 />
                 <Field
@@ -330,7 +332,7 @@ const Checkout = () => {
                   inputMode="numeric"
                   placeholder="123"
                   value={form.cvc}
-                  onChange={(e) => setForm({ ...form, cvc: digits(e.target.value).slice(0, 4) })}
+                  onChange={set('cvc', (v) => digits(v).slice(0, 4))}
                   error={errors.cvc}
                 />
               </div>
