@@ -25,15 +25,15 @@ export const AuthAside = () => (
     />
     <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/70 to-ink-950/30" />
     {/* Luminous gradient overlay */}
-    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-transparent to-violet-500/10" />
+    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/15 via-transparent to-pine-600/20" />
     <div className="relative flex h-full flex-col justify-end p-12">
-      <p className="font-label mb-3 text-[11px] font-semibold tracking-[0.2em] text-brand-300 uppercase">
+      <p className="font-label mb-3 text-[11px] font-semibold tracking-[0.2em] text-brand-200 uppercase">
         Stayscape
       </p>
       <p className="display max-w-sm text-4xl leading-tight text-white">
         Forty-four hotels. Seven regions. One account.
       </p>
-      <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
+      <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/75">
         Guests, front-desk teams and administrators all sign in here — the workspace you land on
         follows your role.
       </p>
@@ -101,8 +101,8 @@ const Login = () => {
           transition={{ duration: 0.5 }}
           className="w-full max-w-md"
         >
-          <h1 className="display mb-2 text-4xl text-white">Welcome back</h1>
-          <p className="mb-8 text-slate-400">
+          <h1 className="display mb-2 text-4xl text-ink-900">Welcome back</h1>
+          <p className="mb-8 text-ink-600">
             Sign in to book, manage trips, or open your team workspace.
           </p>
 
@@ -110,9 +110,9 @@ const Login = () => {
             {formError && (
               <p
                 role="alert"
-                className="flex items-start gap-2.5 rounded-xl bg-rose-500/10 px-4 py-3 text-sm text-rose-200 ring-1 ring-rose-400/30"
+                className="flex items-start gap-2.5 rounded-xl bg-rose-500/10 px-4 py-3 text-sm text-rose-700 ring-1 ring-rose-400/30"
               >
-                <TriangleAlert className="mt-0.5 size-4 shrink-0 text-rose-300" strokeWidth={2.2} />
+                <TriangleAlert className="mt-0.5 size-4 shrink-0 text-rose-600" strokeWidth={2.2} />
                 {formError}
               </p>
             )}
@@ -141,20 +141,20 @@ const Login = () => {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-400">
+          <p className="mt-6 text-center text-sm text-ink-600">
             New here?{' '}
-            <Link to="/register" className="font-medium text-brand-300 hover:text-brand-200 transition-colors">
+            <Link to="/register" className="font-medium text-brand-600 hover:text-brand-700 transition-colors">
               Create an account
             </Link>
           </p>
 
           <div className="mt-10">
             <div className="mb-4 flex items-center gap-3">
-              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-white/8" />
-              <span className="font-label text-[11px] tracking-[0.16em] text-slate-500 uppercase">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-ink-900/10" />
+              <span className="font-label text-[11px] tracking-[0.16em] text-ink-500 uppercase">
                 Or try a demo role
               </span>
-              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-white/8" />
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-ink-900/10" />
             </div>
 
             <div className="space-y-2">
@@ -169,23 +169,23 @@ const Login = () => {
                       setErrors({});
                       setFormError('');
                     }}
-                    className="surface group flex w-full items-center gap-3 rounded-2xl p-3.5 text-left transition-all duration-300 hover:bg-white/8 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-950/20"
+                    className="surface group flex w-full items-center gap-3 rounded-2xl p-3.5 text-left transition-all duration-300 hover:bg-ink-900/[0.06] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-950/20"
                   >
-                    <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-400/20">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-brand-600 ring-1 ring-brand-400/20">
                       <Icon className="size-4" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-sm font-medium text-white capitalize">
+                      <span className="block text-sm font-medium text-ink-900 capitalize">
                         {account.role}
                       </span>
-                      <span className="block truncate text-xs text-slate-500">{account.blurb}</span>
+                      <span className="block truncate text-xs text-ink-500">{account.blurb}</span>
                     </span>
-                    <ArrowRight className="size-4 shrink-0 text-slate-600 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brand-300" />
+                    <ArrowRight className="size-4 shrink-0 text-ink-500 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brand-600" />
                   </button>
                 );
               })}
             </div>
-            <p className="mt-3 text-center text-xs text-slate-500">
+            <p className="mt-3 text-center text-xs text-ink-500">
               Click a role to fill the form, then press Sign in.
             </p>
           </div>

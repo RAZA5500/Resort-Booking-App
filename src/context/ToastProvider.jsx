@@ -4,9 +4,9 @@ import { CheckCircle2, Info, TriangleAlert, X } from 'lucide-react';
 import { ToastContext } from './toast-context';
 
 const TONES = {
-  success: { Icon: CheckCircle2, ring: 'ring-emerald-400/25', text: 'text-emerald-300' },
-  info: { Icon: Info, ring: 'ring-brand-400/25', text: 'text-brand-300' },
-  error: { Icon: TriangleAlert, ring: 'ring-rose-400/25', text: 'text-rose-300' },
+  success: { Icon: CheckCircle2, ring: 'ring-emerald-400/25', text: 'text-emerald-700' },
+  info: { Icon: Info, ring: 'ring-brand-400/25', text: 'text-brand-600' },
+  error: { Icon: TriangleAlert, ring: 'ring-rose-400/25', text: 'text-rose-600' },
 };
 
 export const ToastProvider = ({ children }) => {
@@ -55,15 +55,15 @@ export const ToastProvider = ({ children }) => {
                 exit={{ opacity: 0, x: 24, scale: 0.96 }}
                 transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 role="status"
-                className={`glass pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-2xl px-4 py-3 ring-1 ${ring} shadow-2xl shadow-black/60`}
+                className={`glass pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-2xl px-4 py-3 ring-1 ${ring} shadow-2xl shadow-ink-900/12`}
               >
                 <Icon className={`mt-0.5 size-4 shrink-0 ${text}`} strokeWidth={2.2} />
-                <p className="flex-1 text-sm leading-snug text-slate-200">{message}</p>
+                <p className="flex-1 text-sm leading-snug text-ink-800">{message}</p>
                 <button
                   type="button"
                   onClick={() => dismiss(id)}
                   aria-label="Dismiss"
-                  className="text-slate-500 transition-colors hover:text-white"
+                  className="text-ink-500 transition-colors hover:text-ink-900"
                 >
                   <X className="size-4" />
                 </button>

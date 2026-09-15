@@ -39,10 +39,10 @@ const Saved = () => {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <p className="flex items-center gap-2 text-sm text-slate-400">
+        <p className="flex items-center gap-2 text-sm text-ink-600">
           <Sparkles className="size-4 text-gold-400" />
           <span>
-            <strong className="font-semibold text-white">{data.hotels.length}</strong>{' '}
+            <strong className="font-semibold text-ink-900">{data.hotels.length}</strong>{' '}
             {data.hotels.length === 1 ? 'property' : 'properties'} saved to your wishlist
           </span>
         </p>

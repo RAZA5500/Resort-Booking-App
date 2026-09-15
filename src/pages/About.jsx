@@ -63,10 +63,10 @@ const About = () => (
   <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
     <header className="mb-16 max-w-3xl">
       <Badge tone="indigo" className="mb-5">How it is built</Badge>
-      <h1 className="display mb-5 text-5xl leading-tight text-balance text-white sm:text-6xl">
+      <h1 className="display mb-5 text-5xl leading-tight text-balance text-ink-900 sm:text-6xl">
         A full-stack booking platform, not a mockup.
       </h1>
-      <p className="text-lg leading-relaxed text-slate-400">
+      <p className="text-lg leading-relaxed text-ink-600">
         Stayscape has a real API, real accounts, real authorisation and a persistent database.
         Three roles share one sign-in, and every screen you see is driven by data the server
         actually holds.
@@ -85,9 +85,9 @@ const About = () => (
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {STACK.map((item, i) => (
           <Reveal key={item.label} delay={i * 0.05}>
-            <Panel className="h-full p-5 transition-all duration-300 hover:bg-white/[0.06] hover:-translate-y-0.5">
-              <p className="mb-2 font-medium text-white">{item.label}</p>
-              <p className="text-sm leading-relaxed text-slate-400">{item.detail}</p>
+            <Panel className="h-full p-5 transition-all duration-300 hover:bg-ink-900/[0.05] hover:-translate-y-0.5">
+              <p className="mb-2 font-medium text-ink-900">{item.label}</p>
+              <p className="text-sm leading-relaxed text-ink-600">{item.detail}</p>
             </Panel>
           </Reveal>
         ))}
@@ -106,26 +106,26 @@ const About = () => (
       <div className="grid gap-4 lg:grid-cols-3">
         {ROLE_ROWS.map((row, i) => (
           <Reveal key={row.role} delay={i * 0.06}>
-            <Panel className="flex h-full flex-col p-6 transition-all duration-300 hover:bg-white/[0.06]">
+            <Panel className="flex h-full flex-col p-6 transition-all duration-300 hover:bg-ink-900/[0.05]">
               {/* Gradient top accent per card */}
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/30 to-transparent rounded-t-3xl" />
-              <span className="relative mb-4 grid size-11 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-400/20">
+              <span className="relative mb-4 grid size-11 place-items-center rounded-xl bg-brand-500/15 text-brand-600 ring-1 ring-brand-400/20">
                 <row.icon className="size-5" strokeWidth={1.8} />
               </span>
-              <h3 className="display mb-4 text-2xl text-white">{row.role}</h3>
+              <h3 className="display mb-4 text-2xl text-ink-900">{row.role}</h3>
 
               <ul className="mb-5 space-y-2">
                 {row.can.map((item) => (
-                  <li key={item} className="flex gap-2.5 text-sm text-slate-300">
+                  <li key={item} className="flex gap-2.5 text-sm text-ink-700">
                     <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/30" />
                     {item}
                   </li>
                 ))}
               </ul>
 
-              <ul className="mt-auto space-y-2 border-t border-white/8 pt-4">
+              <ul className="mt-auto space-y-2 border-t border-ink-900/10 pt-4">
                 {row.cannot.map((item) => (
-                  <li key={item} className="flex gap-2.5 text-sm text-slate-500">
+                  <li key={item} className="flex gap-2.5 text-sm text-ink-500">
                     <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-rose-400/60" />
                     {item}
                   </li>
@@ -145,15 +145,15 @@ const About = () => (
       <div className="grid gap-4 sm:grid-cols-2">
         {SECURITY.map((item, i) => (
           <Reveal key={item.title} delay={i * 0.05}>
-            <Panel className="flex h-full gap-4 p-6 transition-all duration-300 hover:bg-white/[0.06]">
-              <span className="relative grid size-10 shrink-0 place-items-center rounded-xl bg-white/5 text-brand-300 ring-1 ring-white/8">
+            <Panel className="flex h-full gap-4 p-6 transition-all duration-300 hover:bg-ink-900/[0.05]">
+              <span className="relative grid size-10 shrink-0 place-items-center rounded-xl bg-ink-900/[0.04] text-brand-600 ring-1 ring-ink-900/10">
                 <item.icon className="size-5" strokeWidth={1.8} />
                 {/* Colored accent glow */}
                 <span className="absolute inset-0 rounded-xl bg-brand-500/10 blur-lg" />
               </span>
               <div>
-                <p className="mb-2 font-medium text-white">{item.title}</p>
-                <p className="text-sm leading-relaxed text-slate-400">{item.body}</p>
+                <p className="mb-2 font-medium text-ink-900">{item.title}</p>
+                <p className="text-sm leading-relaxed text-ink-600">{item.body}</p>
               </div>
             </Panel>
           </Reveal>
@@ -172,11 +172,11 @@ const About = () => (
 
       <Reveal>
         <Panel className="flex flex-col gap-6 p-8 sm:flex-row">
-          <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-amber-500/15 text-amber-300 ring-1 ring-amber-400/20">
+          <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-amber-500/15 text-amber-700 ring-1 ring-amber-400/20">
             <Database className="size-6" strokeWidth={1.8} />
             <span className="absolute inset-0 rounded-2xl bg-amber-500/10 blur-xl" />
           </span>
-          <div className="space-y-4 text-sm leading-relaxed text-slate-400">
+          <div className="space-y-4 text-sm leading-relaxed text-ink-600">
             <p>
               The catalogue lists 44 genuine hotels across seven regions — from The Ritz Paris to
               Huka Lodge — because a demo full of invented names never feels like a real product.
@@ -184,11 +184,11 @@ const About = () => (
             <p>
               Rates, room inventory, availability, guest reviews and ratings are all generated
               sample data. Photography is procedurally seeded rather than scraped from the
-              properties. <span className="text-slate-300">Stayscape is not affiliated with, endorsed by,
+              properties. <span className="text-ink-700">Stayscape is not affiliated with, endorsed by,
               or connected to any hotel shown, and nothing here can be used to book a real room.</span>
             </p>
             <p>
-              Reseeding the database with <code className="rounded bg-white/8 px-1.5 py-0.5 text-xs text-slate-300">npm run seed</code>{' '}
+              Reseeding the database with <code className="rounded bg-ink-900/[0.06] px-1.5 py-0.5 text-xs text-ink-700">npm run seed</code>{' '}
               rebuilds the whole dataset deterministically, including a live front-desk day for the
               two staffed hotels.
             </p>
@@ -199,26 +199,24 @@ const About = () => (
 
     <section>
       <Reveal>
-        <div className="relative overflow-hidden rounded-[2rem] p-10 ring-1 ring-white/10 sm:p-14" style={{
-          background: 'linear-gradient(135deg, rgba(79,70,229,0.25) 0%, rgba(109,40,217,0.15) 40%, rgba(12,17,31,1) 100%)',
+        <div className="relative overflow-hidden rounded-[2rem] p-10 ring-1 ring-pine-700 sm:p-14" style={{
+          background: 'linear-gradient(135deg, #2f6f67 0%, #1f4f4a 55%, #163a36 100%)',
         }}>
-          <div className="absolute -top-24 -right-20 size-72 rounded-full bg-brand-500/25 blur-3xl animate-pulse-glow" />
-          <div className="absolute -bottom-16 -left-16 size-48 rounded-full bg-violet-500/15 blur-3xl animate-float-slow" />
           <div className="relative">
-            <Building2 className="mb-5 size-8 text-brand-300 drop-shadow-[0_0_8px_rgba(165,180,252,0.3)]" strokeWidth={1.6} />
+            <Building2 className="mb-5 size-8 text-pine-200" strokeWidth={1.6} />
             <h2 className="display mb-4 text-4xl text-white">Try all three roles</h2>
-            <p className="mb-8 max-w-xl leading-relaxed text-slate-300">
+            <p className="mb-8 max-w-xl leading-relaxed text-pine-100">
               Each demo account is pre-seeded with data, so every dashboard has something real on
               it the moment you sign in.
             </p>
 
             <div className="mb-8 grid gap-3 sm:grid-cols-3">
               {DEMO_ACCOUNTS.map((account) => (
-                <div key={account.role} className="rounded-2xl bg-ink-950/40 p-4 ring-1 ring-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-ink-950/50 hover:ring-white/15">
+                <div key={account.role} className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/15 transition-all duration-300 hover:bg-white/15">
                   <p className="mb-1 text-sm font-semibold text-white capitalize">{account.role}</p>
-                  <p className="mb-2 text-xs text-slate-400">{account.blurb}</p>
-                  <p className="font-mono text-[11px] break-all text-slate-500">{account.email}</p>
-                  <p className="font-mono text-[11px] text-slate-500">{account.password}</p>
+                  <p className="mb-2 text-xs text-pine-100">{account.blurb}</p>
+                  <p className="font-mono text-[11px] break-all text-pine-200">{account.email}</p>
+                  <p className="font-mono text-[11px] text-pine-200">{account.password}</p>
                 </div>
               ))}
             </div>

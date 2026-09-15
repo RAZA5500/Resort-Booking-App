@@ -14,7 +14,7 @@ export const NotFound = () => (
   >
     <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-72 rounded-full bg-brand-500/10 blur-3xl" />
     <div className="relative">
-      <div className="font-label mx-auto mb-4 inline-flex items-center rounded-full bg-white/5 px-3.5 py-1 text-xs font-semibold tracking-widest text-slate-400 uppercase ring-1 ring-white/10">
+      <div className="font-label mx-auto mb-4 inline-flex items-center rounded-full bg-ink-900/[0.04] px-3.5 py-1 text-xs font-semibold tracking-widest text-ink-600 uppercase ring-1 ring-ink-900/10">
         Error 404 · Destination not found
       </div>
       <EmptyState
@@ -48,7 +48,7 @@ export const Forbidden = () => {
     >
       <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-72 rounded-full bg-rose-500/10 blur-3xl" />
       <div className="relative">
-        <div className="font-label mx-auto mb-4 inline-flex items-center rounded-full bg-rose-500/10 px-3.5 py-1 text-xs font-semibold tracking-widest text-rose-300 uppercase ring-1 ring-rose-500/20">
+        <div className="font-label mx-auto mb-4 inline-flex items-center rounded-full bg-rose-500/10 px-3.5 py-1 text-xs font-semibold tracking-widest text-rose-600 uppercase ring-1 ring-rose-500/20">
           Access Restricted · 403
         </div>
         <EmptyState

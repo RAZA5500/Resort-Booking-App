@@ -10,9 +10,9 @@ const Month = ({ monthDate, checkIn, checkOut, hover, blocked, minDate, onPick, 
 
   return (
     <div className="min-w-0 flex-1">
-      <p className="mb-3 text-center text-sm font-semibold text-white">{monthLabel(monthDate)}</p>
+      <p className="mb-3 text-center text-sm font-semibold text-ink-900">{monthLabel(monthDate)}</p>
 
-      <div className="mb-1 grid grid-cols-7 text-[10px] font-medium text-slate-600">
+      <div className="mb-1 grid grid-cols-7 text-[10px] font-medium text-ink-500">
         {WEEKDAYS.map((day, i) => (
           <span key={i} className="py-1 text-center">{day}</span>
         ))}
@@ -30,9 +30,9 @@ const Month = ({ monthDate, checkIn, checkOut, hover, blocked, minDate, onPick, 
           const inRange = rangeEnd && iso > checkIn && iso < rangeEnd;
           const isToday = iso === minDate;
 
-          let tone = 'text-slate-200 hover:bg-white/10';
-          if (disabled) tone = 'text-slate-700 line-through cursor-not-allowed';
-          else if (isStart || isEnd) tone = 'bg-gradient-to-br from-brand-500 to-violet-500 text-white font-semibold shadow-md shadow-brand-500/20';
+          let tone = 'text-ink-800 hover:bg-ink-900/[0.07]';
+          if (disabled) tone = 'text-ink-300 line-through cursor-not-allowed';
+          else if (isStart || isEnd) tone = 'bg-gradient-to-br from-brand-500 to-brand-600 text-white font-semibold shadow-md shadow-brand-500/20';
           else if (inRange) tone = 'bg-brand-500/20 text-brand-100';
 
           // Pick one radius per cell rather than layering `rounded-none` over
@@ -105,10 +105,10 @@ export const DateRangePicker = ({
     <div onMouseLeave={() => setHover(null)}>
       <div className="mb-4 flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-white">
+          <p className="text-sm font-medium text-ink-900">
             {nights > 0 ? `${nights} night${nights === 1 ? '' : 's'}` : 'Select your dates'}
           </p>
-          <p className="mt-0.5 text-xs text-slate-500">{formatRange(checkIn, checkOut)}</p>
+          <p className="mt-0.5 text-xs text-ink-500">{formatRange(checkIn, checkOut)}</p>
         </div>
 
         <div className="flex gap-1">
@@ -117,7 +117,7 @@ export const DateRangePicker = ({
             aria-label="Previous month"
             disabled={atStart}
             onClick={() => setCursor(addMonths(cursor, -1))}
-            className="grid size-9 place-items-center rounded-full text-slate-400 ring-1 ring-white/10 transition-all duration-200 hover:bg-white/8 hover:text-white hover:ring-white/20 disabled:opacity-25 disabled:hover:bg-transparent"
+            className="grid size-9 place-items-center rounded-full text-ink-600 ring-1 ring-ink-900/10 transition-all duration-200 hover:bg-ink-900/[0.06] hover:text-ink-900 hover:ring-ink-900/20 disabled:opacity-25 disabled:hover:bg-transparent"
           >
             <ChevronLeft className="size-4" />
           </button>
@@ -125,7 +125,7 @@ export const DateRangePicker = ({
             type="button"
             aria-label="Next month"
             onClick={() => setCursor(addMonths(cursor, 1))}
-            className="grid size-9 place-items-center rounded-full text-slate-400 ring-1 ring-white/10 transition-all duration-200 hover:bg-white/8 hover:text-white hover:ring-white/20"
+            className="grid size-9 place-items-center rounded-full text-ink-600 ring-1 ring-ink-900/10 transition-all duration-200 hover:bg-ink-900/[0.06] hover:text-ink-900 hover:ring-ink-900/20"
           >
             <ChevronRight className="size-4" />
           </button>
@@ -149,15 +149,15 @@ export const DateRangePicker = ({
         ))}
       </div>
 
-      <div className="mt-4 flex items-center justify-between gap-4 border-t border-white/8 pt-4">
-        <span className="text-[11px] text-slate-600">
+      <div className="mt-4 flex items-center justify-between gap-4 border-t border-ink-900/10 pt-4">
+        <span className="text-[11px] text-ink-500">
           Crossed-out nights are fully booked
         </span>
         {(checkIn || checkOut) && (
           <button
             type="button"
             onClick={() => onChange({ checkIn: null, checkOut: null })}
-            className="text-xs text-slate-300 underline underline-offset-4 transition-colors hover:text-white"
+            className="text-xs text-ink-700 underline underline-offset-4 transition-colors hover:text-ink-900"
           >
             Clear dates
           </button>

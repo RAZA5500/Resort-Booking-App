@@ -74,11 +74,11 @@ export const HotelCard = ({ hotel, nights = 0, search, index = 0 }) => {
               disabled={busy}
               aria-label={saved ? `Remove ${hotel.name} from saved` : `Save ${hotel.name}`}
               aria-pressed={saved}
-              className="grid size-9 shrink-0 place-items-center rounded-full bg-black/40 ring-1 ring-white/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-black/60 hover:ring-white/30 disabled:opacity-60"
+              className="grid size-9 shrink-0 place-items-center rounded-full bg-ink-950/45 ring-1 ring-white/25 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-ink-950/65 hover:ring-white/50 disabled:opacity-60"
             >
               <Heart
                 className={`size-4 transition-all duration-300 ${
-                  saved ? 'fill-rose-500 text-rose-500 drop-shadow-[0_0_6px_rgba(244,63,94,0.4)]' : 'text-white'
+                  saved ? 'fill-rose-500 text-rose-500' : 'text-white'
                 }`}
                 strokeWidth={2}
               />
@@ -86,19 +86,19 @@ export const HotelCard = ({ hotel, nights = 0, search, index = 0 }) => {
           </div>
 
           <div className="absolute inset-x-4 bottom-3 flex items-end justify-between gap-3">
-            <p className="flex min-w-0 items-center gap-1.5 text-[13px] text-slate-300">
-              <MapPin className="size-3.5 shrink-0 text-brand-300 drop-shadow-[0_0_4px_rgba(165,180,252,0.3)]" strokeWidth={2} />
+            <p className="flex min-w-0 items-center gap-1.5 text-[13px] text-white/90">
+              <MapPin className="size-3.5 shrink-0 text-brand-300" strokeWidth={2} />
               <span className="truncate">{hotel.city}, {hotel.country}</span>
             </p>
-            <Rating value={hotel.rating} count={hotel.reviewsCount} className="shrink-0" />
+            <Rating value={hotel.rating} count={hotel.reviewsCount} onImage className="shrink-0" />
           </div>
         </div>
 
         <div className="p-5">
-          <h3 className="display mb-1.5 truncate text-[22px] leading-tight text-white">
+          <h3 className="display mb-1.5 truncate text-[22px] leading-tight text-ink-900">
             {hotel.name}
           </h3>
-          <p className="mb-4 line-clamp-2 text-[13px] leading-relaxed text-slate-400">
+          <p className="mb-4 line-clamp-2 text-[13px] leading-relaxed text-ink-600">
             {hotel.description}
           </p>
 
@@ -106,29 +106,29 @@ export const HotelCard = ({ hotel, nights = 0, search, index = 0 }) => {
             {hotel.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-white/5 px-2.5 py-1 text-[11px] text-slate-300 ring-1 ring-white/8 backdrop-blur-sm"
+                className="rounded-full bg-ink-900/[0.04] px-2.5 py-1 text-[11px] text-ink-700 ring-1 ring-ink-900/10 backdrop-blur-sm"
               >
                 {tag}
               </span>
             ))}
-            <span className="rounded-full bg-white/5 px-2.5 py-1 text-[11px] text-slate-300 ring-1 ring-white/8 backdrop-blur-sm">
+            <span className="rounded-full bg-ink-900/[0.04] px-2.5 py-1 text-[11px] text-ink-700 ring-1 ring-ink-900/10 backdrop-blur-sm">
               {hotel.starRating}-star
             </span>
           </div>
 
-          <div className="flex items-end justify-between gap-3 border-t border-white/8 pt-4">
+          <div className="flex items-end justify-between gap-3 border-t border-ink-900/10 pt-4">
             <div>
-              <p className="text-lg font-semibold text-white">
+              <p className="text-lg font-semibold text-ink-900">
                 {currency(hotel.basePrice)}
-                <span className="text-[13px] font-normal text-slate-500"> / night</span>
+                <span className="text-[13px] font-normal text-ink-500"> / night</span>
               </p>
               {nights > 0 && (
-                <p className="mt-0.5 text-xs text-brand-300">
+                <p className="mt-0.5 text-xs text-brand-600">
                   {currency(hotel.basePrice * nights)} for {plural(nights, 'night')}
                 </p>
               )}
             </div>
-            <span className="flex items-center gap-1.5 rounded-full bg-white/8 px-4 py-2 text-[13px] font-semibold text-white ring-1 ring-white/10 transition-all duration-500 group-hover:bg-white group-hover:text-ink-950 group-hover:shadow-lg group-hover:shadow-white/10">
+            <span className="flex items-center gap-1.5 rounded-full bg-ink-900/[0.06] px-4 py-2 text-[13px] font-semibold text-ink-900 ring-1 ring-ink-900/10 transition-all duration-500 group-hover:bg-ink-900 group-hover:text-paper-50 group-hover:shadow-lg group-hover:shadow-ink-900/10">
               View
               <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </span>

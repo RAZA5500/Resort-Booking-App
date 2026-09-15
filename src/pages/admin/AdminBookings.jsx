@@ -112,7 +112,7 @@ const AdminBookings = () => {
         </Panel>
       ) : (
         <>
-          <p className="mb-4 text-sm text-slate-500">
+          <p className="mb-4 text-sm text-ink-500">
             {data.pagination.total} {data.pagination.total === 1 ? 'booking' : 'bookings'}
           </p>
 
@@ -123,24 +123,24 @@ const AdminBookings = () => {
                   <div className="mb-1 flex flex-wrap items-center gap-2">
                     <Link
                       to={`/booking/${booking.id}`}
-                      className="font-medium text-white transition-colors hover:text-brand-300"
+                      className="font-medium text-ink-900 transition-colors hover:text-brand-600"
                     >
                       {booking.guest.name}
                     </Link>
                     <StatusBadge status={booking.status} />
-                    <span className="font-mono text-[11px] text-slate-600">{booking.code}</span>
+                    <span className="font-mono text-[11px] text-ink-500">{booking.code}</span>
                   </div>
-                  <p className="truncate text-sm text-slate-400">
+                  <p className="truncate text-sm text-ink-600">
                     {booking.hotelName} · {booking.roomName}
                   </p>
-                  <p className="text-xs text-slate-600">
+                  <p className="text-xs text-ink-500">
                     {formatRange(booking.checkIn, booking.checkOut)} ·{' '}
                     {plural(booking.guests, 'guest')} · {plural(booking.nights, 'night')}
                   </p>
                 </div>
 
                 <div className="flex shrink-0 items-center gap-3">
-                  <span className="font-medium text-white">
+                  <span className="font-medium text-ink-900">
                     {currency(booking.pricing.total)}
                   </span>
                   <div className="flex gap-2">
@@ -156,7 +156,7 @@ const AdminBookings = () => {
                       </Button>
                     ))}
                     {NEXT_STATUS[booking.status].length === 0 && (
-                      <span className="text-xs text-slate-600">No actions left</span>
+                      <span className="text-xs text-ink-500">No actions left</span>
                     )}
                   </div>
                 </div>

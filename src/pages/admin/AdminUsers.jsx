@@ -217,8 +217,8 @@ const AdminUsers = () => {
               }}
               className={`rounded-full px-4 py-2 text-[13px] ring-1 transition-all ${
                 role === value
-                  ? 'bg-white text-ink-950 ring-white'
-                  : 'bg-white/5 text-slate-300 ring-white/10 hover:bg-white/10'
+                  ? 'bg-ink-900 text-paper-50 ring-ink-900'
+                  : 'bg-ink-900/[0.04] text-ink-700 ring-ink-900/10 hover:bg-ink-900/[0.07]'
               }`}
             >
               {label} <span className="opacity-60">{count}</span>
@@ -241,19 +241,19 @@ const AdminUsers = () => {
             const self = user.id === me.id;
             return (
               <Panel key={user.id} className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center">
-                <span className="grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-violet-600 text-xs font-semibold text-white">
+                <span className="grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-xs font-semibold text-white">
                   {initials(user.name)}
                 </span>
 
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex flex-wrap items-center gap-2">
-                    <p className="font-medium text-white">{user.name}</p>
+                    <p className="font-medium text-ink-900">{user.name}</p>
                     <Badge tone={ROLE_TONE[user.role]}>{ROLE_LABEL[user.role]}</Badge>
                     {self && <Badge tone="emerald">You</Badge>}
                     {!user.active && <Badge tone="rose">Deactivated</Badge>}
                   </div>
-                  <p className="truncate text-sm text-slate-400">{user.email}</p>
-                  <p className="mt-0.5 text-xs text-slate-600">
+                  <p className="truncate text-sm text-ink-600">{user.email}</p>
+                  <p className="mt-0.5 text-xs text-ink-500">
                     {user.bookingsCount} bookings · {currency(user.lifetimeValue)} lifetime ·
                     joined {formatDate(user.createdAt.slice(0, 10), { month: 'short', year: 'numeric' })}
                     {user.hotelId ? ` · posted to ${user.hotelId}` : ''}

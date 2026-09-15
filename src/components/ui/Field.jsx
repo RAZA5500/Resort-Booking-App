@@ -1,25 +1,27 @@
 import { useId } from 'react';
 import { ChevronDown } from 'lucide-react';
 
+// Inputs are white cards on the paper ground, so the focus ring does the work
+// the dark build got from a glow.
 const shell = (error) =>
-  `w-full rounded-xl bg-white/5 px-4 text-[15px] text-white ring-1 transition-all duration-300 outline-none placeholder:text-slate-600 ${
+  `w-full rounded-xl bg-paper-50 px-4 text-[15px] text-ink-900 ring-1 transition-all duration-300 outline-none placeholder:text-ink-400 ${
     error
-      ? 'ring-rose-400/60 focus:ring-rose-400 focus:shadow-[0_0_20px_-4px_rgba(251,113,133,0.25)]'
-      : 'ring-white/10 focus:ring-brand-500 focus:bg-white/8 focus:shadow-[0_0_20px_-4px_rgba(99,102,241,0.2)]'
+      ? 'ring-rose-400 focus:ring-rose-500 focus:shadow-[0_0_0_4px_rgba(225,29,72,0.12)]'
+      : 'ring-ink-200 hover:ring-ink-300 focus:ring-brand-500 focus:shadow-[0_0_0_4px_rgba(192,91,63,0.12)]'
   }`;
 
 const Wrapper = ({ id, label, error, hint, children, className = '' }) => (
   <div className={className}>
     {label && (
-      <label htmlFor={id} className="mb-2 block text-[13px] font-medium text-slate-300 transition-all">
+      <label htmlFor={id} className="mb-2 block text-[13px] font-medium text-ink-700 transition-all">
         {label}
       </label>
     )}
     {children}
     {error ? (
-      <p id={`${id}-msg`} role="alert" className="mt-1.5 text-xs text-rose-300">{error}</p>
+      <p id={`${id}-msg`} role="alert" className="mt-1.5 text-xs text-rose-600">{error}</p>
     ) : (
-      hint && <p id={`${id}-msg`} className="mt-1.5 text-xs text-slate-500">{hint}</p>
+      hint && <p id={`${id}-msg`} className="mt-1.5 text-xs text-ink-500">{hint}</p>
     )}
   </div>
 );
@@ -44,7 +46,7 @@ export const Field = ({ label, error, hint, icon: Icon, className, ...rest }) =>
           {...rest}
         />
         {Icon && (
-          <Icon className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-slate-500 transition-colors peer-focus:text-brand-400" />
+          <Icon className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-ink-500 transition-colors peer-focus:text-brand-600" />
         )}
       </div>
     </Wrapper>
@@ -88,7 +90,7 @@ export const Select = ({ label, error, hint, className, options = [], children, 
               </option>
             ))}
         </select>
-        <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+        <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-ink-600" />
       </div>
     </Wrapper>
   );
@@ -102,7 +104,7 @@ export const Toggle = ({ checked, onChange, label, description }) => (
       aria-checked={checked}
       onClick={() => onChange(!checked)}
       className={`mt-0.5 h-6 w-11 shrink-0 rounded-full p-0.5 transition-all duration-300 ${
-        checked ? 'bg-brand-500 shadow-md shadow-brand-500/30' : 'bg-white/12'
+        checked ? 'bg-brand-500 shadow-md shadow-brand-500/30' : 'bg-ink-900/[0.08]'
       }`}
     >
       <span
@@ -112,8 +114,8 @@ export const Toggle = ({ checked, onChange, label, description }) => (
       />
     </button>
     <span>
-      <span className="block text-sm font-medium text-white">{label}</span>
-      {description && <span className="block text-xs text-slate-500">{description}</span>}
+      <span className="block text-sm font-medium text-ink-900">{label}</span>
+      {description && <span className="block text-xs text-ink-500">{description}</span>}
     </span>
   </label>
 );

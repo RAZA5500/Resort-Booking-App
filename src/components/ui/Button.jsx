@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 
+// Flat fills, no gradients — the editorial look leans on the paper ground and
+// one saturated accent rather than on depth effects.
 const VARIANTS = {
-  primary:
-    'bg-gradient-to-br from-brand-500 via-violet-500 to-brand-600 text-white shadow-lg shadow-brand-600/25 hover:shadow-brand-500/40 hover:shadow-xl hover:brightness-110 active:brightness-95',
-  light: 'bg-white text-ink-950 hover:bg-slate-100 shadow-md shadow-black/10',
-  ghost: 'text-slate-300 hover:bg-white/8 hover:text-white',
-  outline: 'surface text-white hover:bg-white/10 hover:border-white/15',
-  danger: 'bg-gradient-to-br from-rose-500 to-rose-600 text-white shadow-lg shadow-rose-500/20 hover:shadow-rose-500/40 hover:brightness-110',
-  subtle: 'bg-white/5 text-slate-200 ring-1 ring-white/10 hover:bg-white/10 hover:text-white hover:ring-white/20',
+  primary: 'bg-brand-600 text-white shadow-sm shadow-brand-900/10 hover:bg-brand-700',
+  light: 'bg-ink-900 text-paper-50 hover:bg-ink-800 shadow-sm shadow-ink-900/10',
+  ghost: 'text-ink-700 hover:bg-ink-900/[0.06] hover:text-ink-900',
+  outline: 'surface text-ink-900 hover:border-ink-300 hover:bg-ink-900/[0.03]',
+  danger: 'bg-rose-600 text-white shadow-sm shadow-rose-900/10 hover:bg-rose-700',
+  subtle: 'bg-paper-200 text-ink-800 ring-1 ring-ink-900/[0.08] hover:bg-paper-300 hover:text-ink-900',
 };
 
 const SIZES = {
@@ -84,8 +85,8 @@ export const IconButton = ({ icon: Icon, label, active, className = '', ...rest 
     title={label}
     className={`grid size-10 shrink-0 place-items-center rounded-full ring-1 transition-all duration-300 active:scale-95 ${
       active
-        ? 'bg-white text-ink-950 ring-white shadow-lg shadow-white/10'
-        : 'bg-black/40 text-white/85 ring-white/15 backdrop-blur-md hover:bg-black/60 hover:text-white hover:ring-white/30 hover:shadow-lg hover:shadow-brand-500/10'
+        ? 'bg-brand-600 text-white ring-brand-600 shadow-sm shadow-brand-900/15'
+        : 'bg-paper-200 text-ink-700 ring-ink-900/[0.08] hover:bg-paper-300 hover:text-ink-900'
     } ${className}`}
     {...rest}
   >

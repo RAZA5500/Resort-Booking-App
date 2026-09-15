@@ -49,11 +49,11 @@ const HeroCollage = () => {
         <motion.div
           key={shot.src}
           style={{ y: shot.y }}
-          className={`absolute ${shot.cls} overflow-hidden rounded-2xl opacity-25 ring-1 ring-white/10 shadow-2xl shadow-black/30`}
+          className={`absolute ${shot.cls} overflow-hidden rounded-2xl opacity-25 ring-1 ring-ink-900/10 shadow-2xl shadow-ink-900/[0.08]`}
         >
           <img src={shot.src} alt="" className="aspect-[3/4] w-full object-cover" />
           {/* Luminous top edge */}
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ink-900/18 to-transparent" />
         </motion.div>
       ))}
     </div>
@@ -97,7 +97,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-7 inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-[13px] text-brand-200 ring-1 ring-white/10 backdrop-blur-md shadow-lg shadow-black/10"
+            className="mb-7 inline-flex items-center gap-2 rounded-full bg-ink-900/[0.04] px-4 py-2 text-[13px] text-brand-700 ring-1 ring-ink-900/10 backdrop-blur-md shadow-lg shadow-ink-900/5"
           >
             <Sparkles className="size-3.5 text-gold-400" />
             {facets?.total ?? 44} hotels · {facets?.continents?.length ?? 7} regions · live availability
@@ -107,7 +107,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="display mb-6 text-[clamp(2.75rem,7vw,5.25rem)] leading-[0.95] text-balance text-white"
+            className="display mb-6 text-[clamp(2.75rem,7vw,5.25rem)] leading-[0.95] text-balance text-ink-900"
           >
             The world's best hotels,
             <span className="text-shimmer block">booked in a minute.</span>
@@ -117,7 +117,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.16 }}
-            className="mx-auto mb-10 max-w-2xl text-[17px] leading-relaxed text-balance text-slate-400"
+            className="mx-auto mb-10 max-w-2xl text-[17px] leading-relaxed text-balance text-ink-600"
           >
             From a palace on the Bosphorus to a glass igloo under the aurora — search real
             availability, hold your dates, and get your confirmation instantly.
@@ -131,7 +131,7 @@ const Home = () => {
           >
             <SearchPanel value={search} onChange={setSearch} onSubmit={runSearch} />
             {nights > 0 && (
-              <p className="mt-4 text-sm text-slate-500">
+              <p className="mt-4 text-sm text-ink-500">
                 Searching {nights} night{nights === 1 ? '' : 's'} for {search.guests} guest
                 {search.guests === 1 ? '' : 's'}
               </p>
@@ -142,16 +142,16 @@ const Home = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[13px] text-slate-500"
+            className="mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[13px] text-ink-500"
           >
-            <span className="flex items-center gap-2 rounded-full bg-white/[0.03] px-3 py-1.5 ring-1 ring-white/[0.06] backdrop-blur-sm">
-              <ShieldCheck className="size-4 text-emerald-400 drop-shadow-[0_0_4px_rgba(52,211,153,0.3)]" /> Free cancellation up to 48h
+            <span className="flex items-center gap-2 rounded-full bg-ink-900/[0.03] px-3 py-1.5 ring-1 ring-ink-900/10 backdrop-blur-sm">
+              <ShieldCheck className="size-4 text-emerald-600 " /> Free cancellation up to 48h
             </span>
-            <span className="flex items-center gap-2 rounded-full bg-white/[0.03] px-3 py-1.5 ring-1 ring-white/[0.06] backdrop-blur-sm">
-              <BadgeCheck className="size-4 text-brand-400 drop-shadow-[0_0_4px_rgba(129,140,248,0.3)]" /> Instant confirmation
+            <span className="flex items-center gap-2 rounded-full bg-ink-900/[0.03] px-3 py-1.5 ring-1 ring-ink-900/10 backdrop-blur-sm">
+              <BadgeCheck className="size-4 text-brand-600 " /> Instant confirmation
             </span>
-            <span className="flex items-center gap-2 rounded-full bg-white/[0.03] px-3 py-1.5 ring-1 ring-white/[0.06] backdrop-blur-sm">
-              <Star className="size-4 fill-gold-400 text-gold-400 drop-shadow-[0_0_4px_rgba(234,188,107,0.3)]" /> 4.8 average guest rating
+            <span className="flex items-center gap-2 rounded-full bg-ink-900/[0.03] px-3 py-1.5 ring-1 ring-ink-900/10 backdrop-blur-sm">
+              <Star className="size-4 fill-gold-400 text-gold-400 " /> 4.8 average guest rating
             </span>
           </motion.div>
         </div>
@@ -196,16 +196,16 @@ const Home = () => {
             <Reveal key={value} delay={i * 0.04}>
               <Link
                 to={`/hotels?continent=${encodeURIComponent(value)}`}
-                className="surface group flex items-center justify-between gap-4 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/8 hover:shadow-lg hover:shadow-brand-950/20"
+                className="surface group flex items-center justify-between gap-4 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-900/[0.06] hover:shadow-lg hover:shadow-brand-950/20"
               >
                 <span className="flex items-center gap-3">
                   <span className="text-2xl">{CONTINENT_ICON[value] || '📍'}</span>
                   <span>
-                    <span className="block font-medium text-white">{value}</span>
-                    <span className="block text-xs text-slate-500">{total} hotels</span>
+                    <span className="block font-medium text-ink-900">{value}</span>
+                    <span className="block text-xs text-ink-500">{total} hotels</span>
                   </span>
                 </span>
-                <ArrowRight className="size-4 text-slate-600 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brand-300" />
+                <ArrowRight className="size-4 text-ink-500 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brand-600" />
               </Link>
             </Reveal>
           ))}
@@ -216,14 +216,14 @@ const Home = () => {
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <Reveal>
-            <p className="font-label mb-2 flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-brand-300 uppercase">
+            <p className="font-label mb-2 flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-brand-600 uppercase">
               <span className="inline-block h-px w-5 bg-gradient-to-r from-brand-400 to-transparent" />
               How it works
             </p>
-            <h2 className="display mb-4 text-4xl text-white">
+            <h2 className="display mb-4 text-4xl text-ink-900">
               Three steps, no surprises at the end
             </h2>
-            <p className="mb-8 leading-relaxed text-slate-400">
+            <p className="mb-8 leading-relaxed text-ink-600">
               The price you see in the summary is the price the server charges — it is recomputed
               from the room rate on every booking, so a stale tab can never quote you the wrong
               total.
@@ -234,19 +234,19 @@ const Home = () => {
           <div className="space-y-3">
             {STEPS.map((step, i) => (
               <Reveal key={step.title} delay={i * 0.08}>
-                <Panel className="flex gap-5 p-6 transition-all duration-300 hover:bg-white/[0.06]">
-                  <span className="relative grid size-11 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-400/20">
+                <Panel className="flex gap-5 p-6 transition-all duration-300 hover:bg-ink-900/[0.05]">
+                  <span className="relative grid size-11 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-brand-600 ring-1 ring-brand-400/20">
                     <step.icon className="size-5" strokeWidth={1.8} />
                     {/* Step number */}
-                    <span className="absolute -top-1.5 -right-1.5 grid size-5 place-items-center rounded-full bg-ink-950 text-[10px] font-bold text-brand-300 ring-1 ring-brand-400/30">
+                    <span className="absolute -top-1.5 -right-1.5 grid size-5 place-items-center rounded-full bg-ink-950 text-[10px] font-bold text-brand-600 ring-1 ring-brand-400/30">
                       {i + 1}
                     </span>
                   </span>
                   <div>
-                    <p className="mb-1.5 font-semibold text-white">
+                    <p className="mb-1.5 font-semibold text-ink-900">
                       {step.title}
                     </p>
-                    <p className="text-sm leading-relaxed text-slate-400">{step.body}</p>
+                    <p className="text-sm leading-relaxed text-ink-600">{step.body}</p>
                   </div>
                 </Panel>
               </Reveal>
@@ -279,18 +279,15 @@ const Home = () => {
       {/* ------------------------------------------------------------- cta */}
       <section className="mx-auto max-w-7xl px-5 pt-8 pb-24 sm:px-8">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] p-10 ring-1 ring-white/10 sm:p-16" style={{
-            background: 'linear-gradient(135deg, rgba(79,70,229,0.25) 0%, rgba(109,40,217,0.15) 40%, rgba(12,17,31,1) 100%)',
+          <div className="relative overflow-hidden rounded-[2rem] p-10 ring-1 ring-pine-700 sm:p-16" style={{
+            background: 'linear-gradient(135deg, #2f6f67 0%, #1f4f4a 55%, #163a36 100%)',
           }}>
-            {/* Aurora glow orbs */}
-            <div className="absolute -top-24 -right-24 size-72 rounded-full bg-brand-500/25 blur-3xl animate-pulse-glow" />
-            <div className="absolute -bottom-20 -left-20 size-56 rounded-full bg-violet-500/15 blur-3xl animate-float-slow" style={{ animationDelay: '-7s' }} />
-
+            
             <div className="relative max-w-2xl">
               <h2 className="display mb-4 text-4xl text-white sm:text-5xl">
                 Create an account and your trips follow you everywhere.
               </h2>
-              <p className="mb-8 text-[15px] leading-relaxed text-slate-300">
+              <p className="mb-8 text-[15px] leading-relaxed text-pine-100">
                 Saved hotels, booking history, confirmation codes and cancellations — all in one
                 place. Hotel staff and administrators get their own workspace on the same account
                 system.
@@ -302,9 +299,9 @@ const Home = () => {
                 </Button>
               </div>
               {facets && (
-                <p className="mt-8 text-sm text-slate-400">
+                <p className="mt-8 text-sm text-ink-600">
                   Rates from{' '}
-                  <span className="font-semibold text-white">
+                  <span className="font-semibold text-ink-900">
                     {currency(facets.priceRange.min)}
                   </span>{' '}
                   to {currency(facets.priceRange.max)} a night.

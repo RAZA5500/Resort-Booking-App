@@ -168,7 +168,7 @@ const Checkout = () => {
     >
       <Link
         to={`/hotels/${hotelId}`}
-        className="group mb-6 inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-white"
+        className="group mb-6 inline-flex items-center gap-2 text-sm text-ink-600 transition-colors hover:text-ink-900"
       >
         <ArrowLeft className="size-4 transition-transform duration-200 group-hover:-translate-x-1" />
         Back to {hotel.name}
@@ -177,21 +177,21 @@ const Checkout = () => {
       <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div>
           <div className="mb-2 flex items-center gap-2.5">
-            <span className="font-label rounded-full bg-brand-500/15 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-300 uppercase ring-1 ring-brand-400/30">
+            <span className="font-label rounded-full bg-brand-500/15 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-600 uppercase ring-1 ring-brand-400/30">
               Step 2 of 2
             </span>
-            <span className="flex items-center gap-1.5 text-xs text-slate-400">
-              <ShieldCheck className="size-3.5 text-emerald-400" /> Instant confirmation
+            <span className="flex items-center gap-1.5 text-xs text-ink-600">
+              <ShieldCheck className="size-3.5 text-emerald-600" /> Instant confirmation
             </span>
           </div>
-          <h1 className="display text-4xl text-white sm:text-5xl">Confirm and pay</h1>
-          <p className="mt-1 text-slate-400">
+          <h1 className="display text-4xl text-ink-900 sm:text-5xl">Confirm and pay</h1>
+          <p className="mt-1 text-ink-600">
             Review your stay details and finalize your reservation.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 rounded-xl bg-white/4 px-3.5 py-2 text-xs text-slate-400 ring-1 ring-white/8 backdrop-blur-md">
-          <Lock className="size-3.5 text-brand-300" />
+        <div className="flex items-center gap-2 rounded-xl bg-ink-900/[0.04] px-3.5 py-2 text-xs text-ink-600 ring-1 ring-ink-900/10 backdrop-blur-md">
+          <Lock className="size-3.5 text-brand-600" />
           <span>Demo mode — no charges will be applied</span>
         </div>
       </div>
@@ -200,12 +200,12 @@ const Checkout = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="mb-8 rounded-2xl bg-rose-500/10 p-5 text-sm text-rose-200 ring-1 ring-rose-400/30 backdrop-blur-md"
+          className="mb-8 rounded-2xl bg-rose-500/10 p-5 text-sm text-rose-700 ring-1 ring-rose-400/30 backdrop-blur-md"
         >
-          <div className="flex items-center gap-2 font-medium text-rose-300">
+          <div className="flex items-center gap-2 font-medium text-rose-600">
             <span>Dates no longer available</span>
           </div>
-          <p className="mt-1 text-rose-200/80">
+          <p className="mt-1 text-rose-700/80">
             These dates were taken while you were deciding. Pick another range before paying.
           </p>
         </motion.div>
@@ -213,9 +213,9 @@ const Checkout = () => {
 
       <div className="grid items-start gap-10 lg:grid-cols-[1fr_380px]">
         <form onSubmit={submit} noValidate className="space-y-8">
-          <section className="rounded-3xl border border-white/8 bg-white/[0.02] p-6 backdrop-blur-xl sm:p-8">
-            <h2 className="display mb-5 flex items-center gap-2.5 text-2xl text-white">
-              <Calendar className="size-5 text-brand-400" /> Your stay
+          <section className="rounded-3xl border border-ink-900/10 bg-ink-900/[0.02] p-6 backdrop-blur-xl sm:p-8">
+            <h2 className="display mb-5 flex items-center gap-2.5 text-2xl text-ink-900">
+              <Calendar className="size-5 text-brand-600" /> Your stay
             </h2>
             <div className="grid gap-4 sm:grid-cols-3">
               {[
@@ -239,21 +239,21 @@ const Checkout = () => {
                   key={item.label}
                   className="surface-elevated rounded-2xl p-4 transition-all duration-300 hover:border-brand-400/30"
                 >
-                  <p className="font-label mb-1 text-[11px] font-semibold tracking-wider text-slate-400 uppercase">
+                  <p className="font-label mb-1 text-[11px] font-semibold tracking-wider text-ink-600 uppercase">
                     {item.label}
                   </p>
-                  <p className="text-sm font-semibold text-white">{item.value}</p>
-                  <p className="mt-1 text-xs text-slate-400">{item.hint}</p>
+                  <p className="text-sm font-semibold text-ink-900">{item.value}</p>
+                  <p className="mt-1 text-xs text-ink-600">{item.hint}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          <section className="rounded-3xl border border-white/8 bg-white/[0.02] p-6 backdrop-blur-xl sm:p-8">
-            <h2 className="display mb-1 flex items-center gap-2.5 text-2xl text-white">
-              <UserCheck className="size-5 text-brand-400" /> Guest details
+          <section className="rounded-3xl border border-ink-900/10 bg-ink-900/[0.02] p-6 backdrop-blur-xl sm:p-8">
+            <h2 className="display mb-1 flex items-center gap-2.5 text-2xl text-ink-900">
+              <UserCheck className="size-5 text-brand-600" /> Guest details
             </h2>
-            <p className="mb-6 text-xs text-slate-400">
+            <p className="mb-6 text-xs text-ink-600">
               We'll send your booking confirmation and hotel check-in instructions here.
             </p>
             <div className="grid gap-5 sm:grid-cols-2">
@@ -294,18 +294,18 @@ const Checkout = () => {
             </div>
           </section>
 
-          <section className="relative overflow-hidden rounded-3xl border border-white/8 bg-white/[0.02] p-6 backdrop-blur-xl sm:p-8">
+          <section className="relative overflow-hidden rounded-3xl border border-ink-900/10 bg-ink-900/[0.02] p-6 backdrop-blur-xl sm:p-8">
             <div className="pointer-events-none absolute -right-20 -top-20 size-48 rounded-full bg-brand-500/10 blur-3xl" />
             <div className="relative">
               <div className="mb-2 flex items-center justify-between">
-                <h2 className="display flex items-center gap-2.5 text-2xl text-white">
-                  <CreditCard className="size-5 text-brand-400" /> Payment
+                <h2 className="display flex items-center gap-2.5 text-2xl text-ink-900">
+                  <CreditCard className="size-5 text-brand-600" /> Payment
                 </h2>
-                <div className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-300 ring-1 ring-emerald-500/20">
+                <div className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-500/20">
                   <Lock className="size-3" /> End-to-end encrypted
                 </div>
               </div>
-              <p className="mb-6 text-xs text-slate-400">
+              <p className="mb-6 text-xs text-ink-600">
                 Demo sandbox — test with 4242 4242 4242 4242, any future expiry, and any 3-digit CVC.
               </p>
 
@@ -351,7 +351,7 @@ const Checkout = () => {
                       ? `Confirm and pay ${currency(quote.total)}`
                       : 'Confirm and pay'}
                 </Button>
-                <span className="flex items-center gap-1.5 text-xs text-slate-400">
+                <span className="flex items-center gap-1.5 text-xs text-ink-600">
                   <Sparkles className="size-3.5 text-gold-400" /> Free cancellation up to 48 hours prior
                 </span>
               </div>
@@ -360,9 +360,9 @@ const Checkout = () => {
         </form>
 
         <aside className="lg:sticky lg:top-24">
-          <Panel className="surface-elevated overflow-hidden border-white/10 shadow-2xl shadow-ink-950/60">
+          <Panel className="surface-elevated overflow-hidden border-ink-900/10 shadow-sm shadow-ink-900/5">
             <div className="relative flex gap-4 p-5">
-              <div className="relative size-24 shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/10">
+              <div className="relative size-24 shrink-0 overflow-hidden rounded-2xl ring-1 ring-ink-900/10">
                 <img
                   src={hotel.images[0]}
                   alt={hotel.name}
@@ -371,46 +371,46 @@ const Checkout = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-950/60 via-transparent to-transparent" />
               </div>
               <div className="min-w-0">
-                <p className="truncate font-semibold text-white">{hotel.name}</p>
-                <p className="truncate text-sm text-slate-400">{hotel.city}, {hotel.country}</p>
-                <p className="mt-1 truncate text-xs text-brand-300 font-medium">{room.name}</p>
+                <p className="truncate font-semibold text-ink-900">{hotel.name}</p>
+                <p className="truncate text-sm text-ink-600">{hotel.city}, {hotel.country}</p>
+                <p className="mt-1 truncate text-xs text-brand-600 font-medium">{room.name}</p>
                 <Badge tone="gold" className="mt-2.5">{hotel.starRating}-star property</Badge>
               </div>
             </div>
 
             {quote && (
               <>
-                <div className="space-y-2.5 border-t border-white/8 bg-white/[0.015] px-5 py-5 text-sm">
-                  <div className="flex justify-between text-slate-300">
+                <div className="space-y-2.5 border-t border-ink-900/10 bg-ink-900/[0.02] px-5 py-5 text-sm">
+                  <div className="flex justify-between text-ink-700">
                     <span>{currency(quote.nightlyRate)} × {plural(quote.nights, 'night')}</span>
-                    <span className="font-medium text-white">{currency(quote.roomTotal)}</span>
+                    <span className="font-medium text-ink-900">{currency(quote.roomTotal)}</span>
                   </div>
                   {quote.discount > 0 && (
-                    <div className="flex justify-between font-medium text-emerald-300">
+                    <div className="flex justify-between font-medium text-emerald-700">
                       <span className="flex items-center gap-1">
-                        <Sparkles className="size-3 text-emerald-400" /> Weekly stay discount
+                        <Sparkles className="size-3 text-emerald-600" /> Weekly stay discount
                       </span>
                       <span>−{currency(quote.discount)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-slate-400">
+                  <div className="flex justify-between text-ink-600">
                     <span>Cleaning fee</span>
                     <span>{currency(quote.cleaning)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-400">
+                  <div className="flex justify-between text-ink-600">
                     <span>Service fee</span>
                     <span>{currency(quote.service)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-400">
+                  <div className="flex justify-between text-ink-600">
                     <span>Estimated taxes</span>
                     <span>{currency(quote.tax)}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between border-t border-white/8 bg-white/[0.03] px-5 py-4">
+                <div className="flex items-center justify-between border-t border-ink-900/10 bg-ink-900/[0.03] px-5 py-4">
                   <div>
-                    <span className="text-base font-semibold text-white">Total due</span>
-                    <p className="text-[11px] text-slate-400">Includes all taxes and fees</p>
+                    <span className="text-base font-semibold text-ink-900">Total due</span>
+                    <p className="text-[11px] text-ink-600">Includes all taxes and fees</p>
                   </div>
                   <span className="text-2xl font-bold text-gradient">
                     {currency(quote.total)}
@@ -419,8 +419,8 @@ const Checkout = () => {
               </>
             )}
 
-            <div className="flex items-start gap-2.5 border-t border-white/8 bg-white/[0.01] px-5 py-4 text-xs leading-relaxed text-slate-400">
-              <ShieldCheck className="mt-0.5 size-4 shrink-0 text-emerald-400" />
+            <div className="flex items-start gap-2.5 border-t border-ink-900/10 bg-ink-900/[0.015] px-5 py-4 text-xs leading-relaxed text-ink-600">
+              <ShieldCheck className="mt-0.5 size-4 shrink-0 text-emerald-600" />
               <span>
                 {hotel.policies?.cancellation || 'Free cancellation up to 48 hours prior.'} Total is verified by secure server calculation.
               </span>

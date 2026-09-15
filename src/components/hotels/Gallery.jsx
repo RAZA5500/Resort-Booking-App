@@ -74,7 +74,7 @@ export const Gallery = ({ images = [], name }) => {
         <button
           type="button"
           onClick={() => setLightbox(true)}
-          className="glass absolute right-4 bottom-4 flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-medium text-white transition-all duration-300 hover:bg-white/15 hover:scale-105 hover:shadow-lg hover:shadow-black/30"
+          className="absolute right-4 bottom-4 flex items-center gap-2 rounded-full bg-ink-950/70 px-4 py-2 text-[13px] font-medium text-white ring-1 ring-white/20 backdrop-blur-md transition-all duration-300 hover:bg-ink-950/85 hover:scale-105"
         >
           <Expand className="size-3.5" />
           All {images.length} photos
@@ -89,18 +89,18 @@ export const Gallery = ({ images = [], name }) => {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[95] flex flex-col backdrop-blur-xl"
             style={{
-              background: 'radial-gradient(ellipse at 50% 50%, rgba(5,7,15,0.93), rgba(5,7,15,0.98))',
+              background: 'radial-gradient(ellipse at 50% 50%, rgba(18,16,14,0.95), rgba(18,16,14,0.99))',
             }}
           >
             <div className="flex items-center justify-between px-6 py-5">
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-white/70">
                 {active + 1} / {images.length} · {name}
               </p>
               <button
                 type="button"
                 onClick={() => setLightbox(false)}
                 aria-label="Close gallery"
-                className="rounded-full p-2 text-slate-400 transition-all duration-200 hover:bg-white/8 hover:text-white hover:rotate-90"
+                className="rounded-full p-2 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white hover:rotate-90"
               >
                 <X className="size-5" />
               </button>
@@ -111,7 +111,7 @@ export const Gallery = ({ images = [], name }) => {
                 type="button"
                 onClick={() => step(-1)}
                 aria-label="Previous photo"
-                className="glass absolute left-4 grid size-12 place-items-center rounded-full text-white transition-all duration-300 hover:bg-white/15 hover:scale-110 hover:shadow-lg hover:shadow-black/40"
+                className="absolute left-4 grid size-12 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/20 backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:scale-110"
               >
                 <ChevronLeft className="size-5" />
               </button>
@@ -130,7 +130,7 @@ export const Gallery = ({ images = [], name }) => {
                 type="button"
                 onClick={() => step(1)}
                 aria-label="Next photo"
-                className="glass absolute right-4 grid size-12 place-items-center rounded-full text-white transition-all duration-300 hover:bg-white/15 hover:scale-110 hover:shadow-lg hover:shadow-black/40"
+                className="absolute right-4 grid size-12 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/20 backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:scale-110"
               >
                 <ChevronRight className="size-5" />
               </button>
@@ -150,7 +150,7 @@ export const Gallery = ({ images = [], name }) => {
                     className={`size-16 shrink-0 overflow-hidden rounded-lg ring-1 transition-all duration-300 ${
                       i === active
                         ? 'ring-brand-400 opacity-100 shadow-lg shadow-brand-500/20 scale-105'
-                        : 'ring-white/10 opacity-50 hover:opacity-100 hover:ring-white/25'
+                        : 'ring-white/20 opacity-50 hover:opacity-100 hover:ring-white/50'
                     }`}
                   >
                     <img src={src} alt="" className="size-full object-cover" />

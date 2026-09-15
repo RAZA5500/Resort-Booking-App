@@ -14,22 +14,22 @@ export const Pagination = ({ page, pages, onChange, className = '' }) => {
         onClick={() => onChange(page - 1)}
         disabled={page <= 1}
         aria-label="Previous page"
-        className="grid size-10 place-items-center rounded-full text-slate-400 transition-all duration-300 hover:bg-white/8 hover:text-white hover:scale-105 disabled:pointer-events-none disabled:opacity-30"
+        className="grid size-10 place-items-center rounded-full text-ink-600 transition-all duration-300 hover:bg-ink-900/[0.06] hover:text-ink-900 hover:scale-105 disabled:pointer-events-none disabled:opacity-30"
       >
         <ChevronLeft className="size-4" />
       </button>
 
       {visible.map((n, i) => (
         <span key={n} className="flex items-center gap-1.5">
-          {i > 0 && visible[i - 1] !== n - 1 && <span className="px-1 text-slate-600">…</span>}
+          {i > 0 && visible[i - 1] !== n - 1 && <span className="px-1 text-ink-500">…</span>}
           <button
             type="button"
             onClick={() => onChange(n)}
             aria-current={n === page ? 'page' : undefined}
             className={`grid size-10 place-items-center rounded-full text-sm font-medium transition-all duration-300 ${
               n === page
-                ? 'bg-gradient-to-br from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/25'
-                : 'text-slate-400 hover:bg-white/8 hover:text-white hover:scale-105'
+                ? 'bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/25'
+                : 'text-ink-600 hover:bg-ink-900/[0.06] hover:text-ink-900 hover:scale-105'
             }`}
           >
             {n}
@@ -42,7 +42,7 @@ export const Pagination = ({ page, pages, onChange, className = '' }) => {
         onClick={() => onChange(page + 1)}
         disabled={page >= pages}
         aria-label="Next page"
-        className="grid size-10 place-items-center rounded-full text-slate-400 transition-all duration-300 hover:bg-white/8 hover:text-white hover:scale-105 disabled:pointer-events-none disabled:opacity-30"
+        className="grid size-10 place-items-center rounded-full text-ink-600 transition-all duration-300 hover:bg-ink-900/[0.06] hover:text-ink-900 hover:scale-105 disabled:pointer-events-none disabled:opacity-30"
       >
         <ChevronRight className="size-4" />
       </button>

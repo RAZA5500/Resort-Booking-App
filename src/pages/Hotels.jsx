@@ -113,10 +113,10 @@ const Hotels = () => {
         transition={{ duration: 0.5 }}
         className="mb-8"
       >
-        <h1 className="display mb-3 text-4xl text-white sm:text-5xl">
+        <h1 className="display mb-3 text-4xl text-ink-900 sm:text-5xl">
           {filters.continent || 'Every stay in the collection'}
         </h1>
-        <p className="text-slate-400">
+        <p className="text-ink-600">
           {loading
             ? 'Searching…'
             : `${data?.pagination.total ?? 0} ${

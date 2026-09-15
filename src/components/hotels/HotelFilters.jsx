@@ -5,8 +5,8 @@ import { CATEGORY_META, CONTINENT_ICON } from '../../lib/constants';
 import { currency } from '../../lib/format';
 
 const Group = ({ title, children }) => (
-  <div className="border-b border-white/8 py-5 first:pt-0 last:border-0">
-    <p className="font-label mb-3 text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase">
+  <div className="border-b border-ink-900/10 py-5 first:pt-0 last:border-0">
+    <p className="font-label mb-3 text-[11px] font-semibold tracking-[0.16em] text-ink-500 uppercase">
       {title}
     </p>
     {children}
@@ -19,8 +19,8 @@ const Chip = ({ active, onClick, children }) => (
     onClick={onClick}
     className={`rounded-full px-3.5 py-2 text-[13px] font-medium ring-1 backdrop-blur-sm transition-all duration-300 ${
       active
-        ? 'bg-white text-ink-950 ring-white shadow-md shadow-white/10 scale-[1.02]'
-        : 'bg-white/5 text-slate-300 ring-white/10 hover:bg-white/10 hover:text-white hover:scale-[1.02]'
+        ? 'bg-ink-900 text-paper-50 ring-ink-900 shadow-md shadow-ink-900/10 scale-[1.02]'
+        : 'bg-ink-900/[0.04] text-ink-700 ring-ink-900/10 hover:bg-ink-900/[0.07] hover:text-ink-900 hover:scale-[1.02]'
     }`}
   >
     {children}
@@ -42,11 +42,11 @@ export const HotelFilters = ({ filters, facets, onChange, onReset, activeCount }
   return (
     <div className="flex h-full flex-col">
       <div className="mb-2 flex items-center justify-between">
-        <p className="flex items-center gap-2 text-sm font-semibold text-white">
-          <SlidersHorizontal className="size-4 text-brand-300" />
+        <p className="flex items-center gap-2 text-sm font-semibold text-ink-900">
+          <SlidersHorizontal className="size-4 text-brand-600" />
           Filters
           {activeCount > 0 && (
-            <span className="grid size-5 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-violet-500 text-[10px] text-white shadow-sm shadow-brand-500/20">
+            <span className="grid size-5 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-[10px] text-white shadow-sm shadow-brand-500/20">
               {activeCount}
             </span>
           )}
@@ -55,7 +55,7 @@ export const HotelFilters = ({ filters, facets, onChange, onReset, activeCount }
           <button
             type="button"
             onClick={onReset}
-            className="flex items-center gap-1 text-xs text-slate-400 transition-colors hover:text-white"
+            className="flex items-center gap-1 text-xs text-ink-600 transition-colors hover:text-ink-900"
           >
             <X className="size-3" /> Clear
           </button>
@@ -87,7 +87,7 @@ export const HotelFilters = ({ filters, facets, onChange, onReset, activeCount }
                 active={filters.category === value}
                 onClick={() => set({ category: filters.category === value ? '' : value })}
               >
-                <span className="mr-1 text-brand-300">{CATEGORY_META[value]?.icon}</span>
+                <span className="mr-1 text-brand-600">{CATEGORY_META[value]?.icon}</span>
                 {CATEGORY_META[value]?.label || value}
                 <span className="ml-1.5 text-[11px] opacity-60">{total}</span>
               </Chip>
@@ -98,8 +98,8 @@ export const HotelFilters = ({ filters, facets, onChange, onReset, activeCount }
         <Group title="Nightly rate">
           <div className="px-1">
             <div className="mb-3 flex items-center justify-between text-sm">
-              <span className="text-slate-400">Up to</span>
-              <span className="font-semibold text-white">{currency(filters.maxPrice)}</span>
+              <span className="text-ink-600">Up to</span>
+              <span className="font-semibold text-ink-900">{currency(filters.maxPrice)}</span>
             </div>
             {(() => {
               const minP = facets?.priceRange?.min || 100;
@@ -116,12 +116,12 @@ export const HotelFilters = ({ filters, facets, onChange, onReset, activeCount }
                   aria-label="Maximum nightly rate"
                   className="w-full"
                   style={{
-                    background: `linear-gradient(90deg, #6366f1 0%, #818cf8 ${pct}%, rgba(255,255,255,0.12) ${pct}%, rgba(255,255,255,0.12) 100%)`,
+                    background: `linear-gradient(90deg, #a44730 0%, #c05b3f ${pct}%, #e7e1d8 ${pct}%, #e7e1d8 100%)`,
                   }}
                 />
               );
             })()}
-            <div className="mt-1.5 flex justify-between text-[11px] text-slate-500">
+            <div className="mt-1.5 flex justify-between text-[11px] text-ink-500">
               <span>{currency(facets?.priceRange?.min || 100)}</span>
               <span>{currency(facets?.priceRange?.max || 2500)}</span>
             </div>
@@ -188,7 +188,7 @@ export const FilterDrawer = ({ open, onClose, children, onApply }) => {
           open ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
-          background: open ? 'radial-gradient(ellipse at 50% 100%, rgba(5,7,15,0.75), rgba(5,7,15,0.9))' : undefined,
+          background: open ? 'radial-gradient(ellipse at 50% 100%, rgba(26,23,20,0.38), rgba(26,23,20,0.55))' : undefined,
         }}
       />
       <div
@@ -196,7 +196,7 @@ export const FilterDrawer = ({ open, onClose, children, onApply }) => {
           open ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
-        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-gradient-to-r from-white/10 via-white/25 to-white/10" />
+        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-gradient-to-r from-ink-900/10 via-ink-900/20 to-ink-900/10" />
         <div className="min-h-0 flex-1 overflow-hidden">{children}</div>
         <Button className="mt-5 w-full" onClick={onApply}>Show results</Button>
       </div>

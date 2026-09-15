@@ -39,20 +39,20 @@ const GuestRow = ({ booking, onAction, busyId }) => {
     <Panel className="surface-elevated flex flex-col gap-4 p-4.5 transition-all duration-300 lg:flex-row lg:items-center">
       <div className="min-w-0 flex-1">
         <div className="mb-1 flex flex-wrap items-center gap-2">
-          <p className="font-semibold text-white">{booking.guest.name}</p>
+          <p className="font-semibold text-ink-900">{booking.guest.name}</p>
           <StatusBadge status={booking.status} />
-          <span className="font-mono text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded-md ring-1 ring-white/10">
+          <span className="font-mono text-[11px] text-ink-600 bg-ink-900/[0.04] px-2 py-0.5 rounded-md ring-1 ring-ink-900/10">
             {booking.code}
           </span>
         </div>
-        <p className="truncate text-sm text-slate-300">
-          <span className="font-medium text-brand-300">{booking.roomName}</span> · {plural(booking.guests, 'guest')} · {formatRange(booking.checkIn, booking.checkOut)}
+        <p className="truncate text-sm text-ink-700">
+          <span className="font-medium text-brand-600">{booking.roomName}</span> · {plural(booking.guests, 'guest')} · {formatRange(booking.checkIn, booking.checkOut)}
         </p>
-        <p className="truncate text-xs text-slate-500">{booking.guest.email}</p>
+        <p className="truncate text-xs text-ink-500">{booking.guest.email}</p>
       </div>
 
-      <div className="flex shrink-0 items-center justify-between gap-4 border-t border-white/5 pt-3 lg:border-0 lg:pt-0">
-        <span className="text-sm font-semibold text-white">{currency(booking.pricing.total)}</span>
+      <div className="flex shrink-0 items-center justify-between gap-4 border-t border-ink-900/[0.08] pt-3 lg:border-0 lg:pt-0">
+        <span className="text-sm font-semibold text-ink-900">{currency(booking.pricing.total)}</span>
         <div className="flex items-center gap-2">
           {actions.map((action) => (
             <Button
@@ -147,8 +147,8 @@ const Desk = () => {
                 onClick={() => setTab(t.id)}
                 className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-all ${
                   tab === t.id
-                    ? 'bg-gradient-to-r from-brand-500 to-indigo-600 text-white shadow-md shadow-brand-500/25 ring-1 ring-brand-400/40'
-                    : 'bg-white/5 text-slate-300 ring-1 ring-white/10 hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-brand-500 to-brand-700 text-white shadow-md shadow-brand-500/25 ring-1 ring-brand-400/40'
+                    : 'bg-ink-900/[0.04] text-ink-700 ring-1 ring-ink-900/10 hover:bg-ink-900/[0.07] hover:text-ink-900'
                 }`}
               >
                 <t.icon className="size-3.5" />
@@ -156,7 +156,7 @@ const Desk = () => {
                 {lists[t.id]?.length > 0 && (
                   <span
                     className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
-                      tab === t.id ? 'bg-white/20 text-white' : 'bg-white/10 text-slate-300'
+                      tab === t.id ? 'bg-ink-900/[0.11] text-ink-900' : 'bg-ink-900/[0.07] text-ink-700'
                     }`}
                   >
                     {lists[t.id].length}
@@ -203,9 +203,9 @@ const Desk = () => {
           )}
 
           {user?.hotelId && (
-            <p className="mt-8 text-xs text-slate-500">
+            <p className="mt-8 text-xs text-ink-500">
               You are scoped to{' '}
-              <Link to={`/hotels/${user.hotelId}`} className="text-slate-400 underline underline-offset-4 hover:text-white">
+              <Link to={`/hotels/${user.hotelId}`} className="text-ink-600 underline underline-offset-4 hover:text-ink-900">
                 one property
               </Link>
               . The server rejects any action on a booking outside it.

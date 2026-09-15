@@ -1,18 +1,20 @@
 import { Star } from 'lucide-react';
 import { STATUS_META } from '../../lib/constants';
 
+// Flat tint + firm ring + dark label — the dark build's pale 300-weight text
+// on a 15% fill is unreadable once the ground is paper.
 const TONES = {
-  indigo: 'bg-brand-500/15 text-brand-300 ring-brand-400/25 shadow-brand-500/5',
-  emerald: 'bg-emerald-500/15 text-emerald-300 ring-emerald-400/25 shadow-emerald-500/5',
-  amber: 'bg-amber-500/15 text-amber-300 ring-amber-400/25 shadow-amber-500/5',
-  rose: 'bg-rose-500/15 text-rose-300 ring-rose-400/25 shadow-rose-500/5',
-  slate: 'bg-white/8 text-slate-300 ring-white/12 shadow-white/5',
-  gold: 'bg-gold-400/12 text-gold-300 ring-gold-400/25 shadow-gold-400/5',
+  indigo: 'bg-brand-100 text-brand-700 ring-brand-200',
+  emerald: 'bg-emerald-100 text-emerald-800 ring-emerald-200',
+  amber: 'bg-amber-100 text-amber-800 ring-amber-200',
+  rose: 'bg-rose-100 text-rose-700 ring-rose-200',
+  slate: 'bg-paper-200 text-ink-700 ring-ink-900/10',
+  gold: 'bg-gold-200/50 text-gold-500 ring-gold-300/70',
 };
 
 export const Badge = ({ tone = 'slate', icon: Icon, className = '', children }) => (
   <span
-    className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 shadow-sm backdrop-blur-sm ${TONES[tone]} ${className}`}
+    className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ${TONES[tone]} ${className}`}
   >
     {Icon && <Icon className="size-3" strokeWidth={2.4} />}
     {children}
@@ -34,21 +36,27 @@ export const Stars = ({ value = 0, size = 'size-3.5', showValue = false, count }
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
-          className={`${size} transition-colors ${i < Math.round(value) ? 'fill-gold-400 text-gold-400' : 'text-white/15'}`}
+          className={`${size} transition-colors ${i < Math.round(value) ? 'fill-gold-400 text-gold-400' : 'text-ink-900/15'}`}
           strokeWidth={1.5}
         />
       ))}
     </span>
-    {showValue && <span className="text-sm font-medium text-white">{Number(value).toFixed(1)}</span>}
-    {count != null && <span className="text-sm text-slate-500">({count})</span>}
+    {showValue && <span className="text-sm font-medium text-ink-900">{Number(value).toFixed(1)}</span>}
+    {count != null && <span className="text-sm text-ink-500">({count})</span>}
   </span>
 );
 
-export const Rating = ({ value, count, className = '' }) => (
+/** `onImage` flips the type to light — the card overlay sits on a photo, where
+ *  the page's ink colours are invisible. */
+export const Rating = ({ value, count, onImage = false, className = '' }) => (
   <span className={`inline-flex items-center gap-1.5 text-sm ${className}`}>
-    <Star className="size-3.5 fill-gold-400 text-gold-400 drop-shadow-[0_0_4px_rgba(234,188,107,0.3)]" strokeWidth={0} />
-    <span className="font-semibold text-white">{Number(value || 0).toFixed(1)}</span>
-    {count != null && <span className="text-slate-500">({count})</span>}
+    <Star className="size-3.5 fill-gold-300 text-gold-300" strokeWidth={0} />
+    <span className={`font-semibold ${onImage ? 'text-white' : 'text-ink-900'}`}>
+      {Number(value || 0).toFixed(1)}
+    </span>
+    {count != null && (
+      <span className={onImage ? 'text-white/75' : 'text-ink-500'}>({count})</span>
+    )}
   </span>
 );
 

@@ -63,20 +63,20 @@ const Profile = () => {
     <div className="max-w-2xl space-y-6">
       <Panel className="surface-elevated flex flex-wrap items-center gap-5 p-6 sm:p-8">
         <div className="relative">
-          <span className="grid size-16 place-items-center rounded-2xl bg-gradient-to-br from-brand-500 via-indigo-600 to-violet-600 text-xl font-bold text-white shadow-lg shadow-brand-500/25 ring-2 ring-white/20">
+          <span className="grid size-16 place-items-center rounded-2xl bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 text-xl font-bold text-white shadow-lg shadow-brand-500/25 ring-2 ring-ink-900/20">
             {initials(user.name)}
           </span>
           <span className="absolute -bottom-1 -right-1 grid size-5 place-items-center rounded-full bg-emerald-500 ring-2 ring-ink-950">
-            <ShieldCheck className="size-3 text-white" />
+            <ShieldCheck className="size-3 text-ink-900" />
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-xl font-semibold text-white">{user.name}</p>
-          <p className="truncate text-sm text-slate-400">{user.email}</p>
+          <p className="text-xl font-semibold text-ink-900">{user.name}</p>
+          <p className="truncate text-sm text-ink-600">{user.email}</p>
           <div className="mt-2.5 flex flex-wrap items-center gap-2">
             <Badge tone="indigo">{ROLE_LABEL[user.role]}</Badge>
             {user.lastLoginAt && (
-              <span className="text-xs text-slate-500">
+              <span className="text-xs text-ink-500">
                 Last active {formatDateTime(user.lastLoginAt)}
               </span>
             )}
@@ -85,8 +85,8 @@ const Profile = () => {
       </Panel>
 
       <Panel className="surface-elevated p-6 sm:p-8">
-        <h2 className="display mb-2 text-2xl text-white">Your details</h2>
-        <p className="mb-6 text-xs text-slate-400">
+        <h2 className="display mb-2 text-2xl text-ink-900">Your details</h2>
+        <p className="mb-6 text-xs text-ink-600">
           Personalize your contact profile used for reservations and communications.
         </p>
         <form onSubmit={saveDetails} className="space-y-5">
@@ -119,10 +119,10 @@ const Profile = () => {
       </Panel>
 
       <Panel className="surface-elevated p-6 sm:p-8">
-        <h2 className="display mb-1 flex items-center gap-2 text-2xl text-white">
-          <KeyRound className="size-5 text-brand-300" /> Security & Password
+        <h2 className="display mb-1 flex items-center gap-2 text-2xl text-ink-900">
+          <KeyRound className="size-5 text-brand-600" /> Security & Password
         </h2>
-        <p className="mb-6 text-xs text-slate-400">
+        <p className="mb-6 text-xs text-ink-600">
           Updating your security credentials will invalidate sessions on other devices.
         </p>
         <form onSubmit={savePassword} className="space-y-5">

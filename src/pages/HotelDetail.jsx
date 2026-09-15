@@ -29,14 +29,14 @@ const RoomOption = ({ room, selected, onSelect, nights }) => {
       className={`w-full rounded-2xl p-5 text-left ring-1 transition-all duration-300 ${
         selected
           ? 'bg-brand-500/12 ring-brand-400/40 shadow-lg shadow-brand-500/5'
-          : 'bg-white/4 ring-white/8 hover:bg-white/8 hover:ring-white/15'
+          : 'bg-ink-900/[0.04] ring-ink-900/10 hover:bg-ink-900/[0.06] hover:ring-ink-900/15'
       } ${disabled ? 'cursor-not-allowed opacity-40' : ''}`}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="mb-1 font-semibold text-white">{room.name}</p>
-          <p className="mb-3 text-[13px] leading-relaxed text-slate-400">{room.description}</p>
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
+          <p className="mb-1 font-semibold text-ink-900">{room.name}</p>
+          <p className="mb-3 text-[13px] leading-relaxed text-ink-600">{room.description}</p>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-500">
             <span className="flex items-center gap-1.5">
               <Users className="size-3.5" /> Sleeps {room.capacity}
             </span>
@@ -50,10 +50,10 @@ const RoomOption = ({ room, selected, onSelect, nights }) => {
         </div>
 
         <div className="text-right">
-          <p className="text-lg font-semibold text-white">{currency(room.price)}</p>
-          <p className="text-xs text-slate-500">per night</p>
+          <p className="text-lg font-semibold text-ink-900">{currency(room.price)}</p>
+          <p className="text-xs text-ink-500">per night</p>
           {nights > 0 && (
-            <p className="mt-1 text-xs text-brand-300">{currency(room.price * nights)} total</p>
+            <p className="mt-1 text-xs text-brand-600">{currency(room.price * nights)} total</p>
           )}
         </div>
       </div>
@@ -133,12 +133,12 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
   return (
     <Panel className="relative overflow-hidden p-6">
       {/* Gradient top accent bar */}
-      <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-brand-500 via-violet-500 to-brand-400" />
+      <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-brand-500 via-brand-600 to-brand-400" />
 
       <div className="mb-5 flex items-baseline justify-between gap-3">
-        <p className="text-2xl font-semibold text-white">
+        <p className="text-2xl font-semibold text-ink-900">
           {currency(room?.price || hotel.basePrice)}
-          <span className="text-sm font-normal text-slate-500"> / night</span>
+          <span className="text-sm font-normal text-ink-500"> / night</span>
         </p>
         <Rating value={hotel.rating} count={hotel.reviewsCount} />
       </div>
@@ -150,10 +150,10 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
         months={1}
       />
 
-      <div className="mt-4 flex items-center justify-between border-t border-white/8 py-4">
+      <div className="mt-4 flex items-center justify-between border-t border-ink-900/10 py-4">
         <div>
-          <p className="text-sm font-medium text-white">Guests</p>
-          <p className="text-xs text-slate-500">Largest room sleeps 4</p>
+          <p className="text-sm font-medium text-ink-900">Guests</p>
+          <p className="text-xs text-ink-500">Largest room sleeps 4</p>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -161,17 +161,17 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
             aria-label="Fewer guests"
             disabled={guests <= 1}
             onClick={() => setGuests(guests - 1)}
-            className="grid size-8 place-items-center rounded-full text-slate-200 ring-1 ring-white/15 transition-all hover:ring-white hover:bg-white/5 disabled:opacity-25"
+            className="grid size-8 place-items-center rounded-full text-ink-800 ring-1 ring-ink-900/15 transition-all hover:ring-ink-900/30 hover:bg-ink-900/[0.04] disabled:opacity-25"
           >
             −
           </button>
-          <span className="w-5 text-center text-sm text-white tabular-nums">{guests}</span>
+          <span className="w-5 text-center text-sm text-ink-900 tabular-nums">{guests}</span>
           <button
             type="button"
             aria-label="More guests"
             disabled={guests >= 8}
             onClick={() => setGuests(guests + 1)}
-            className="grid size-8 place-items-center rounded-full text-slate-200 ring-1 ring-white/15 transition-all hover:ring-white hover:bg-white/5 disabled:opacity-25"
+            className="grid size-8 place-items-center rounded-full text-ink-800 ring-1 ring-ink-900/15 transition-all hover:ring-ink-900/30 hover:bg-ink-900/[0.04] disabled:opacity-25"
           >
             +
           </button>
@@ -179,21 +179,21 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
       </div>
 
       {complete && bookable.length === 0 && (
-        <p className="mb-4 rounded-xl bg-rose-500/10 px-4 py-3 text-sm text-rose-200 ring-1 ring-rose-400/20">
+        <p className="mb-4 rounded-xl bg-rose-500/10 px-4 py-3 text-sm text-rose-700 ring-1 ring-rose-400/20">
           Nothing is free for {plural(guests, 'guest')} on those dates. Try another range.
         </p>
       )}
 
       {room && complete && (
-        <div className="mb-4 flex items-center justify-between gap-3 rounded-xl bg-white/4 px-4 py-3 ring-1 ring-white/8">
+        <div className="mb-4 flex items-center justify-between gap-3 rounded-xl bg-ink-900/[0.04] px-4 py-3 ring-1 ring-ink-900/10">
           <div className="min-w-0">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-ink-500">
               {chosen ? 'Selected room' : 'Best available room'}
             </p>
-            <p className="truncate text-sm font-medium text-white">{room.name}</p>
+            <p className="truncate text-sm font-medium text-ink-900">{room.name}</p>
           </div>
           {bookable.length > 1 && (
-            <a href="#rooms" className="shrink-0 text-xs text-brand-300 hover:text-brand-200">
+            <a href="#rooms" className="shrink-0 text-xs text-brand-600 hover:text-brand-700">
               Change
             </a>
           )}
@@ -201,30 +201,30 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
       )}
 
       {quote && quote.nights > 0 && (
-        <div className="mb-5 space-y-2.5 border-t border-white/8 pt-5 text-sm">
-          <div className="flex justify-between text-slate-300">
+        <div className="mb-5 space-y-2.5 border-t border-ink-900/10 pt-5 text-sm">
+          <div className="flex justify-between text-ink-700">
             <span>{currency(quote.nightlyRate)} × {plural(quote.nights, 'night')}</span>
             <span>{currency(quote.roomTotal)}</span>
           </div>
           {quote.discount > 0 && (
-            <div className="flex justify-between text-emerald-300">
+            <div className="flex justify-between text-emerald-700">
               <span>Weekly stay discount</span>
               <span>−{currency(quote.discount)}</span>
             </div>
           )}
-          <div className="flex justify-between text-slate-300">
+          <div className="flex justify-between text-ink-700">
             <span>Cleaning fee</span>
             <span>{currency(quote.cleaning)}</span>
           </div>
-          <div className="flex justify-between text-slate-300">
+          <div className="flex justify-between text-ink-700">
             <span>Service fee</span>
             <span>{currency(quote.service)}</span>
           </div>
-          <div className="flex justify-between text-slate-300">
+          <div className="flex justify-between text-ink-700">
             <span>Taxes</span>
             <span>{currency(quote.tax)}</span>
           </div>
-          <div className="flex justify-between border-t border-white/8 pt-3 text-base font-semibold text-white">
+          <div className="flex justify-between border-t border-ink-900/10 pt-3 text-base font-semibold text-ink-900">
             <span>Total</span>
             <span>{currency(quote.total)}</span>
           </div>
@@ -235,8 +235,8 @@ const BookingPanel = ({ hotel, unavailableDates, roomId }) => {
         {complete ? 'Reserve' : 'Choose dates'}
       </Button>
 
-      <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-slate-500">
-        <ShieldCheck className="size-3.5 text-emerald-400" />
+      <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-ink-500">
+        <ShieldCheck className="size-3.5 text-emerald-600" />
         Free cancellation up to 48 hours before check-in
       </p>
     </Panel>
@@ -287,7 +287,7 @@ const HotelDetail = () => {
     <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
       <Link
         to="/hotels"
-        className="mb-6 inline-flex items-center gap-2 text-sm text-slate-400 transition-all hover:text-white hover:gap-3"
+        className="mb-6 inline-flex items-center gap-2 text-sm text-ink-600 transition-all hover:text-ink-900 hover:gap-3"
       >
         <ArrowLeft className="size-4" /> All hotels
       </Link>
@@ -302,14 +302,14 @@ const HotelDetail = () => {
             {hotel.featured && <Badge tone="emerald">Editor's pick</Badge>}
           </div>
 
-          <h1 className="display mb-3 text-4xl leading-tight text-white sm:text-5xl">
+          <h1 className="display mb-3 text-4xl leading-tight text-ink-900 sm:text-5xl">
             {hotel.name}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-400">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-600">
             <Rating value={summary?.average ?? hotel.rating} count={hotel.reviewsCount} />
             <span className="flex items-center gap-1.5">
-              <MapPin className="size-3.5 text-brand-300" />
+              <MapPin className="size-3.5 text-brand-600" />
               {hotel.city}, {hotel.country}
             </span>
             <span>{hotel.continent}</span>
@@ -321,7 +321,6 @@ const HotelDetail = () => {
           label={saved ? 'Remove from saved' : 'Save hotel'}
           active={saved}
           onClick={onSave}
-          className={saved ? '' : 'bg-white/5'}
         />
       </div>
 
@@ -329,24 +328,24 @@ const HotelDetail = () => {
 
       <div className="mt-10 grid items-start gap-10 lg:grid-cols-[1fr_384px]">
         <div className="min-w-0">
-          <section className="border-b border-white/8 pb-8">
-            <p className="text-[15px] leading-relaxed text-slate-300">{hotel.description}</p>
+          <section className="border-b border-ink-900/10 pb-8">
+            <p className="text-[15px] leading-relaxed text-ink-700">{hotel.description}</p>
             <div className="mt-6 flex flex-wrap gap-2">
               {hotel.highlights.map((item) => (
                 <span
                   key={item}
-                  className="flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-slate-200 ring-1 ring-white/8 backdrop-blur-sm"
+                  className="flex items-center gap-2 rounded-full bg-ink-900/[0.04] px-4 py-2 text-sm text-ink-800 ring-1 ring-ink-900/10 backdrop-blur-sm"
                 >
-                  <Check className="size-3.5 text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.3)]" strokeWidth={2.5} />
+                  <Check className="size-3.5 text-emerald-600 " strokeWidth={2.5} />
                   {item}
                 </span>
               ))}
             </div>
           </section>
 
-          <section id="rooms" className="border-b border-white/8 py-8 scroll-mt-24">
-            <h2 className="display mb-1 text-2xl text-white">Rooms &amp; suites</h2>
-            <p className="mb-5 text-sm text-slate-500">
+          <section id="rooms" className="border-b border-ink-900/10 py-8 scroll-mt-24">
+            <h2 className="display mb-1 text-2xl text-ink-900">Rooms &amp; suites</h2>
+            <p className="mb-5 text-sm text-ink-500">
               {nights > 0
                 ? `Prices shown for ${plural(nights, 'night')}.`
                 : 'Pick dates to see live availability.'}
@@ -364,27 +363,27 @@ const HotelDetail = () => {
             </div>
           </section>
 
-          <section className="border-b border-white/8 py-8">
-            <h2 className="display mb-1 text-2xl text-white">What this hotel offers</h2>
-            <p className="mb-5 text-sm text-slate-500">{AMENITY_NOTE}</p>
+          <section className="border-b border-ink-900/10 py-8">
+            <h2 className="display mb-1 text-2xl text-ink-900">What this hotel offers</h2>
+            <p className="mb-5 text-sm text-ink-500">{AMENITY_NOTE}</p>
             <div className="grid gap-y-3 sm:grid-cols-2">
               {hotel.amenities.map((item) => (
-                <div key={item} className="flex items-center gap-3 text-[15px] text-slate-300">
-                  <Check className="size-4 shrink-0 text-brand-400 drop-shadow-[0_0_3px_rgba(129,140,248,0.2)]" strokeWidth={2.4} />
+                <div key={item} className="flex items-center gap-3 text-[15px] text-ink-700">
+                  <Check className="size-4 shrink-0 text-brand-600 " strokeWidth={2.4} />
                   {item}
                 </div>
               ))}
             </div>
           </section>
 
-          <section className="border-b border-white/8 py-8">
-            <h2 className="display mb-5 text-2xl text-white">
+          <section className="border-b border-ink-900/10 py-8">
+            <h2 className="display mb-5 text-2xl text-ink-900">
               Guest reviews
               {summary?.count ? ` · ${summary.average.toFixed(1)} from ${summary.count}` : ''}
             </h2>
 
             {reviews.length === 0 ? (
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-ink-500">
                 No guest reviews yet for this property. Reviews can only be left after a completed
                 stay.
               </p>
@@ -393,19 +392,19 @@ const HotelDetail = () => {
                 {reviews.slice(0, 6).map((review) => (
                   <article key={review.id}>
                     <div className="mb-2 flex items-center gap-3">
-                      <span className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-brand-500 via-violet-500 to-fuchsia-500 text-[11px] font-semibold text-white shadow-md shadow-brand-500/15">
+                      <span className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 text-[11px] font-semibold text-white shadow-md shadow-brand-500/15">
                         {review.userName.split(' ').map((n) => n[0]).join('')}
                       </span>
                       <div>
-                        <p className="text-sm font-medium text-white">{review.userName}</p>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-sm font-medium text-ink-900">{review.userName}</p>
+                        <p className="text-xs text-ink-500">
                           {formatDate(review.createdAt.slice(0, 10), { month: 'long', year: 'numeric' })}
                         </p>
                       </div>
                     </div>
                     <Stars value={review.rating} size="size-3" />
-                    <p className="mt-2 mb-1 text-sm font-medium text-white">{review.title}</p>
-                    <p className="text-sm leading-relaxed text-slate-400">{review.comment}</p>
+                    <p className="mt-2 mb-1 text-sm font-medium text-ink-900">{review.title}</p>
+                    <p className="text-sm leading-relaxed text-ink-600">{review.comment}</p>
                   </article>
                 ))}
               </div>
@@ -413,7 +412,7 @@ const HotelDetail = () => {
           </section>
 
           <section className="py-8">
-            <h2 className="display mb-5 text-2xl text-white">Good to know</h2>
+            <h2 className="display mb-5 text-2xl text-ink-900">Good to know</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
               {[
                 ['Check-in', hotel.policies.checkIn],
@@ -422,8 +421,8 @@ const HotelDetail = () => {
                 ['Children', hotel.policies.children],
               ].map(([label, value]) => (
                 <div key={label} className="surface rounded-2xl p-4 backdrop-blur-sm">
-                  <dt className="mb-1 text-xs tracking-wider text-slate-500 uppercase">{label}</dt>
-                  <dd className="text-sm text-slate-200">{value}</dd>
+                  <dt className="mb-1 text-xs tracking-wider text-ink-500 uppercase">{label}</dt>
+                  <dd className="text-sm text-ink-800">{value}</dd>
                 </div>
               ))}
             </dl>

@@ -70,7 +70,7 @@ export const Modal = ({ open, onClose, title, description, size = 'md', children
             onClick={onClose}
             className="absolute inset-0 backdrop-blur-sm"
             style={{
-              background: 'radial-gradient(ellipse at 50% 50%, rgba(5,7,15,0.75), rgba(5,7,15,0.92))',
+              background: 'radial-gradient(ellipse at 50% 50%, rgba(26,23,20,0.38), rgba(26,23,20,0.55))',
             }}
           />
 
@@ -84,21 +84,21 @@ export const Modal = ({ open, onClose, title, description, size = 'md', children
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 24, scale: 0.95, filter: 'blur(4px)' }}
             transition={{ type: 'spring', stiffness: 340, damping: 32 }}
-            className={`glass relative flex max-h-[92vh] w-full ${widths[size]} flex-col overflow-hidden rounded-t-3xl shadow-2xl shadow-black/70 sm:rounded-3xl`}
+            className={`glass relative flex max-h-[92vh] w-full ${widths[size]} flex-col overflow-hidden rounded-t-3xl shadow-2xl shadow-ink-900/15 sm:rounded-3xl`}
           >
             {/* Luminous top border accent */}
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/50 to-transparent" />
 
-            <div className="flex items-start justify-between gap-4 border-b border-white/8 px-6 py-5">
+            <div className="flex items-start justify-between gap-4 border-b border-ink-900/10 px-6 py-5">
               <div>
-                <h2 id={titleId} className="display text-2xl text-white">{title}</h2>
-                {description && <p className="mt-1 text-sm text-slate-400">{description}</p>}
+                <h2 id={titleId} className="display text-2xl text-ink-900">{title}</h2>
+                {description && <p className="mt-1 text-sm text-ink-600">{description}</p>}
               </div>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close dialog"
-                className="-mt-1 rounded-full p-2 text-slate-500 transition-all hover:bg-white/8 hover:text-white hover:rotate-90"
+                className="-mt-1 rounded-full p-2 text-ink-500 transition-all hover:bg-ink-900/[0.06] hover:text-ink-900 hover:rotate-90"
               >
                 <X className="size-5" />
               </button>
@@ -107,7 +107,7 @@ export const Modal = ({ open, onClose, title, description, size = 'md', children
             <div className="flex-1 overflow-y-auto px-6 py-5">{children}</div>
 
             {footer && (
-              <div className="flex flex-wrap justify-end gap-3 border-t border-white/8 px-6 py-4">
+              <div className="flex flex-wrap justify-end gap-3 border-t border-ink-900/10 px-6 py-4">
                 {footer}
               </div>
             )}
@@ -135,7 +135,7 @@ export const ConfirmDialog = ({
       </>
     }
   >
-    <p className="text-sm leading-relaxed text-slate-300">{message}</p>
+    <p className="text-sm leading-relaxed text-ink-700">{message}</p>
   </Modal>
 );
 

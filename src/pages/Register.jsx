@@ -71,8 +71,8 @@ const Register = () => {
           transition={{ duration: 0.5 }}
           className="w-full max-w-md"
         >
-          <h1 className="display mb-2 text-4xl text-white">Create your account</h1>
-          <p className="mb-8 text-slate-400">
+          <h1 className="display mb-2 text-4xl text-ink-900">Create your account</h1>
+          <p className="mb-8 text-ink-600">
             Free, instant, and your trips follow you to any device.
           </p>
 
@@ -125,7 +125,7 @@ const Register = () => {
                       className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
                         i < strength
                           ? `${barColors[strength - 1]} shadow-sm ${strength === 3 ? 'shadow-emerald-400/20' : 'shadow-amber-400/20'}`
-                          : 'bg-white/10'
+                          : 'bg-ink-900/[0.07]'
                       }`}
                     />
                   ))}
@@ -136,7 +136,7 @@ const Register = () => {
                     return (
                       <li
                         key={rule.label}
-                        className={`flex items-center gap-2 text-xs transition-colors ${ok ? 'text-emerald-400' : 'text-slate-500'}`}
+                        className={`flex items-center gap-2 text-xs transition-colors ${ok ? 'text-emerald-600' : 'text-ink-500'}`}
                       >
                         <Check className={`size-3 transition-opacity ${ok ? '' : 'opacity-30'}`} strokeWidth={3} />
                         {rule.label}
@@ -163,14 +163,14 @@ const Register = () => {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-400">
+          <p className="mt-6 text-center text-sm text-ink-600">
             Already have an account?{' '}
-            <Link to="/login" className="font-medium text-brand-300 hover:text-brand-200 transition-colors">
+            <Link to="/login" className="font-medium text-brand-600 hover:text-brand-700 transition-colors">
               Sign in
             </Link>
           </p>
 
-          <p className="mt-6 text-center text-xs leading-relaxed text-slate-600">
+          <p className="mt-6 text-center text-xs leading-relaxed text-ink-500">
             New accounts are always created as guests. Staff and administrator access is granted by
             an existing administrator.
           </p>

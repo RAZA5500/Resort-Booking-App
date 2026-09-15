@@ -54,22 +54,22 @@ export const Footer = () => (
         <FadeIn>
           <div>
             <Link to="/" className="mb-4 flex items-center gap-2.5 group">
-              <span className="relative grid size-9 place-items-center rounded-xl bg-gradient-to-br from-brand-500 via-violet-500 to-fuchsia-500 transition-transform group-hover:scale-105">
+              <span className="relative grid size-9 place-items-center rounded-xl bg-gradient-to-br from-brand-400 via-brand-500 to-brand-600 transition-transform group-hover:scale-105">
                 <svg viewBox="0 0 24 24" className="size-5 text-white" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              <span className="display text-xl text-white">Stayscape</span>
+              <span className="display text-xl text-ink-900">Stayscape</span>
             </Link>
-            <p className="max-w-xs text-sm leading-relaxed text-slate-500">
+            <p className="max-w-xs text-sm leading-relaxed text-ink-500">
               Forty-four extraordinary hotels across seven regions, with live availability and
               instant confirmation.
             </p>
             <div className="mt-5 flex gap-2">
-              <span className="grid size-9 place-items-center rounded-full bg-white/5 text-slate-400 ring-1 ring-white/8 transition-all hover:bg-white/10 hover:text-white hover:ring-brand-400/30 hover:shadow-lg hover:shadow-brand-500/10">
+              <span className="grid size-9 place-items-center rounded-full bg-ink-900/[0.04] text-ink-600 ring-1 ring-ink-900/10 transition-all hover:bg-ink-900/[0.07] hover:text-ink-900 hover:ring-brand-400/30 hover:shadow-lg hover:shadow-brand-500/10">
                 <Globe2 className="size-4" />
               </span>
-              <span className="grid size-9 place-items-center rounded-full bg-white/5 text-slate-400 ring-1 ring-white/8 transition-all hover:bg-white/10 hover:text-white hover:ring-brand-400/30 hover:shadow-lg hover:shadow-brand-500/10">
+              <span className="grid size-9 place-items-center rounded-full bg-ink-900/[0.04] text-ink-600 ring-1 ring-ink-900/10 transition-all hover:bg-ink-900/[0.07] hover:text-ink-900 hover:ring-brand-400/30 hover:shadow-lg hover:shadow-brand-500/10">
                 <Code2 className="size-4" />
               </span>
             </div>
@@ -79,7 +79,7 @@ export const Footer = () => (
         {COLUMNS.map((column, ci) => (
           <FadeIn key={column.title} delay={(ci + 1) * 0.08}>
             <div>
-              <p className="font-label mb-4 text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase">
+              <p className="font-label mb-4 text-[11px] font-semibold tracking-[0.16em] text-ink-500 uppercase">
                 {column.title}
               </p>
               <ul className="space-y-2.5">
@@ -87,7 +87,7 @@ export const Footer = () => (
                   <li key={link.label}>
                     <Link
                       to={link.to}
-                      className="text-sm text-slate-400 transition-all hover:text-white hover:translate-x-0.5"
+                      className="text-sm text-ink-600 transition-all hover:text-ink-900 hover:translate-x-0.5"
                     >
                       {link.label}
                     </Link>
@@ -99,7 +99,7 @@ export const Footer = () => (
         ))}
       </div>
 
-      <div className="mt-12 flex flex-col gap-3 border-t border-white/6 pt-7 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-12 flex flex-col gap-3 border-t border-ink-900/[0.08] pt-7 text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between">
         <p>© {new Date().getFullYear()} Stayscape — a full-stack demo application.</p>
         <p className="max-w-xl sm:text-right">
           Hotel names and locations are real. Rates, availability, rooms and reviews are generated

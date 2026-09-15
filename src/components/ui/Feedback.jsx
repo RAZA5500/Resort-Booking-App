@@ -2,17 +2,13 @@ import { Loader2, SearchX, TriangleAlert } from 'lucide-react';
 import { Button } from './Button';
 
 export const Spinner = ({ className = 'size-5' }) => (
-  <Loader2 className={`animate-spin text-brand-400 ${className}`} />
+  <Loader2 className={`animate-spin text-brand-600 ${className}`} />
 );
 
 export const PageLoader = ({ label = 'Loading' }) => (
   <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4">
-    <div className="relative">
-      <Spinner className="size-8" />
-      {/* Ambient glow behind spinner */}
-      <div className="absolute inset-0 size-8 rounded-full bg-brand-500/30 blur-xl animate-pulse-glow" />
-    </div>
-    <p className="text-sm text-slate-500">{label}…</p>
+    <Spinner className="size-8" />
+    <p className="text-sm text-ink-500">{label}…</p>
   </div>
 );
 
@@ -45,14 +41,14 @@ export const EmptyState = ({
 }) => (
   <div className={`flex flex-col items-center justify-center px-6 py-20 text-center ${className}`}>
     <div className="relative mb-5">
-      <div className="grid size-16 place-items-center rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur-sm">
-        <Icon className="size-7 text-slate-400" strokeWidth={1.6} />
+      <div className="grid size-16 place-items-center rounded-2xl bg-ink-900/[0.04] ring-1 ring-ink-900/10 backdrop-blur-sm">
+        <Icon className="size-7 text-ink-600" strokeWidth={1.6} />
       </div>
       {/* Ambient glow behind icon */}
       <div className="absolute inset-0 rounded-2xl bg-brand-500/10 blur-2xl" />
     </div>
-    <h3 className="display mb-2 text-2xl text-white">{title}</h3>
-    {message && <p className="mb-7 max-w-md text-sm leading-relaxed text-slate-400">{message}</p>}
+    <h3 className="display mb-2 text-2xl text-ink-900">{title}</h3>
+    {message && <p className="mb-7 max-w-md text-sm leading-relaxed text-ink-600">{message}</p>}
     {action}
   </div>
 );

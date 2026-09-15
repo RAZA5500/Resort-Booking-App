@@ -233,28 +233,28 @@ const AdminHotels = () => {
                 src={hotel.images[0]}
                 alt={hotel.name}
                 loading="lazy"
-                className="h-28 w-full shrink-0 rounded-2xl object-cover ring-1 ring-white/10 lg:size-20"
+                className="h-28 w-full shrink-0 rounded-2xl object-cover ring-1 ring-ink-900/10 lg:size-20"
               />
 
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex flex-wrap items-center gap-2">
                   <Link
                     to={`/hotels/${hotel.id}`}
-                    className="font-semibold text-white transition-colors hover:text-brand-300"
+                    className="font-semibold text-ink-900 transition-colors hover:text-brand-600"
                   >
                     {hotel.name}
                   </Link>
                   {hotel.featured && <Badge tone="gold">Featured</Badge>}
                   {!hotel.active && <Badge tone="rose">Hidden</Badge>}
                 </div>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-ink-600">
                   {hotel.city}, {hotel.country} · {hotel.continent} ·{' '}
                   {CATEGORY_META[hotel.category]?.label || hotel.category}
                 </p>
                 <div className="mt-1.5 flex flex-wrap items-center gap-4">
                   <Rating value={hotel.rating} count={hotel.reviewsCount} />
-                  <span className="text-sm text-slate-400">
-                    from <span className="font-medium text-white">{currency(hotel.basePrice)}</span>
+                  <span className="text-sm text-ink-600">
+                    from <span className="font-medium text-ink-900">{currency(hotel.basePrice)}</span>
                   </span>
                 </div>
               </div>

@@ -20,7 +20,7 @@ const TripRow = ({ booking, onCancel }) => {
 
   return (
     <Panel className="surface-elevated group flex flex-col gap-5 p-4.5 transition-all duration-300 sm:flex-row sm:items-center">
-      <Link to={`/hotels/${booking.hotelId}`} className="relative shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/10 sm:w-40 sm:h-28">
+      <Link to={`/hotels/${booking.hotelId}`} className="relative shrink-0 overflow-hidden rounded-2xl ring-1 ring-ink-900/10 sm:w-40 sm:h-28">
         <img
           src={hotel?.images?.[0]}
           alt={booking.hotelName}
@@ -34,26 +34,26 @@ const TripRow = ({ booking, onCancel }) => {
         <div className="mb-1.5 flex flex-wrap items-center gap-2">
           <Link
             to={`/booking/${booking.id}`}
-            className="font-semibold text-white transition-colors group-hover:text-brand-300 sm:text-lg"
+            className="font-semibold text-ink-900 transition-colors group-hover:text-brand-600 sm:text-lg"
           >
             {booking.hotelName}
           </Link>
           <StatusBadge status={booking.status} />
         </div>
-        <p className="mb-2 text-sm text-slate-400">
-          {hotel?.city}, {hotel?.country} · <span className="text-slate-300">{booking.roomName}</span>
+        <p className="mb-2 text-sm text-ink-600">
+          {hotel?.city}, {hotel?.country} · <span className="text-ink-700">{booking.roomName}</span>
         </p>
-        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-slate-400">
-          <span className="flex items-center gap-1.5 font-medium text-slate-300">
-            <CalendarDays className="size-3.5 text-brand-400" />
+        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-ink-600">
+          <span className="flex items-center gap-1.5 font-medium text-ink-700">
+            <CalendarDays className="size-3.5 text-brand-600" />
             {formatRange(booking.checkIn, booking.checkOut)}
           </span>
           <span>{plural(booking.guests, 'guest')}</span>
           <span>{plural(booking.nights, 'night')}</span>
-          <span className="font-semibold text-white">{currency(booking.pricing.total)}</span>
+          <span className="font-semibold text-ink-900">{currency(booking.pricing.total)}</span>
         </div>
         <div className="mt-2.5 flex items-center gap-2">
-          <span className="font-label rounded-md bg-white/5 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-400 ring-1 ring-white/10">
+          <span className="font-label rounded-md bg-ink-900/[0.04] px-2 py-0.5 font-mono text-[11px] font-semibold text-ink-600 ring-1 ring-ink-900/10">
             {booking.code}
           </span>
         </div>
@@ -64,7 +64,7 @@ const TripRow = ({ booking, onCancel }) => {
           View details <ArrowUpRight className="ml-1 size-3.5" />
         </Button>
         {cancellable && (
-          <Button variant="ghost" size="sm" onClick={() => onCancel(booking)} className="w-full text-slate-400 hover:text-rose-300 sm:w-auto">
+          <Button variant="ghost" size="sm" onClick={() => onCancel(booking)} className="w-full text-ink-600 hover:text-rose-600 sm:w-auto">
             Cancel
           </Button>
         )}
@@ -147,10 +147,10 @@ const Trips = () => {
         groups.map((group) => (
           <section key={group.key} className="mb-10">
             <div className="mb-4 flex items-center gap-2">
-              <h2 className="font-label text-xs font-semibold tracking-[0.16em] text-slate-400 uppercase">
+              <h2 className="font-label text-xs font-semibold tracking-[0.16em] text-ink-600 uppercase">
                 {group.title}
               </h2>
-              <span className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] font-semibold text-slate-400 ring-1 ring-white/10">
+              <span className="rounded-full bg-ink-900/[0.04] px-2 py-0.5 text-[10px] font-semibold text-ink-600 ring-1 ring-ink-900/10">
                 {group.items.length}
               </span>
             </div>
