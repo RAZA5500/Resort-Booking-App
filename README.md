@@ -1,10 +1,11 @@
 # Stayscape
 
-A full-stack hotel booking platform: React 19 client, Express 5 API, three roles
-(guest / front desk / administrator) with real authentication and authorisation.
+A full-stack hotel booking platform: React 19 client, NestJS 11 API in
+TypeScript, three roles (guest / front desk / administrator) with real
+authentication and authorisation.
 
 ```bash
-npm install
+npm install          # also installs the API's dependencies
 npm run dev          # API on :4000 and client on :5173, together
 ```
 
@@ -13,12 +14,17 @@ Then open <http://localhost:5173>.
 | Script | What it does |
 | --- | --- |
 | `npm run dev` | Runs the API and the Vite dev server side by side |
-| `npm run dev:api` | API only, with `--watch` restart |
+| `npm run dev:api` | API only, with `nest start --watch` |
 | `npm run dev:web` | Client only |
 | `npm run seed` | Rebuilds the demo database from scratch (stop the API first) |
 | `npm run build` | Production client build |
-| `npm start` | API in production mode |
-| `npm run lint` | ESLint across the client and the API |
+| `npm run build:api` | Compiles the API to `api/dist` |
+| `npm start` | Builds the API and runs it in production mode |
+| `npm run lint` | ESLint across the client |
+
+The API is its own npm package under `api/`, so you can also work in it
+directly — `npm run start:dev`, `npm run build`, `npm run lint` and `npm run
+seed` all work from inside `api/`.
 
 ## Demo accounts
 
@@ -60,10 +66,11 @@ reset passwords, deactivate users.
 - Changing a password or a role bumps the user's `tokenVersion`, which
   invalidates every refresh token issued anywhere else.
 - Route guards in the client only shape navigation. **Every endpoint re-checks
-  the role and the hotel posting server-side**, so forging a role in the browser
-  achieves nothing.
-- `express-rate-limit` guards the credential endpoints (20 attempts per 15
-  minutes) and the API as a whole.
+  the role and the hotel posting server-side** — `JwtAuthGuard` loads the live
+  user record and `RolesGuard` reads the `@Roles()` metadata — so forging a role
+  in the browser achieves nothing.
+- `@nestjs/throttler` guards the credential endpoints (20 attempts per 15
+  minutes, via `@Throttle()`) and the API as a whole (300 per minute).
 
 ## How booking works
 
@@ -80,15 +87,17 @@ booking — a stale tab gets a 409, not a mispriced stay.
 ## Layout
 
 ```
-api/                     Express API (separate process)
-  index.js               app bootstrap, CORS, rate limiting
-  config.js              env, token TTLs, fee constants
-  db/store.js            JSON document store, atomic temp-file writes
-  db/seed.js             deterministic demo dataset
-  data/hotels.seed.js    the 44-hotel catalogue
-  middleware/            auth (JWT + roles), validation, error handling
-  routes/                auth, hotels, bookings, users, favorites, stats
-  services/              pricing and availability rules
+api/                     NestJS API (its own package, separate process)
+  src/main.ts            bootstrap: CORS, cookies, global prefix, validation
+  src/app.module.ts      root module, throttler, global exception filter
+  src/core.module.ts     global providers: store, seed, pricing, availability
+  src/config/            env, token TTLs, fee constants, role and status enums
+  src/common/            ApiException, exception filter, guards, decorators
+  src/database/          JSON document store, seeder, the 44-hotel catalogue
+  src/domain/            pricing and availability rules
+  src/modules/           auth, hotels, bookings, users, favorites, stats
+    <feature>/dto/       class-validator request shapes
+  src/scripts/reseed.ts  rebuilds the demo dataset
 
 src/                     React client
   api/                   fetch wrapper with transparent token refresh
@@ -119,9 +128,17 @@ for a week so the availability calendar has real blocked nights.
 
 ## Notes
 
-- The database is a JSON file at `api/db/data.json` (gitignored). The store is
-  repository-shaped, so swapping in Postgres touches one file.
-- Secrets fall back to development defaults. Setting `NODE_ENV=production`
-  makes a missing `JWT_ACCESS_SECRET` or `JWT_REFRESH_SECRET` fatal instead.
+- The database is a JSON file at `api/db/data.json` (gitignored). `StoreService`
+  is repository-shaped, so swapping in Postgres (TypeORM, Prisma, …) means
+  reimplementing one provider and nothing else.
+- Every failure leaves the API as `{ error: { message, details? } }`.
+  `ApiException` is the only error the code throws, and one global filter
+  renders it; anything else is logged in full and reported as a generic 500.
+- Request bodies are `class-validator` DTOs behind a whitelisting
+  `ValidationPipe`, so an undeclared field is dropped rather than written, and
+  `details` comes back keyed by field name for the client's form inputs.
+- Secrets fall back to development defaults (see `api/.env.example`). Setting
+  `NODE_ENV=production` makes a missing `JWT_ACCESS_SECRET` or
+  `JWT_REFRESH_SECRET` fatal instead.
 - `server/` is a **separate git repository** (NestJs-CRUD) checked out inside
   this one. It is unrelated to this app and is excluded from linting.
